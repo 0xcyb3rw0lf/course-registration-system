@@ -58,15 +58,16 @@ main a:focus {
 
 .primary-butn:hover {
     background-color: #EFE2BA;
-    color: #4056A1;
+    color: black;
     border-color: #EFE2BA;
     transition-duration: 0.5s;
 }
 
 .primary-butn {
-    background-color: #4056A1;
+    background-color: #D79922;
     border: none;
-    color: #C5CBE3;
+    color: white;
+    font-size: large;
 }
 
 #nav {
@@ -80,15 +81,8 @@ main a:focus {
 /* End of Header Styles */
 
 main {
-    background-color: rgba(0, 0, 0, 0.55);
-    background-image: url("/333Project/images/marfaa.webp");
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-blend-mode: darken;
     width: 100%;
-    text-align: center;
+    text-align: left;
     padding-top: 5rem;
     padding-bottom: 10rem;
 }
@@ -247,21 +241,17 @@ form label {
     color: white;
 }
 
-.trip-container {
-    background-color: #C5CBE3;
+.category-container {
     padding: 2em 0em;
     padding-left: 2em;
     display: flex;
     flex-direction: row;
-    /* justify-content: start; */
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     margin: 1em 2em;
-    /*rl = auto to center card*/
     max-width: 95%;
-    border-radius: 1em;
-    box-sizing: border-box;
-    width: 32%;
+
 }
 
 /* .catalogue-cards{
@@ -306,10 +296,10 @@ form label {
     margin-left: 0;
     margin-right: 0;
     /* margin-top: 5%; */
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-evenly; */
 }
 
 .info {

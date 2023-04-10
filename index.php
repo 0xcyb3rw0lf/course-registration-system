@@ -49,7 +49,7 @@
         <h2 class="catalogue-h2">Major</h2>
         <h2 class="catalogue-h2">College</h2>
         <h2 class="catalogue-h2">Current Semester</h2>
-        <br><br>
+        <br><br><br><br>
         <?php
         // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
         //     echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
@@ -59,40 +59,21 @@
         //     echo '<h1 class="catalogue-header" style="color: green;"Passward is reset successfully!</h1>';
 
         ?>
-        <h1 class="catalogue-header" style="color: #F13C20; font-size: 2em; margin-bottom: 0;">Check these out!</h1>
+
 
         <div class="catalogue-main">
-            <?php
-            // while ($row = $rows->fetch()) { // we need the title, from, to , and the price
-            //     $id = $row[0];
-            //     $title = $row[1];
-            //     $from = $row[2];
-            //     $to = $row[3];
-            //     $price = $row[4];
-            //     $imagePath = $row[6];
-            //     // $count = $rows->rowCount();
-            // 
-            ?>
+            <h1 class="catalogue-header" style="color: #4056A1;font-size: 2em; margin-bottom: 0.5em;">Category A</h1>
 
-            <!-- <div class="trip-container">
-                    <img class="trip-image" <? // php echo "src=\"/333Project/" . $imagePath . "\"" 
-                                            ?> alt="">
-                    <div class="trip-info">
-                        <p class="info" style="color: #4056A1;"><?php //echo $title 
-                                                                ?></p>
-                        <p class="info">From: <?php //echo $from 
-                                                ?></p>
-                        <p class="info">To: <?php //echo $to 
-                                            ?></p>
-                        <p class="info" style="color: #F13C20;"> <?php //echo $price . " BHD" 
-                                                                    ?></p>
-                        <a <?php //echo "href='trip.php?tid=$id'" 
-                            ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Show More!</a>
-                    </div>
-                </div> -->
-            <?php
-            //}
-            ?>
+            <div class="category-container">
+                <a href="https://www.google.com" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
+                    Option 1
+                </a>
+                <a href="https://www.google.com" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Option 2</a>
+            </div>
+        </div>
+        <?php
+        //}
+        ?>
         </div>
     </main>
 
