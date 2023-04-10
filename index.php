@@ -47,40 +47,46 @@
     <main class="" style="background-color: white; background-image: none; text-align: left;">
         <h1 class="catalogue-header" style="color: #4056A1;">Welcome <?php if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] ?></h1>
         <?php
-        if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
-            echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
+        // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
+        //     echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
 
 
-        if (isset($_GET["reset-password"]) and $_GET["reset-password"] == "true")
-            echo '<h1 class="catalogue-header" style="color: green;"Passward is reset successfully!</h1>';
+        // if (isset($_GET["reset-password"]) and $_GET["reset-password"] == "true")
+        //     echo '<h1 class="catalogue-header" style="color: green;"Passward is reset successfully!</h1>';
 
         ?>
         <h1 class="catalogue-header" style="color: #F13C20; font-size: 2em; margin-bottom: 0;">Check these out!</h1>
 
         <div class="catalogue-main">
             <?php
-            while ($row = $rows->fetch()) { // we need the title, from, to , and the price
-                $id = $row[0];
-                $title = $row[1];
-                $from = $row[2];
-                $to = $row[3];
-                $price = $row[4];
-                $imagePath = $row[6];
-                // $count = $rows->rowCount();
+            // while ($row = $rows->fetch()) { // we need the title, from, to , and the price
+            //     $id = $row[0];
+            //     $title = $row[1];
+            //     $from = $row[2];
+            //     $to = $row[3];
+            //     $price = $row[4];
+            //     $imagePath = $row[6];
+            //     // $count = $rows->rowCount();
+            // 
             ?>
 
-                <div class="trip-container">
+            <!-- <div class="trip-container">
                     <img class="trip-image" <?php echo "src=\"/333Project/" . $imagePath . "\"" ?> alt="">
                     <div class="trip-info">
-                        <p class="info" style="color: #4056A1;"><?php echo $title ?></p>
-                        <p class="info">From: <?php echo $from ?></p>
-                        <p class="info">To: <?php echo $to ?></p>
-                        <p class="info" style="color: #F13C20;"> <?php echo $price . " BHD" ?></p>
-                        <a <?php echo "href='trip.php?tid=$id'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Show More!</a>
+                        <p class="info" style="color: #4056A1;"><?php //echo $title 
+                                                                ?></p>
+                        <p class="info">From: <?php //echo $from 
+                                                ?></p>
+                        <p class="info">To: <?php //echo $to 
+                                            ?></p>
+                        <p class="info" style="color: #F13C20;"> <?php //echo $price . " BHD" 
+                                                                    ?></p>
+                        <a <?php //echo "href='trip.php?tid=$id'" 
+                            ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Show More!</a>
                     </div>
-                </div>
+                </div> -->
             <?php
-            }
+            //}
             ?>
         </div>
     </main>
