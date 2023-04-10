@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+.uob-logo {
+    height: 7.5em;
+}
+
 #container {
     background-color: #D79922;
     padding: 1em;
@@ -17,7 +21,7 @@ header {
 
 a {
     text-decoration: none;
-    color: #EFE2BA;
+    color: white;
     padding: 0.7em;
 
 }
@@ -39,8 +43,11 @@ main a:focus {
 }
 
 #logo {
-    min-width: 150px;
-    max-width: 150px;
+    min-width: min-content;
+    max-width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .butn {
