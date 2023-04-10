@@ -1,21 +1,16 @@
 <?php
-
-/**
- * OMAR AHMED REFAAT ELDANASOURY, 202005808
- * ITCS333-SEC 03 , COURSE PROJECT, ALONE
- */
-session_start();
-if (!isset($_SESSION["activeUser"]))
-    header("location: index.php");
+// session_start();
+// if (!isset($_SESSION["activeUser"]))
+//     header("location: index.php");
 
 
-try {
-    require("connection.php");
-    $rows = $db->query("SELECT * FROM TRIPS");
-    $db = null;
-} catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
-}
+// try {
+//     require("connection.php");
+//     $rows = $db->query("SELECT * FROM TRIPS");
+//     $db = null;
+// } catch (PDOException $ex) {
+//     echo "Error: " . $ex->getMessage();
+// }
 ?>
 
 
