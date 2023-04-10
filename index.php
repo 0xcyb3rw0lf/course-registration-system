@@ -3,7 +3,22 @@
 /**
  * OMAR AHMED REFAAT ELDANASOURY, 202005808
  * ITCS333-SEC 03 , COURSE PROJECT, ALONE
- */ ?>
+ */
+session_start();
+if (!isset($_SESSION["activeUser"]))
+    header("location: index.php");
+
+
+try {
+    require("connection.php");
+    $rows = $db->query("SELECT * FROM TRIPS");
+    $db = null;
+} catch (PDOException $ex) {
+    echo "Error: " . $ex->getMessage();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +26,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Home</title>
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <link rel="stylesheet" href="css/style.css" />
 
     <!-- Adding the Fonts -->
@@ -31,55 +52,52 @@
 
 <body>
 
-    <?php require("header.php"); ?>
+    <?php require("header.php") ?>
 
-    <main>
-        <h1>Welcome to Our Website</h1>
-        <p class="light-font300">Get the chance to have <span class="italic light-font300">amazing times with friends
-                and family</span> during
-            our trips!
-        </p>
-        <a href="#" class="butn primary-butn">Explore Catalogue</a>
-        <!-- <img src="images/bab-bahrain.jpg" alt="Bab-Bahrain"> -->
+
+    <main class="" style="background-color: white; background-image: none; text-align: left;">
+        <h1 class="catalogue-header" style="color: #4056A1;">Welcome <?php if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] ?></h1>
+        <?php
+        if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
+            echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
+
+
+        if (isset($_GET["reset-password"]) and $_GET["reset-password"] == "true")
+            echo '<h1 class="catalogue-header" style="color: green;"Passward is reset successfully!</h1>';
+
+        ?>
+        <h1 class="catalogue-header" style="color: #F13C20; font-size: 2em; margin-bottom: 0;">Check these out!</h1>
+
+        <div class="catalogue-main">
+            <?php
+            while ($row = $rows->fetch()) { // we need the title, from, to , and the price
+                $id = $row[0];
+                $title = $row[1];
+                $from = $row[2];
+                $to = $row[3];
+                $price = $row[4];
+                $imagePath = $row[6];
+                // $count = $rows->rowCount();
+            ?>
+
+                <div class="trip-container">
+                    <img class="trip-image" <?php echo "src=\"/333Project/" . $imagePath . "\"" ?> alt="">
+                    <div class="trip-info">
+                        <p class="info" style="color: #4056A1;"><?php echo $title ?></p>
+                        <p class="info">From: <?php echo $from ?></p>
+                        <p class="info">To: <?php echo $to ?></p>
+                        <p class="info" style="color: #F13C20;"> <?php echo $price . " BHD" ?></p>
+                        <a <?php echo "href='trip.php?tid=$id'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Show More!</a>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
     </main>
 
-    <section class="section">
-        <div class="icons-sec1">
-            <i class="fa-solid fa-face-smile"></i>
-            <h2>Enjoy Your Time</h2>
-            <p class="light-font300">Whether you are alone or with family and friends</p>
-        </div>
-        <div class="icons-sec2">
-            <i class="fa-regular fa-map"></i>
-            <h2>Expand Your Horizons</h2>
-            <p class="light-font300">Explore Wonderful Places in the Kingdom of Bahrain</p>
-        </div>
-        <div class="icons-sec3">
-            <i class="fa-solid fa-user-group"></i>
-            <h2>Expand your network</h2>
-            <p class="light-font300">Group trips to meet new people and have a nice time together</p>
-        </div>
-    </section>
 
-    <section class="section feedback">
-        <div class="icons-sec1">
-            <img class="reviewer" src="/333Project/images/Mohamed2.jpg" alt="Mohamed">
-            <h2 class="name">Mohamed</h2>
-            <p class="light-font300 italic">"I have enjoyed the most wonderful trips in my life with BBay trips!"</p>
-        </div>
-        <div class="icons-sec3">
-            <img class="reviewer" src="/333Project/images/Sarah.jpg" alt="Mohamed">
-            <h2 class="name">Sarah</h2>
-            <p class="light-font300 italic">"These trips were the best trips ever with my family!"</p>
-        </div>
-        <div class="icons-sec2">
-            <img class="reviewer" src="/333Project/images/James2.jpg" alt="Mohamed">
-            <h2 class="name">James</h2>
-            <p class="light-font300 italic">"Always remember the amazing moments with my friends and family, thanks to
-                BBay!"
-            </p>
-        </div>
-    </section>
+
     <footer>
         <a href="catalogue.php">Browse Catalogue</a>
         <br>
@@ -94,6 +112,9 @@
         </a>
         <p>Copyrights &copy; Omar Ahmed Eldanasoury, 202005808</p>
     </footer>
+
+    <!-- Bootstrap via web -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 
 </html>
