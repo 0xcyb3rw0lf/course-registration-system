@@ -110,20 +110,9 @@ if (isset($_POST["signin"])) {
 
 
 
-    <footer>
-        <a href="catalogue.php">Browse Catalogue</a>
-        <br>
-        <a href="#" class="social">
-            <i class="fa-brands fa-facebook"></i>
-        </a>
-        <a href="#" class="social">
-            <i class="fa-brands fa-twitter"></i>
-        </a>
-        <a href="#" class="social">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <p>Copyrights &copy; Omar Ahmed Eldanasoury, 202005808</p>
-    </footer>
+    <?php
+    require("footer.php");
+    ?>
 </body>
 
 </html>
