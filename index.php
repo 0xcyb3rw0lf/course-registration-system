@@ -49,6 +49,7 @@
         <h2 class="catalogue-h2">Major</h2>
         <h2 class="catalogue-h2">College</h2>
         <h2 class="catalogue-h2">Current Semester</h2>
+        <br><br>
         <?php
         // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
         //     echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
