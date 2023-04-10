@@ -71,7 +71,8 @@
             ?>
 
             <!-- <div class="trip-container">
-                    <img class="trip-image" <?php echo "src=\"/333Project/" . $imagePath . "\"" ?> alt="">
+                    <img class="trip-image" <? // php echo "src=\"/333Project/" . $imagePath . "\"" 
+                                            ?> alt="">
                     <div class="trip-info">
                         <p class="info" style="color: #4056A1;"><?php //echo $title 
                                                                 ?></p>
@@ -94,18 +95,11 @@
 
 
     <footer>
-        <a href="catalogue.php">Browse Catalogue</a>
-        <br>
-        <a href="#" class="social">
-            <i class="fa-brands fa-facebook"></i>
-        </a>
-        <a href="#" class="social">
-            <i class="fa-brands fa-twitter"></i>
-        </a>
-        <a href="#" class="social">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <p>Copyrights &copy; Omar Ahmed Eldanasoury, 202005808</p>
+        <p>Copyrights &copy; ITCS489 2022/2023 SEM II; Project</p>
+        <p>&copy; Omar Eldanasoury, 202005808</p>
+        <p>&copy; Member Name, ID</p>
+        <p>&copy; Member Name, ID</p>
+        <p>&copy; Member Name, ID</p>
     </footer>
 </body>
 
