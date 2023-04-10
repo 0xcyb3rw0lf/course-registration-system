@@ -45,7 +45,8 @@
 
 
     <main class="" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Welcome <?php if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] ?></h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">Welcome <?php //if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] 
+                                                                        ?></h1>
         <?php
         // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
         //     echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';
