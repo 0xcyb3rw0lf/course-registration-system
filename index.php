@@ -25,8 +25,7 @@
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css" />
-
+    <link rel="stylesheet" href="css/style.css">
     <!-- Adding the Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,8 +44,11 @@
 
 
     <main class="" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Welcome <?php //if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] 
-                                                                        ?></h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">Welcome UserName<?php //if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] 
+                                                                                ?></h1>
+        <h2 class="catalogue-h2">Major</h2>
+        <h2 class="catalogue-h2">College</h2>
+        <h2 class="catalogue-h2"></h2>Current Semester</h2>
         <?php
         // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
         //     echo '<h1 class="catalogue-header" style="color: green;"Your trip has been reserved!</h1>';

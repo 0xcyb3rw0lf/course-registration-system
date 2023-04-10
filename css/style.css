@@ -293,6 +293,14 @@ form label {
 
 }
 
+.catalogue-h2 {
+    font-size: 1.25em;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    text-align: left;
+
+}
+
 .catalogue-main {
     padding: 0;
     margin-left: 0;
