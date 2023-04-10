@@ -1,19 +1,14 @@
 <?php
-
-/**
- * OMAR AHMED REFAAT ELDANASOURY, 202005808
- * ITCS333-SEC 03 , COURSE PROJECT, ALONE
- */
-if (isset($_SESSION["activeUser"])) { // if the user signed in
+if (isset($_SESSION["activeUser"])) { // if the user is signed in
 ?>
     <div id="container">
         <header>
             <a href="home.php" id="logo">
-                <p>BBay</p>
-                <!-- <img src="images/logo.svg" alt="Logo"> -->
+                <p>UOB Course Registration System</p>
             </a>
             <div id="nav">
-                <a href="home.php">Home</a>
+                <!-- TODO: add necessary icons for navigating the system -->
+                <a href="home.php">Home Page</a>
                 <a href="catalogue.php">Catalogue</a>
                 <a href="history.php">My History</a>
                 <a href="myprofile.php">My Profile</a>
@@ -23,14 +18,15 @@ if (isset($_SESSION["activeUser"])) { // if the user signed in
     </div>
 <?php
 } else {
+    // if the user is not logged in
 ?>
     <div id="container">
         <header>
             <a href="home.php" id="logo">
                 <p>BBay</p>
-                <!-- <img src="images/logo.svg" alt="Logo"> -->
             </a>
             <div id="nav">
+                <!-- TODO: add necessary icons for navigating the system -->
                 <a href="home.php">Home</a>
                 <a href="catalogue.php">Catalogue</a>
                 <a href="signin.php" class="butn">Sign in</a>
