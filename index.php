@@ -65,10 +65,11 @@
             <div class="search">
                 <input type="text" class="searchTerm" placeholder="What are you looking for?">
                 <button type="submit" class="searchButton">
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search search-icon"></i>
                 </button>
             </div>
         </div>
+        <!-- End of search bar html code -->
 
         <div class="catalogue-main">
             <h1 class="catalogue-header" style="color: #4056A1;font-size: 2em; margin-bottom: 0.5em;">Category A</h1>
