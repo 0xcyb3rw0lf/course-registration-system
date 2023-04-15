@@ -91,6 +91,45 @@
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
         <h1 class="catalogue-header" style="color: #4056A1;">Attendance</h1>
+
+        <form <?php // echo "action='process-payment.php?tid=$id'" 
+                ?> method="post" class="form" style="margin-left: 2.75em;">
+            <div class="attendance-flex">
+                <div class="attendance-inner-flex">
+                    <label for="course-code">Course Code:</label><br>
+                    <select class="selecter" name="course-code" id="course-code">
+                        <option value="ITCS489">ITCS489</option>
+                        <option value="ITCS389">ITCS389</option>
+
+                    </select>
+                </div>
+
+                <div class="attendance-inner-flex">
+                    <label for="section-number">Course Code:</label><br>
+                    <select class="selecter" name="section-number" id="section-number">
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+
+                    </select>
+                </div>
+
+                <div class="attendance-inner-flex">
+                    <label for="attendance-date">Date:</label><br>
+                    <input type="date" name="attendance-date" id="attendance-date">
+                </div>
+            </div>
+
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top" name="attendance" id="attendance" value="Get Students List!">
+            <?php
+            // if (isset($_GET["err"])) {
+            //     $err = $_GET["err"];
+            //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
+            // }
+            ?>
+
+        </form>
+
+
         <div class="catalogue-main">
 
             <?php
@@ -133,37 +172,6 @@
             </div>
         </div>
 
-        <section class="section pay-form pay-section" style="background-color: #4056A1;">
-            <h3 style="color: #EFE2BA;">Payment Details</h3>
-
-            <form <?php // echo "action='process-payment.php?tid=$id'" 
-                    ?> method="post" class="sign-form">
-                <label for="cnum">Card Number:*</label><br>
-                <input type="text" placeholder="XXXX XXXX XXXX XXXX" name="cnum" id="cnum">
-                <br>
-
-                <label for="cname">Name on Card:*</label><br>
-                <input type="text" placeholder="MOHAMED AHMED" name="cname" id="cname">
-                <br>
-
-                <label for="exdate">Expiry Date:*</label><br>
-                <input type="text" placeholder="MM/YY" name="exdate" id="exdate">
-                <br>
-
-                <label for="ccv">CCV:*</label><br>
-                <input type="text" placeholder="XXX" name="ccv" id="ccv">
-                <br>
-
-                <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top" name="payment" id="payment" value="Pay Fees!">
-                <?php
-                // if (isset($_GET["err"])) {
-                //     $err = $_GET["err"];
-                //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
-                // }
-                ?>
-
-            </form>
-        </section>
     </main>
 
     <?php require("footer.php") ?>

@@ -262,6 +262,7 @@ footer a:hover {
 form input[type=text],
 form input[type=password],
 form input[type=number],
+form input[type=date],
 .selecter {
     padding: 1em 1em;
     font-weight: 300;
@@ -269,6 +270,7 @@ form input[type=number],
     font-size: 1.1em;
     background-color: white;
     color: #4056A1;
+    border-radius: 1em;
 }
 
 form input[type=checkbox] {
@@ -282,6 +284,21 @@ form label {
 }
 
 /* End of styles for form input */
+
+/* Start of attendance styles for <select> and grouping multiple <select>*/
+.attendance-flex {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+attendance-inner-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+/* End of attendance styles for <select> and grouping multiple <select> */
 
 .category-container {
     padding: 2em 0em;
