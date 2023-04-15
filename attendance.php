@@ -96,7 +96,7 @@
                 ?> method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex">
                 <div class="attendance-inner-flex">
-                    <label for="course-code">Course Code:</label><br>
+                    <label for="course-code">Course Code:</label><br><br>
                     <select class="selecter" name="course-code" id="course-code">
                         <option value="ITCS489">ITCS489</option>
                         <option value="ITCS389">ITCS389</option>
@@ -104,8 +104,8 @@
                     </select>
                 </div>
 
-                <div class="attendance-inner-flex">
-                    <label for="section-number">Course Code:</label><br>
+                <div class="attendance-inner-flex" style="margin-left: 2em;">
+                    <label for="section-number">Course Code:</label><br><br>
                     <select class="selecter" name="section-number" id="section-number">
                         <option value="01">01</option>
                         <option value="02">02</option>
@@ -113,8 +113,8 @@
                     </select>
                 </div>
 
-                <div class="attendance-inner-flex">
-                    <label for="attendance-date">Date:</label><br>
+                <div class="attendance-inner-flex" style="margin-left: 2em;">
+                    <label for="attendance-date">Date:</label><br><br>
                     <input type="date" name="attendance-date" id="attendance-date">
                 </div>
             </div>
