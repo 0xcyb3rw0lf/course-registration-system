@@ -208,6 +208,7 @@ h2.name {
     flex-direction: column;
 }
 
+/* Start of Styles for the Footer */
 footer {
     background-color: #F13C20;
     padding: 3em 2em;
@@ -221,9 +222,12 @@ footer a:hover {
     transition-duration: 0.5s;
 }
 
+/* styles of social media icons size for the footer */
 .social {
     font-size: 2em;
 }
+
+/* End of style of the footer */
 
 .form {
     display: flex;
@@ -237,21 +241,24 @@ footer a:hover {
     color: black;
 }
 
-.sign-form {
+/* .sign-form {
     background-color: #EFE2BA66;
     /* display: flex;
     flex-direction: column; */
-    text-align: center;
-    /* justify-content: center; */
-    padding: 2em 0;
-}
+/* text-align: center; */
+/* justify-content: center; */
+/* padding: 2em 0; */
+/* } */
 
+/* Styles of the sign-in button (Extra styles to customize it) */
 .sign-butn {
     padding: 0.75em 5em;
     min-width: 275px;
 
 }
 
+/* Start of Styles for the form elements */
+/* NOTE: Use the "selecter" class whenever you are using a <select> tag*/
 form input[type=text],
 form input[type=password],
 form input[type=number],
@@ -273,6 +280,8 @@ form label {
     font-size: 1em;
     color: white;
 }
+
+/* End of styles for form input */
 
 .category-container {
     padding: 2em 0em;
