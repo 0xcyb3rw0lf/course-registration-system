@@ -1,24 +1,30 @@
 /*new colors: backgrounds: #D79922 #F13C20 #4056A1 text: #EFE2BA #C5CBE3 */
+
+/* The Body tag, configuring the font, making padding and margin = 0 */
 body {
     font-family: 'Roboto', sans-serif;
     padding: 0;
     margin: 0;
 }
 
+/* Setting the size of the UOB logo */
 .uob-logo {
     height: 7.5em;
 }
 
+/* Setting the container*/
 #container {
     background-color: #D79922;
     padding: 1em;
 }
 
+/* Setting flex properties for the header */
 header {
     display: flex;
     justify-content: space-between;
 }
 
+/* Setting the links for the header */
 a {
     text-decoration: none;
     color: white;
@@ -30,6 +36,7 @@ a:hover {
     text-decoration: none;
 }
 
+/* Setting the properties of hovering links in the header */
 header a:hover,
 header a:active,
 header a:focus,
@@ -42,6 +49,7 @@ main a:focus {
     /* font-weight: 300; */
 }
 
+/* Setting the flex properties for the logo */
 #logo {
     min-width: min-content;
     max-width: max-content;
@@ -50,6 +58,9 @@ main a:focus {
     align-items: center;
 }
 
+
+/* Start of styles of the buttons */
+/* butn = a button that has border */
 .butn {
     border: #EFE2BA 0.115em solid;
     border-radius: 0.5em;
@@ -63,6 +74,14 @@ main a:focus {
     transition-duration: 0.5s;
 }
 
+/* primary-butn is the main button; it is the recommended option for the user to take mostly */
+.primary-butn {
+    background-color: #D79922;
+    border: none;
+    color: white;
+    font-size: large;
+}
+
 .primary-butn:hover {
     background-color: #EFE2BA;
     color: black;
@@ -70,12 +89,7 @@ main a:focus {
     transition-duration: 0.5s;
 }
 
-.primary-butn {
-    background-color: #D79922;
-    border: none;
-    color: white;
-    font-size: large;
-}
+/* End of buttons styles */
 
 #nav {
     margin-top: auto;
@@ -211,6 +225,18 @@ footer a:hover {
     font-size: 2em;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    /* flex: 2; */
+    justify-content: center;
+    padding: 2em;
+}
+
+.form label {
+    color: black;
+}
+
 .sign-form {
     background-color: #EFE2BA66;
     /* display: flex;
@@ -260,12 +286,6 @@ form label {
     max-width: 95%;
 
 }
-
-/* .catalogue-cards{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-} */
 
 
 .trip-image {
@@ -359,19 +379,6 @@ form label {
     font-size: 1.1em;
 }
 
-.reviews {
-    display: flex;
-    flex-direction: column;
-    background-color: #D79922;
-    text-align: center;
-    color: #4056A1;
-    padding-top: 1.5em;
-}
-
-.checked {
-    color: #4056A1;
-}
-
 .payment-trip {
     width: max-content;
 }
@@ -427,6 +434,7 @@ form label {
 /* End of Search Bar Style */
 
 
+/* Start of styling checkbox of remember me */
 .css-checkbox {
     position: absolute;
     overflow: hidden;
@@ -489,6 +497,10 @@ form label {
     width: 36px;
 }
 
+/* End of styles of remember me checkbox */
+
+
+/* Start of style for screens less than 1100px  */
 @media (max-width: 1100px) {
 
     .catalogue-main {
@@ -516,6 +528,10 @@ form label {
     color: #EFE2BA;
 }
 
+/* End of screens less than 1100px of media queries */
+
+
+/* Start of tablet view properties of media query */
 @media (max-width: 768px) {
 
     .trip-container {
@@ -560,11 +576,11 @@ form label {
         width: 50%;
         height: 50%;
     }
-
-
-
 }
 
+/* End of styles of tablet view in media query */
+
+/* Start of styles for mobile views in media query */
 @media (max-width: 600px) {
     .trip-container {
         margin: 1em auto;
@@ -602,3 +618,5 @@ form label {
         margin-left: auto;
     }
 }
+
+/* End of Mobile View Styles in Media Query */
