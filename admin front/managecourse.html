@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ManageCourse-Admin</title>
+</head>
+
+<link rel="stylesheet" href="managecourse.css">
+
+  <h3>Create New Course<input type="radio" name="ch"> Offer New Section<input type="radio" name="ch"></h3>
+  
+
+<!-- Offer New Section -->
+
+<h2>Offer New Section</h2>
+<div class="container">
+  
+  <form>
+      <div id="t"> <span>Course Code</span>
+        <input type="text"> </div>
+      <div id="t"> <span>Section No</span>
+        <input type="number" min="1" max="35"> </div>
+      <div id="days"> <span>Days</span>
+        <input type="radio" name="gender">UTH
+        <input type="radio" name="gender">MW
+      </div>
+      <div id="t"> <span>Timing</span>
+        <input type="time"> </div>
+        <div id="t"> <span>Room</span>
+          <input type="text" maxlength="4"> </div>
+          <div id="t"> <span>Instructor</span>
+            <input type="text"> </div>
+      <br>
+      <input type="button" id="add" value="Add Course">
+      <input type="button" id="clear" value="Clear">
+  </form>
+</div>
+
+
+
+<!-- Create New Course -->
+
+  <h2>Create New Course</h2>
+<div class="container">
+  
+  <form>
+      <div id="t"> <span>Course Code</span>
+        <input type="text"> </div>
+      <div id="t"> <span>Course Title</span>
+        <input type="text"> </div>
+      <div id="t"> <span>Course Credit</span>
+        <input type="number" min="1" max="4"> </div>
+      <div id="t"> <span>Pre-Requisite</span>
+        <input type="text"> </div>
+      <div id="t"> <span>Section No</span>
+        <input type="number" min="1" max="35"> </div>
+        <div id="t"> <span>Coordinator</span>
+          <input type="text"> </div>
+      <div id="days"> <span>Days</span>
+        <input type="radio" name="gender">UTH
+        <input type="radio" name="gender">MW
+      </div>
+      <div id="t"> <span>Timing</span>
+        <input type="time"> </div>
+        <div id="t"> <span>Room</span>
+          <input type="text" maxlength="4"> </div>
+          <div id="t"> <span>Instructor</span>
+            <input type="text"> </div>
+            <div id="t"> <span>Exam Date</span>
+              <input type="date"> </div>
+      <br>
+      <input type="button" id="add" value="Add Course">
+      <input type="button" id="clear" value="Clear">
+  </form>
+</div>
+
+
+
+
+<br>
+<h1>Available Sections</h1>
+
+<table>
+
+  <thead>
+    <tr>
+      <th class="code">Course Code</th>
+      <th>Course Title</th>
+      <th>Timing</th>
+      <th>Coordinator</th>
+      <th>Room</th>
+      <th>Section</th>
+      <th>Instructor</th>
+      <th></th>
+    
+    </tr>
+  </thead>
+  <tbody>
+
+    
+    <tr class="table">
+      <td class="student-id">Course Code</td>
+      <td class="student-name">Course Title</td>
+      <td class="c1">x</td>
+      <td class="c1">x</td>
+      <td class="c1">x</td>
+      <td class="c1">x</td>
+      <td class="c1">x</td>
+      <td class="c1"><input type="button" value="Delete Section"></td>
+    </tr>
+  </tbody>
+  </table>
+
+</html>
