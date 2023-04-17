@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top" name="attendance" id="attendance" value="Get Students List!">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="attendance" id="attendance" value="Get Students List!">
             <?php
             // if (isset($_GET["err"])) {
             //     $err = $_GET["err"];

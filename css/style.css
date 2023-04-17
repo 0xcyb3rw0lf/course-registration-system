@@ -525,6 +525,11 @@ attendance-inner-flex {
 
 /* End of styles of remember me checkbox */
 
+/* Small class, makes the primary button small */
+.small {
+    width: 30%;
+    margin-top: 2em;
+}
 
 /* Start of style for screens less than 1100px  */
 @media (max-width: 1100px) {
