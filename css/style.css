@@ -273,12 +273,40 @@ form input[type=date],
     border-radius: 1em;
 }
 
+.edit-delete-button {
+    padding: 0.5em 0.5em;
+    font-weight: 300;
+    font-size: 1em;
+    color: white;
+    border-radius: 0.25em;
+    border: 0;
+}
+
+
+.red {
+    background-color: red;
+}
+
+.red:hover {
+    background-color: darkred;
+    transition-duration: 0.5s;
+}
+
+.green {
+    background-color: rgb(27, 226, 27);
+}
+
+.green:hover {
+    background-color: green;
+    transition-duration: 0.5s;
+}
+
 form input[type=checkbox] {
     width: 2em;
     padding: 1em;
 }
 
-form label {
+form form label {
     font-size: 1em;
     color: white;
 }
@@ -564,6 +592,8 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: #C5CBE3;
 }
+
+/* End of style for displaying tables */
 
 /* Start of style for screens less than 1100px  */
 @media (max-width: 1100px) {

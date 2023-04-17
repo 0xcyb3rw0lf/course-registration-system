@@ -90,79 +90,97 @@
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Attendance</h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">Manage Courses</h1>
 
-        <form <?php // echo "action='process-payment.php?tid=$id'" 
-                ?> method="post" class="form" style="margin-left: 2.75em;">
-            <div class="attendance-flex">
-                <div class="attendance-inner-flex">
-                    <label for="course-code">Course Code:</label><br><br>
-                    <select class="selecter" name="course-code" id="course-code">
-                        <option value="ITCS489">ITCS489</option>
-                        <option value="ITCS389">ITCS389</option>
+        <br><br>
+        <h2 class="catalogue-h2" style="color:#4056A1; margin-bottom: 0;">Current Proposed Courses:</h2>
 
-                    </select>
-                </div>
-
-                <div class="attendance-inner-flex" style="margin-left: 2em;">
-                    <label for="section-number">Course Code:</label><br><br>
-                    <select class="selecter" name="section-number" id="section-number">
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-
-                    </select>
-                </div>
-
-                <div class="attendance-inner-flex" style="margin-left: 2em;">
-                    <label for="attendance-date">Date:</label><br><br>
-                    <input type="date" name="attendance-date" id="attendance-date">
-                </div>
-            </div>
-
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="attendance" id="attendance" value="Get Students List!">
-            <?php
-            // if (isset($_GET["err"])) {
-            //     $err = $_GET["err"];
-            //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
-            // }
-            ?>
-
+        <!-- View/Edit/Delete Courses -->
+        <form action="">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="th-color">Course ID</th>
+                        <th class="th-color">Course Name</th>
+                        <th class="th-color">Course Section</th>
+                        <th class="th-color">Edit?</th>
+                        <th class="th-color">Delete?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ITCS489</td>
+                        <td>SOFTWARE ENGINEERING II</td>
+                        <td>01</td>
+                        <td>
+                            <form action="">
+                                <input class="edit-delete-button green" type="button" name="edit" value="Edit" />
+                            </form>
+                        </td>
+                        <td>
+                            <form action="">
+                                <input class="edit-delete-button red" type="button" name="delete" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ITCS489</td>
+                        <td>SOFTWARE ENGINEERING II</td>
+                        <td>02</td>
+                        <td>
+                            <!-- Pops up a box to enter the new information -->
+                            <form action="">
+                                <input class="edit-delete-button green" type="button" name="edit" value="Edit" />
+                            </form>
+                        </td>
+                        <td>
+                            <form action="">
+                                <input class="edit-delete-button red" type="button" name="delete" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
 
 
         <div class="catalogue-main">
+            <!-- Add/Propose Courses -->
+            <form <?php // echo "action='process-payment.php?tid=$id'" 
+                    ?> method="post" class="form" style="margin-left: 2.75em;">
+                <div class="attendance-flex">
+                    <div class="attendance-inner-flex">
+                        <label for="course-code">Course Code:</label><br><br>
+                        <select class="selecter" name="course-code" id="course-code">
+                            <option value="ITCS489">ITCS489</option>
+                            <option value="ITCS389">ITCS389</option>
 
-            <form action="">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="th-color">Student ID</th>
-                            <th class="th-color">Student Name</th>
-                            <th class="th-color">Absence Times</th>
-                            <th class="th-color">Absent?</th>
+                        </select>
+                    </div>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>20200000</td>
-                            <td>Name</td>
-                            <td>2</td>
-                            <td>
-                                <input type="checkbox" name="absent" value="absent" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>20200000</td>
-                            <td>Name</td>
-                            <td>2</td>
-                            <td>
-                                <input type="checkbox" name="absent" value="absent" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <input style="margin-left: 4.5em; text-align: center;" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" value="Update Attendance" name="update-attendance">
+                    <div class="attendance-inner-flex" style="margin-left: 2em;">
+                        <label for="section-number">Course Code:</label><br><br>
+                        <select class="selecter" name="section-number" id="section-number">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+
+                        </select>
+                    </div>
+
+                    <div class="attendance-inner-flex" style="margin-left: 2em;">
+                        <label for="attendance-date">Date:</label><br><br>
+                        <input type="date" name="attendance-date" id="attendance-date">
+                    </div>
+                </div>
+
+                <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="attendance" id="attendance" value="Get Students List!">
+                <?php
+                // if (isset($_GET["err"])) {
+                //     $err = $_GET["err"];
+                //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
+                // }
+                ?>
+
             </form>
 
             <?php
