@@ -132,6 +132,39 @@
 
         <div class="catalogue-main">
 
+            <form action="">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="th-color">Student ID</th>
+                            <th class="th-color">Student Name</th>
+                            <th class="th-color">Absence Times</th>
+                            <th class="th-color">Absent?</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>20200000</td>
+                            <td>Name</td>
+                            <td>2</td>
+                            <td>
+                                <input type="checkbox" name="absent" value="absent" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20200000</td>
+                            <td>Name</td>
+                            <td>2</td>
+                            <td>
+                                <input type="checkbox" name="absent" value="absent" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input style="margin-left: 4.5em; text-align: center;" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" value="Update Attendance" name="update-attendance">
+            </form>
+
             <?php
             // try {
             //     $tid = $_GET["tid"];

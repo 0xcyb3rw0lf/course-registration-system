@@ -531,6 +531,40 @@ attendance-inner-flex {
     margin-top: 2em;
 }
 
+/* End of Small Class */
+
+/* Start of Styles for the tables */
+table {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2.5em;
+
+    text-align: center;
+}
+
+th {
+    background-color: #D79922;
+    padding: 1em 1.5em;
+    color: white;
+}
+
+/* Warning: Do not move this from its place!!
+   it will override some features in the previous rule  */
+td {
+    padding: 1em 1.5em;
+    color: black;
+}
+
+tr:nth-child(even) {
+    background-color: #EFE2BA99;
+    color: black;
+}
+
+tr:nth-child(odd) {
+    background-color: #C5CBE3;
+}
+
 /* Start of style for screens less than 1100px  */
 @media (max-width: 1100px) {
 
