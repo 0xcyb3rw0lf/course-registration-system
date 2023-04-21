@@ -132,7 +132,7 @@
 
         <div class="catalogue-main">
 
-            <form action="professor/attendance.php">
+            <form action="">
                 <table>
                     <thead>
                         <tr>

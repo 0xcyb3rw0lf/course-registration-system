@@ -132,7 +132,7 @@
 
         <div class="catalogue-main">
 
-            <form action="">
+            <form action="professor/attendance.php">
                 <table>
                     <thead>
                         <tr>
@@ -160,6 +160,8 @@
                                 <input type="checkbox" name="absent" value="absent" />
                             </td>
                         </tr>
+
+                        <!--  Here we add the dynamic content from the database -->
                     </tbody>
                 </table>
                 <input style="margin-left: 4.5em; text-align: center;" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" value="Update Attendance" name="update-attendance">
