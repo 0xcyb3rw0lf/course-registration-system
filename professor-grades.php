@@ -112,11 +112,6 @@
 
                     </select>
                 </div>
-
-                <div class="attendance-inner-flex" style="margin-left: 2em;">
-                    <label for="attendance-date">Date:</label><br><br>
-                    <input type="date" name="attendance-date" id="attendance-date">
-                </div>
             </div>
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="attendance" id="attendance" value="Get Students List!">
