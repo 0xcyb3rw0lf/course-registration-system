@@ -144,7 +144,7 @@
                             <td>
                                 <input style="font-size: medium;
     padding: 0.1em;
-    width: min-content; border-radius: 0.1em" type="text" name="grade" value="grade" />
+    width: min-content; border-radius: 0.1em" type="text" name="grade" />
                             </td>
                         </tr>
                         <tr>
@@ -153,7 +153,7 @@
                             <td>
                                 <input style="font-size: medium;
     padding: 0.1em;
-    width: min-content; border-radius: 0.1em" type="text" name="grade" value="grade" />
+    width: min-content; border-radius: 0.1em" type="text" name="grade" />
                             </td>
                         </tr>
 
