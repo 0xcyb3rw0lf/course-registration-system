@@ -136,8 +136,8 @@
                             <th class="th-color">Absense Rate</th>
                             <th class="th-color">Grade</th>
                             <th class="th-color">Appeal Request?</th>
-                            
-                            
+
+
 
                         </tr>
                     </thead>
@@ -145,20 +145,16 @@
                         <tr>
                             <td>20200000</td>
                             <td>Name</td>
-                            <td>
-                                <input style="font-size: medium;
-    padding: 0.1em;
-    width: min-content; border-radius: 0.1em" type="text" name="grade" />
-                            </td>
+                            <td>1.4%</td>
+                            <td>A-</td>
+                            <td>No</td>
                         </tr>
                         <tr>
                             <td>20200000</td>
                             <td>Name</td>
-                            <td>
-                                <input style="font-size: medium;
-    padding: 0.1em;
-    width: min-content; border-radius: 0.1em" type="text" name="grade" />
-                            </td>
+                            <td>1.4%</td>
+                            <td>A-</td>
+                            <td>No</td>
                         </tr>
 
                         <!--  Here we add the dynamic content from the database -->
