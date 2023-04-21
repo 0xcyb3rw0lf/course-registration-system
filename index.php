@@ -75,10 +75,12 @@
             <h1 class="catalogue-header" style="color: #4056A1;font-size: 2em; margin-bottom: 0.5em;">Category A</h1>
 
             <div class="category-container">
-                <a href="https://www.google.com" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
-                    Option 1
+                <a href="professor-view-section.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
+                    View Section
                 </a>
-                <a href="https://www.google.com" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Option 2</a>
+                <a href="professor-grades.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Manage Grades</a>
+                <a href="attendance.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">View Attendance</a>
+
             </div>
         </div>
         <?php
