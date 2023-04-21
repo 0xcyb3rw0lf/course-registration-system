@@ -138,8 +138,7 @@
                         <tr>
                             <th class="th-color">Student ID</th>
                             <th class="th-color">Student Name</th>
-                            <th class="th-color">Absence Times</th>
-                            <th class="th-color">Absent?</th>
+                            <th class="th-color">Grade</th>
 
                         </tr>
                     </thead>
@@ -147,17 +146,19 @@
                         <tr>
                             <td>20200000</td>
                             <td>Name</td>
-                            <td>2</td>
                             <td>
-                                <input type="checkbox" name="absent" value="absent" />
+                                <input style="font-size: medium;
+    padding: 0.1em;
+    width: min-content; border-radius: 0.1em" type="text" name="grade" value="grade" />
                             </td>
                         </tr>
                         <tr>
                             <td>20200000</td>
                             <td>Name</td>
-                            <td>2</td>
                             <td>
-                                <input type="checkbox" name="absent" value="absent" />
+                                <input style="font-size: medium;
+    padding: 0.1em;
+    width: min-content; border-radius: 0.1em" type="text" name="grade" value="grade" />
                             </td>
                         </tr>
 
