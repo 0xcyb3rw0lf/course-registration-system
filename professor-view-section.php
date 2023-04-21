@@ -160,7 +160,6 @@
                         <!--  Here we add the dynamic content from the database -->
                     </tbody>
                 </table>
-                <input style="margin-left: 4.5em; text-align: center;" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" value="Update Grades" name="update-attendance">
             </form>
 
             <?php
