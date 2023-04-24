@@ -5,30 +5,6 @@
 //     header("location: signin.php");
 
 // if (isset($_POST["payment"])) {
-//     $msg = "";
-
-//     $cnum = $_POST["cnum"];
-//     $cname = $_POST["cname"];
-//     $exdate = $_POST["exdate"];
-//     $ccv = $_POST["ccv"];
-
-//     // ^\d{3}$ : ccv
-
-//     if (preg_match("/^\d{4} \d{4} \d{4} \d{4}$/i", $cnum) == 0)
-//         $msg .= "Wrong Card Number!<br>";
-//     if (preg_match("/^[a-zA-Z ]+$/i", $cname) == 0)
-//         $msg .= "Wrong Holder Name!<br>";
-//     if (preg_match("/^\d{3}$/i", $ccv) == 0)
-//         $msg .= "Wrong CCV!<br>";
-
-//     if ($msg != "")
-//         header("location: payment.php?err=$msg");
-
-
-
-
-//     // add reservation
-//     $tripId = $_GET["tid"];
 
 
 //     try {
@@ -105,7 +81,7 @@
                 </div>
 
                 <div class="attendance-inner-flex" style="margin-left: 2em;">
-                    <label for="section-number">Course Code:</label><br><br>
+                    <label for="section-number">Section Number:</label><br><br>
                     <select class="selecter" name="section-number" id="section-number">
                         <option value="01">01</option>
                         <option value="02">02</option>
