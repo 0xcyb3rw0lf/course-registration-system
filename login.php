@@ -1,48 +1,65 @@
 <?php
+
+/**
+ * The back-end code of the login page starts here
+ * @author Omar Eldanasoury (202005808)
+ */
 session_start();
-if (isset($_POST["signin"])) {
+if (isset($_POST["login"])) { // if the user clicked on login button
+    // we get the input and sanitize it
     require("functions.php");
+    $email = checkInput($_POST["email"]);
+    $password = checkInput($_POST["password"]);
 
-    $msg = "";
-    $password = $_POST["password"];
-    $email = $_POST["email"];
+    // setting the variables of error messages
+    $emailErr = $passwordErr = $loginErr = "";
 
-    // email
-    if (preg_match("/^[a-zA-Z0-9\._\-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i", $email) == 0)
-        $msg .= "Wrong Email!<br>";
+    // we then validate if the user typed a correct email
+    if (empty($email)) {
+        $emailErr = "Email is required!";
+        header("login.php");
+    } else {
+        // if the email is not a student email (@stu.uob.edu.bh)
+        // or not an employee email (@uob.edu.bh); then it is an invalid email
+        if (!preg_match('/[a-z0-9]+@stu\.uob\.edu\.bh$/', $email) && !preg_match('/[a-z0-9]+@uob\.edu\.bh$/', $email))
+            $emailErr = "Invalid email, please type a correct one!";
+    } // end of email validation
 
-    // password
-    if (preg_match("/^[\w!@#$%^&*()]{8,}$/i", $password) == 0)
-        $msg .= "Wrong Password!<br>";
-
-    if ($msg != "")
-        header("location: signin.php?err=$msg");
-
-
-    try {
-        require("connection.php");
-        $email = checkInput($_POST["email"]); // input is filtered
-        $enteredPassword = checkInput($_POST["password"]);
-        $rows = $db->query("SELECT * FROM USERS WHERE EMAIL = '$email'");
-    } catch (PDOException $ex) {
-        $msg .= "Error while signing in or the user does not exist in the database!";
-        header("location: signin.php?err=$msg");
+    // password validation: if the password field is empty
+    // then we print the error message
+    if (empty($password)) {
+        $passwordErr = "Password is required!";
+        unset($emailErr);
+        header("login.php");
     }
 
-    if ($row = $rows->fetch()) {
-        // if we entered here, then the user exists in the database
-        $id = $row[0];
-        $username = $row[1];
-        $hashedPassword = $row[3];
-        // we check the password
-        if (password_verify($enteredPassword, $hashedPassword)) { // here we update the session
-            // user is signed in!
-            $_SESSION["activeUser"] = array($id, $username, $email);
-            header("location: home.php");
-        }
-    }
+    // // then we establish connection for the login process
+    // require("connection.php");
+    // // first we check if the user exists in the database
+    // $query = $db->prepare("SELECT * FROM USERS WHERE EMAIL = ?"); // preparing the query using PDO
+    // $query->bindValue(1, $email); // adding email to the query
+    // $query->execute();
 
-    $db = null;
+    // if ($query->rowCount() == 0) { // if the user does not exist in the database
+
+    // }
+
+
+
+    // if ($row = $rows->fetch()) {
+    //     // if we entered here, then the user exists in the database
+    //     $id = $row[0];
+    //     $username = $row[1];
+    //     $hashedPassword = $row[3];
+    //     // we check the password
+    //     if (password_verify($enteredPassword, $hashedPassword)) { // here we update the session
+    //         // user is signed in!
+    //         $_SESSION["activeUser"] = array($id, $username, $email);
+    //         header("location: home.php");
+    //     }
+    // }
+
+    // $db = null;
 }
 ?>
 
@@ -94,14 +111,10 @@ if (isset($_POST["signin"])) {
                 <br>
 
                 <input type="submit" class="butn primary-butn sign-butn" name="login" id="login" value="Log in!">
-
+                <br><span style="color: red; font-size: 1em;"> <?php if (isset($emailErr)) echo $emailErr;
+                                                                elseif (isset($passwordErr)) echo $passwordErr;
+                                                                elseif (isset($loginErr)) echo $loginErr; ?></span>
             </form>
-            <?php
-            // if (isset($_GET["err"])) {
-            //     $err = $_GET["err"];
-            //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
-            // }
-            ?>
         </section>
     </main>
 
