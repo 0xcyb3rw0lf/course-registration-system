@@ -66,7 +66,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance</title>
+    <title>View Section</title>
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="css/reset.css">
@@ -90,7 +90,7 @@
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Attendance</h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">View Section</h1>
 
         <form <?php // echo "action='process-payment.php?tid=$id'" 
                 ?> method="post" class="form" style="margin-left: 2.75em;">
@@ -183,20 +183,6 @@
                 //     $price = $row[4];
                 //     $imagePath = $row[6];
                 //     $location = $row[5]
-                ?>
-                <img class="trip-image" <?php //echo "src=\"/333Project/" . $imagePath . "\"" 
-                                        ?> alt="">
-                <div class="trip-info">
-                    <p class="info" style="color: #4056A1;"><?php //echo $title 
-                                                            ?></p>
-                    <p class="info">From: <?php //echo $from 
-                                            ?></p>
-                    <p class="info">To: <?php //echo $to 
-                                        ?></p>
-                    <p class="info" style="color: #F13C20;"> <?php //echo $price . " BHD" 
-                                                                ?></p>
-                </div>
-                <?php
                 // }
                 ?>
             </div>
