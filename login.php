@@ -13,6 +13,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
 
     // setting the variables of error messages
     $emailErr = $passwordErr = $loginErr = "";
+    unset($emailErr, $passwordErr, $loginErr); // fixed the problem of printing empty strings
 
     // we then validate if the user typed a correct email
     if (empty($email)) {
@@ -35,19 +36,78 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     }
 
     // then we establish connection for the login process
-    // require("connection.php");
-    // // first we check if the user exists in the database
-    // $query = $db->prepare("SELECT * FROM USERS WHERE EMAIL = ?"); // preparing the query using PDO
-    // $query->bindValue(1, $email); // adding email to the query
-    // $query->execute();
+    try {
+        require("connection.php");
+        // first we check if the user exists in the database
+        $query = $db->prepare("SELECT * FROM USERS WHERE EMAIL = ?"); // preparing the query using PDO
+        $query->bindValue(1, $email); // adding email to the query
+        $query->execute();
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        // Showing Error Message to the user
+        $loginErr = "Unexpected error, please try again later!";
+        header("login.php");
+    }
 
-    // if ($query->rowCount() == 0) { // if the user does not exist in the database
-    //     // unset($emailErr);
-    //     unset($passwordErr);
-    //     $loginErr = "Email is not registered in the system!";
-    //     header("login.php");
-    // } else {
-    // }
+
+    if ($query->rowCount() == 0) { // if the user does not exist in the database
+        unset($passwordErr);
+        /**
+         * we only show that the email is not registered in the system
+         * if the email is valid, meaning if does not belong to the domains:
+         * @stu.uob.edu.bh or @uob.edu.bh, then we do not tell the user that
+         * the email is not registered.
+         * WHY? this improves the security of the system, so we do not tell much
+         * information than needed.
+         */
+        if (!isset($emailErr))
+            $loginErr = "Email is not registered in the system!";
+        header("login.php");
+    } else { // if the user email is in the database
+        // then we proceed by checking the password
+        // but first, we extract needed data from the query
+        if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
+            // first verify the password
+            $hashedPassword = $user["password"];
+            $userId = $user["user_id"];
+            $userTypeId = $user["type_id"];
+            // TODO: add password_verify to the following if
+            if ($password == $hashedPassword) { // here we update the session
+                // user is signed in!
+                /**
+                 * We need to store the following in the session data:
+                 * - User ID
+                 * - User Type ID
+                 * - Current Semester ID
+                 * 
+                 * we need to query the database to get sem_id
+                 * NOTE + TODO: there are two functions that help us get
+                 * the name of the current semester + a function
+                 * for getting the describtion of the type of the user
+                 * e.x.: "admin" or "student" .. etc. These functoins
+                 * will be included in functions.php
+                 */
+                try {
+                    $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
+                    if ($sem = $query->fetch(PDO::FETCH_ASSOC)) {
+                        $currentSemesterId = $sem["sem_id"];
+                    }
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
+                    // Showing Error Message to the user
+                    $loginErr = "Unexpected error, please try again later!";
+                    header("login.php");
+                }
+
+                // Setting the session
+                $_SESSION["activeUser"] = array($userId, $userTypeId, $currentSemesterId);
+                header("location: index.php");
+            } else { // if the password is wrong!
+                $loginErr = "Please enter the correct password!";
+                header("login.php");
+            }
+        }
+    }
 
 
 
@@ -116,7 +176,11 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 <br>
 
                 <input type="submit" class="butn primary-butn sign-butn" name="login" id="login" value="Log in!">
-                <br><span style="color: red; font-size: 1em;"> <?php if (isset($emailErr)) echo $emailErr . "<br>";
+                <br><span style="color: red; font-size: 1em;"> <?php
+                                                                /**
+                                                                 * The error messages are shown 1 by 1 if anyone of them happend
+                                                                 */
+                                                                if (isset($emailErr)) echo $emailErr . "<br>";
                                                                 if (isset($passwordErr)) echo $passwordErr . "<br>";
                                                                 if (isset($loginErr)) echo $loginErr . "<br>"; ?></span>
             </form>
