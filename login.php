@@ -21,19 +21,20 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     } else {
         // if the email is not a student email (@stu.uob.edu.bh)
         // or not an employee email (@uob.edu.bh); then it is an invalid email
-        if (!preg_match('/[a-z0-9]+@stu\.uob\.edu\.bh$/', $email) && !preg_match('/[a-z0-9]+@uob\.edu\.bh$/', $email))
+        if (!preg_match('/[a-z0-9]+@stu\.uob\.edu\.bh$/', $email) && !preg_match('/[a-z0-9]+@uob\.edu\.bh$/', $email)) {
             $emailErr = "Invalid email, please type a correct one!";
+            header("login.php");
+        }
     } // end of email validation
 
     // password validation: if the password field is empty
     // then we print the error message
     if (empty($password)) {
         $passwordErr = "Password is required!";
-        unset($emailErr);
         header("login.php");
     }
 
-    // // then we establish connection for the login process
+    // then we establish connection for the login process
     // require("connection.php");
     // // first we check if the user exists in the database
     // $query = $db->prepare("SELECT * FROM USERS WHERE EMAIL = ?"); // preparing the query using PDO
@@ -41,7 +42,11 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     // $query->execute();
 
     // if ($query->rowCount() == 0) { // if the user does not exist in the database
-
+    //     // unset($emailErr);
+    //     unset($passwordErr);
+    //     $loginErr = "Email is not registered in the system!";
+    //     header("login.php");
+    // } else {
     // }
 
 
@@ -59,7 +64,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     //     }
     // }
 
-    // $db = null;
+    $db = null;
 }
 ?>
 
@@ -111,9 +116,9 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 <br>
 
                 <input type="submit" class="butn primary-butn sign-butn" name="login" id="login" value="Log in!">
-                <br><span style="color: red; font-size: 1em;"> <?php if (isset($emailErr)) echo $emailErr;
-                                                                elseif (isset($passwordErr)) echo $passwordErr;
-                                                                elseif (isset($loginErr)) echo $loginErr; ?></span>
+                <br><span style="color: red; font-size: 1em;"> <?php if (isset($emailErr)) echo $emailErr . "<br>";
+                                                                if (isset($passwordErr)) echo $passwordErr . "<br>";
+                                                                if (isset($loginErr)) echo $loginErr . "<br>"; ?></span>
             </form>
         </section>
     </main>
