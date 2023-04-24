@@ -250,11 +250,25 @@ footer a:hover {
 /* padding: 2em 0; */
 /* } */
 
+/* Start of Styles of the login form */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    line-height: 2em;
+    font-size: large;
+}
+
+.margin-bottom-login-form {
+    margin-bottom: 1.5em;
+}
+
+/* End of Styles of the login form */
+
+
 /* Styles of the sign-in button (Extra styles to customize it) */
 .sign-butn {
-    padding: 0.75em 5em;
-    min-width: 275px;
-
+    padding: 1em 7.25em;
 }
 
 /* Start of Styles for the form elements */
@@ -264,13 +278,28 @@ form input[type=password],
 form input[type=number],
 form input[type=date],
 .selecter {
-    padding: 1em 1em;
+    padding: 0.75em 1em;
+    border: 1px solid #4056A1;
     font-weight: 300;
     width: 275px;
     font-size: 1.1em;
     background-color: white;
     color: #4056A1;
     border-radius: 1em;
+}
+
+form input[type=text]:focus,
+form input[type=password]:focus,
+form input[type=number]:focus,
+form input[type=date]:focus,
+.selecter:focus,
+form input[type=text]:active,
+form input[type=password]:active,
+form input[type=number]:active,
+form input[type=date]:active,
+.selecter:active {
+    border-color: #D79922;
+    transition-duration: 0.5s;
 }
 
 .edit-delete-button {

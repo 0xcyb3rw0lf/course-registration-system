@@ -78,32 +78,29 @@ if (isset($_POST["signin"])) {
 
 
     <main>
-        <section class="sign-form">
+        <section class="login-form" style="color: black">
 
-            <h1 style="font-size: 2em; color: white;">Sign in</h1>
-            <br>
-            <form method="post" style="color: white;">
+            <h1 style="font-size: 2em; margin-bottom: 1.5em; color: #4056A1;">Sign in</h1>
+
+            <form method="post">
                 <label for="email">Email:*</label><br>
-                <input type="text" placeholder="email@example.com" name="email" id="email">
+                <input class="margin-bottom-login-form" type="text" placeholder="email@example.com" name="email" id="email">
                 <label for="email"></label>
                 <br>
 
                 <label for="password">Password:*</label><br>
-                <input type="password" placeholder="***********" name="password" id="password">
+                <input class="margin-bottom-login-form" type="password" placeholder="***********" name="password" id="password">
                 <label for="password"></label>
                 <br>
 
-                <input type="submit" class="butn primary-butn sign-butn" name="signin" id="signin" value="Sign in!">
+                <input type="submit" class="butn primary-butn sign-butn" name="login" id="login" value="Log in!">
 
             </form>
-
-            <br>
-            <p>Don't have an account? <br><a href="signup.php" style="font-size: 0.75em;background-color: #D79922; color: white;" class="butn primary-butn sign-butn">Create One</a></p>
             <?php
-            if (isset($_GET["err"])) {
-                $err = $_GET["err"];
-                echo "<p style='color: white; font-weight: 600;'>$err</p>";
-            }
+            // if (isset($_GET["err"])) {
+            //     $err = $_GET["err"];
+            //     echo "<p style='color: white; font-weight: 600;'>$err</p>";
+            // }
             ?>
         </section>
     </main>

@@ -4,9 +4,7 @@
 // if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
 //     header("location: signin.php");
 
-// if (isset($_POST["payment"])) {
-
-
+// if (isset($_POST["view-section"])) {
 //     try {
 //         require("connection.php");
 //         $sql = "INSERT INTO RESERVATIONS VALUES (null, ?, ?, ?, ?, NOW())";
@@ -90,7 +88,7 @@
                 </div>
             </div>
 
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="attendance" id="attendance" value="Get Students List!">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="view-secton" id="view-section" value="Get Students List!">
             <?php
             // if (isset($_GET["err"])) {
             //     $err = $_GET["err"];
