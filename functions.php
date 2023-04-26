@@ -9,7 +9,7 @@
  * @author Omar Eldanasoury
  */
 
- 
+
 /**
  * @name checkInput
  * Performs input sanitization on user input
@@ -52,4 +52,37 @@ function getUserName($userId)
     // closing connection with the database
     $db = null;
     return $username;
+}
+
+/**
+ * Retrieves the major name from
+ * the database. if the user is not admin.
+ * 
+ * @author Omar Eldanasoury
+ * @param int $userId
+ * @param string $userType
+ * @return string the actual user name from the system database, otherwise null if the use is admin.
+ */
+function getMajorName($userId, $userType)
+{
+    $major = null;
+    $query = "";
+    if ($userType == "student") { // only student users has major, other users do not
+        try {
+            // establishing connection
+            require("connection.php");
+            // setting and running the query
+            $query = $db->query("SELECT PC.PROGRAM_NAME FROM STUDENT_INFO AS SI, PROGRAM_COLLEGE AS PC WHERE SI.STUDENT_ID = $userId AND SI.PROG_ID = PC.PROGRAM_ID");
+            if ($program = $query->fetch(PDO::FETCH_NUM)) {
+                $major = "hey";
+                $major = $program[0]; // getting the major if the query was successful
+            }
+        } catch (PDOException $ex) {
+            // printing the error message if error happens
+            echo $ex->getMessage();
+        }
+        // closing connection with the database
+        $db = null;
+    }
+    return $major;
 }
