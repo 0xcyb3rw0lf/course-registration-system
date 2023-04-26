@@ -119,3 +119,62 @@ function getSemesterName($semId)
     $db = null;
     return $semName;
 }
+
+/**
+ * Retrieves the type of the user
+ * as a text string.  
+ * 
+ * @author Omar Eldanasoury
+ * @param int $userTypeId the id that represents the type of the user inside the database.
+ * @return string the actual desctribtion of the user type and title inside the system.
+ */
+function getUserTypeAsText($userTypeId)
+{
+    $type = null;
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT USER_TYPE FROM USER_TYPE WHERE TYPE_ID = $userTypeId");
+        if ($result = $query->fetch(PDO::FETCH_NUM)) {
+            $type = $result[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        echo $result[0];
+    }
+    // closing connection with the database
+    $db = null;
+    return $type;
+}
+
+/**
+ * Retrieves the college name from
+ * the database.
+ * 
+ * @author Omar Eldanasoury
+ * @param int $userId
+ * @return string the actual user name from the system database, otherwise null if the use is admin.
+ */
+function getCollegeName($userId)
+{
+}
+
+/**
+ * Returns the list of services to be provided
+ * to users by which type they are. example:
+ * professors have certain services, also students, and so on.  
+ * 
+ * This list will be populated in the front-end
+ * for the user to choose from.
+ * 
+ * @author Omar Eldanasoury
+ * @param string $userType the text of user describtion, e.x.: admin.
+ * @return array an array of each service and its corresponding .php file.
+ */
+function getServicesList($userTypeAsText)
+{
+    $services = null;
+    return $services;
+}
