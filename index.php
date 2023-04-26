@@ -30,7 +30,7 @@ $userTypeAsText = getUserTypeAsText($userTypeId);
 $semesterName = getSemesterName($semId); //done
 $major = getMajorName($userId, $userTypeAsText); // DONE
 $college = getCollegeName($userId, $userTypeAsText);
-
+$department = getDepartmentName($userId, $userTypeAsText);
 $servicesList = getServicesList($userTypeAsText);
 
 ?>
@@ -74,6 +74,11 @@ $servicesList = getServicesList($userTypeAsText);
         <?php
         if (isset($major))
             echo "<h2 class='catalogue-h2'>$major</h2>";
+        ?>
+
+        <?php
+        if (isset($department))
+            echo "<h2 class='catalogue-h2'>$department</h2>";
         ?>
 
         <?php

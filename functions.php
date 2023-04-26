@@ -181,6 +181,37 @@ function getCollegeName($userId, $userType)
 }
 
 /**
+ * Retrieves the department name
+ * of the user from the database.
+ * 
+ * @author Omar Eldanasoury
+ * @param int $userId
+ * @param string $userType
+ * @return string the actual user name from the system database, otherwise null if the use is admin.
+ */
+function getDepartmentName($userId, $userType)
+{
+    $depName = null;
+    if ($userType != 'admin') {
+        try {
+            // establishing connection
+            require("connection.php");
+            // setting and running the query
+            $query = $db->query("SELECT DEP_NAME FROM DEPARTMENT AS D, USERS AS U WHERE D.DEP_ID = U.DEP_ID AND USER_ID = $userId");
+            if ($result = $query->fetch(PDO::FETCH_NUM)) {
+                $depName = $result[0]; // getting the name if the query was successful
+            }
+        } catch (PDOException $ex) {
+            // printing the error message if error happens
+            echo $ex->getMessage();
+        }
+        // closing connection with the database
+        $db = null;
+    }
+    return $depName;
+}
+
+/**
  * Returns the list of services to be provided
  * to users by which type they are. example:
  * professors have certain services, also students, and so on.  
