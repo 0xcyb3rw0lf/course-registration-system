@@ -91,6 +91,8 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                     $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
                     if ($sem = $query->fetch(PDO::FETCH_ASSOC)) {
                         $currentSemesterId = $sem["sem_id"];
+                        // $semName = $sem["sem_name"];
+                        // header("location: index.php?sem='$semName'");
                     }
                 } catch (PDOException $e) {
                     echo $e->getMessage();
@@ -108,22 +110,6 @@ if (isset($_POST["login"])) { // if the user clicked on login button
             }
         }
     }
-
-
-
-    // if ($row = $rows->fetch()) {
-    //     // if we entered here, then the user exists in the database
-    //     $id = $row[0];
-    //     $username = $row[1];
-    //     $hashedPassword = $row[3];
-    //     // we check the password
-    //     if (password_verify($enteredPassword, $hashedPassword)) { // here we update the session
-    //         // user is signed in!
-    //         $_SESSION["activeUser"] = array($id, $username, $email);
-    //         header("location: home.php");
-    //     }
-    // }
-
     $db = null;
 }
 ?>
