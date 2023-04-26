@@ -155,10 +155,29 @@ function getUserTypeAsText($userTypeId)
  * 
  * @author Omar Eldanasoury
  * @param int $userId
+ * @param string $userType
  * @return string the actual user name from the system database, otherwise null if the use is admin.
  */
-function getCollegeName($userId)
+function getCollegeName($userId, $userType)
 {
+    $collegeName = null;
+    if ($userType != 'admin') {
+        try {
+            // establishing connection
+            require("connection.php");
+            // setting and running the query
+            $query = $db->query("SELECT COLLEGE_NAME FROM COLLEGE AS C, USERS AS U WHERE C.COLLEGE_ID = U.COLLEGE_ID AND USER_ID = $userId");
+            if ($result = $query->fetch(PDO::FETCH_NUM)) {
+                $collegeName = $result[0]; // getting the name if the query was successful
+            }
+        } catch (PDOException $ex) {
+            // printing the error message if error happens
+            echo $ex->getMessage();
+        }
+        // closing connection with the database
+        $db = null;
+    }
+    return $collegeName;
 }
 
 /**

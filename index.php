@@ -1,16 +1,38 @@
 <?php
-// session_start();
-// if (!isset($_SESSION["activeUser"]))
-//     header("location: index.php");
+session_start();
+if (!isset($_SESSION["activeUser"]))
+    header("location: login.php");
+/**
+ * We need the following information to view for the user:
+ * 1 - User Name
+ * 2 - Major (Enrolled Program)
+ * 3 - College
+ * 4 - Current Semester
+ * 
+ * If the user is the admin, only user name
+ * and semester information are shwon.
+ * 
+ * These information will be retrieved from
+ * database using methods in functions.php 
+ * 
+ * The session has the following info:
+ * at index 0: user_id
+ * at index 1: user_type_id
+ * at index 2: sem_id
+ */
+require("functions.php");
+$userId = $_SESSION["activeUser"][0];
+$userTypeId = $_SESSION["activeUser"][1];
+$semId = $_SESSION["activeUser"][2];
 
+$username = getUserName($userId); // done
+$userTypeAsText = getUserTypeAsText($userTypeId);
+$semesterName = getSemesterName($semId); //done
+$major = getMajorName($userId, $userTypeAsText); // DONE
+$college = getCollegeName($userId, $userTypeAsText);
 
-// try {
-//     require("connection.php");
-//     $rows = $db->query("SELECT * FROM TRIPS");
-//     $db = null;
-// } catch (PDOException $ex) {
-//     echo "Error: " . $ex->getMessage();
-// }
+$servicesList = getServicesList($userTypeAsText);
+
 ?>
 
 
@@ -44,11 +66,26 @@
 
 
     <main class="" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Welcome UserName<?php //if (isset($_SESSION["activeUser"])) echo $_SESSION["activeUser"][1] 
-                                                                                ?></h1>
-        <h2 class="catalogue-h2">Major</h2>
-        <h2 class="catalogue-h2">College</h2>
-        <h2 class="catalogue-h2">Current Semester</h2>
+        <h1 class="catalogue-header" style="color: #4056A1;">Welcome
+            <?php
+            if (isset($username))
+                echo $username;
+            ?></h1>
+        <?php
+        if (isset($major))
+            echo "<h2 class='catalogue-h2'>$major</h2>";
+        ?>
+
+        <?php
+        if (isset($college))
+            echo "<h2 class='catalogue-h2'>$college</h2>";
+        ?>
+
+        <?php
+        if (isset($semesterName))
+            echo "<h2 class='catalogue-h2'> Semester: $semesterName</h2>";
+        ?>
+
         <br><br><br><br>
         <?php
         // if (isset($_GET["reserved"]) and $_GET["reserved"] == "true")
