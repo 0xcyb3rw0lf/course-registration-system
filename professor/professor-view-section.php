@@ -43,8 +43,8 @@
     <title>View Section</title>
 
     <!-- Adding the css files -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css" />
 
     <!-- Adding the Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,7 +60,7 @@
 
 <body>
 
-    <?php require("header.php") ?>
+    <?php require("../header.php") ?>
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
@@ -164,7 +164,7 @@
 
     </main>
 
-    <?php require("footer.php") ?>
+    <?php require("../footer.php") ?>
 </body>
 
 </html>
