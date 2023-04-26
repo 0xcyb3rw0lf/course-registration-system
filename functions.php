@@ -86,3 +86,36 @@ function getMajorName($userId, $userType)
     }
     return $major;
 }
+
+/**
+ * Retrieves the semester name from
+ * the database.  
+ * 
+ * @author Omar Eldanasoury
+ * @param $semId semester id in the database (from the session).
+ * @return string the actual semester name from the system database.
+ */
+
+function getSemesterName($semId)
+{
+    $semName = "kjhlakjdf";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = "SELECT SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS'";
+        $rows = $db->prepare($query);
+        $rows->execute();
+        $semName = "testoo";
+        if ($sem = $rows->fetch(PDO::FETCH_NUM)) {
+            $semName = $sem[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        $semName = "TestTest";
+    }
+    // closing connection with the database
+    $db = null;
+    return $semName;
+}
