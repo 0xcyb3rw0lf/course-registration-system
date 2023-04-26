@@ -98,7 +98,7 @@ function getMajorName($userId, $userType)
 
 function getSemesterName($semId)
 {
-    $semName = "kjhlakjdf";
+    $semName = "";
     try {
         // establishing connection
         require("connection.php");
