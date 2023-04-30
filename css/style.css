@@ -112,9 +112,9 @@ main {
     padding-bottom: 0;
 }
 
-main a {
+/* main a {
     background-color: #F13C20;
-}
+} */
 
 .no-margin-left {
     margin-left: 0;
@@ -501,11 +501,32 @@ attendance-inner-flex {
     color: #EFE2BA;
 }
 
+
 /*Resize the wrap to see the search bar change!*/
 .wrap {
     width: 30%;
     position: absolute;
     left: 50%;
+}
+
+#searchFeatureBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchResult {
+    background-color: #C5CBE3;
+    padding: 1em;
+    color: black;
+}
+
+.searchResult:hover {
+    background-color: #EFE2BA;
+    transition-duration: 0.5s;
+}
+
+.non-button {
+    background-color: none;
 }
 
 /* End of Search Bar Style */

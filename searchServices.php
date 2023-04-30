@@ -11,7 +11,7 @@
  * @return string of found services.
  * @author Omar Eldanasoury
  */
-
+session_start();
 require_once("services.php"); // already has included funcitons.php inside it
 if (isset($_GET["text"]))
     $userText = checkInput($_GET["text"]); // called checkInput() to sanitize the input from user
@@ -19,7 +19,7 @@ if (isset($_GET["text"]))
 $output = '';
 $services = getUserServicesList(getUserTypeAsText($_SESSION["activeUser"][1]));
 foreach ($services as $service => $path)
-    if (str_contains($service, $userText))
-        $output += "#$service@$path";
+    if (str_contains(strtolower($service), strtolower($userText)))
+        $output .= "#$service@$path";
 
 echo $output;

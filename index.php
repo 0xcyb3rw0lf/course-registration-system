@@ -103,12 +103,17 @@ $servicesList = getServicesList($userTypeAsText);
         ?>
 
         <!-- The Search Bar -->
-        <div class="wrap">
+        <div id="searchFeatureBlock" class="wrap">
             <div class="search">
-                <input type="text" class="searchTerm" placeholder="What are you looking for?">
+                <input type="text" class="searchTerm" onkeyup="search(this.value)" placeholder="What are you looking for?">
                 <button type="submit" class="searchButton">
                     <i class="fa fa-search search-icon"></i>
                 </button>
+            </div>
+            <div id="searchList">
+                <!-- <div class="searchResult">Option 1</div>
+                <div class="searchResult">Option 1</div>
+                <div class="searchResult">Option 1</div> -->
             </div>
         </div>
         <!-- End of search bar html code -->
@@ -118,7 +123,7 @@ $servicesList = getServicesList($userTypeAsText);
             <div class="category-container">
                 <?php
                 require_once("services.php");
-                $userList = getUserList($userTypeAsText);
+                $userList = getUserServicesList($userTypeAsText);
                 foreach ($userList as $title => $path) {
                 ?>
                     <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
@@ -139,6 +144,49 @@ $servicesList = getServicesList($userTypeAsText);
     <?php
     require("footer.php");
     ?>
+
 </body>
+<!-- Script for the Autocomplete Search Bar Feature :: Using AJAX
+     Author: Omar Eldanasoury
+ -->
+<script>
+    /**@@function search()
+     * sends user input to the script to get
+     * similar services to what the user entered
+     * 
+     * @author Omar Eldanasoury
+     */
+    function search(text) {
+        if (text.length == 0) {
+            document.getElementById("searchList").innerHTML = "";
+            return;
+        }
+        // reset the results, and get new ones
+        document.getElementById("searchList").innerHTML = "";
+        const request = new XMLHttpRequest();
+        request.onload = showResults;
+        request.open("GET", "searchServices.php?text=" + text);
+        console.log("text: " + text);
+        request.send();
+    }
+
+    /**@function showResults
+     * creates new div elements for each
+     * result from the searchServices.php script
+     * 
+     * @author Omar Eldanasoury
+     */
+    function showResults() {
+        results = this.responseText.split("#");
+        console.log("Response Text: " + this.responseText);
+        for (let result of results) {
+            console.log("result: " + result);
+            resultAndPath = result.split("@");
+            if (resultAndPath[0] == '')
+                continue;
+            document.getElementById("searchList").innerHTML += "<div class='searchResult'> <a class='non-button' style='color: black;' href='" + resultAndPath[1] + "'> " + resultAndPath[0] + "</a></div>";
+        }
+    }
+</script>
 
 </html>
