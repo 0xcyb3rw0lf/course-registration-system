@@ -50,11 +50,20 @@ function getAdminList()
 {
     return array(
 
-        "Manage Grades" => "professor/professor-grades.php",
-        "Manage Appealing Requests" => "professor/professor-grades.php",
-        "Manage Attendance" => 'professor/professor-view-section.php',
-        "View Section" => 'professor/professor-view-section.php',
-
+        "Manage Profile" => "",
+        "Add Users" => "",
+        // ******* These can be done in the same page
+        "Delete Users" => "",
+        "View/Update Users" => '',
+        // *********
+        "Manage Rooms" => '',
+        "Generate Reports" => '',
+        "Manage Semesters" => '',
+        "Add Course" => '',
+        "View/Edit Course" => '',
+        "Delete Course" => '',
+        "Add Section" => '',
+        "View/Edit Section" => '',
     );
 }
 
