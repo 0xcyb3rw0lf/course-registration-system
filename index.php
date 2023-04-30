@@ -20,11 +20,11 @@ if (!isset($_SESSION["activeUser"]))
  * at index 1: user_type_id
  * at index 2: sem_id
  */
-require("functions.php");
 $userId = $_SESSION["activeUser"][0];
 $userTypeId = $_SESSION["activeUser"][1];
 $semId = $_SESSION["activeUser"][2];
 
+require_once("functions.php");
 $username = getUserName($userId); // done
 $userTypeAsText = getUserTypeAsText($userTypeId);
 $semesterName = getSemesterName($semId); //done
@@ -114,15 +114,19 @@ $servicesList = getServicesList($userTypeAsText);
         <!-- End of search bar html code -->
 
         <div class="catalogue-main">
-            <h1 class="catalogue-header" style="color: #4056A1;font-size: 2em; margin-bottom: 0.5em;">Category A</h1>
-
+            <h1 class="catalogue-header" style="color: #4056A1;font-size: 2em; margin-bottom: 0.5em;">Educational Services:</h1>
             <div class="category-container">
-                <a href="professor-view-section.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
-                    View Section
-                </a>
-                <a href="professor-grades.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">Manage Grades</a>
-                <a href="attendance.php" class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">View Attendance</a>
-
+                <?php
+                require_once("services.php");
+                $userList = getUserList($userTypeAsText);
+                foreach ($userList as $title => $path) {
+                ?>
+                    <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
+                        <?php echo $title ?>
+                    </a>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <?php
