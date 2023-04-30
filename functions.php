@@ -211,4 +211,89 @@ function getDepartmentName($userId, $userType)
     return $depName;
 }
 
+/**
+ * Returns a list of all the courses
+ * available in the database
+ * 
+ * @author Omar Eldanasoury
+ * @return array course id, and course code = as an associative array
+ */
+function getCourses()
+{
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT COURSE_CODE FROM COURSE");
+        if ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $courses = $allCourses;
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
 
+    return $courses;
+}
+
+// /**
+//  * Returns a list of all the courses
+//  * available in the database
+//  * 
+//  * @author Omar Eldanasoury
+//  * @return array course id, and course code = as an associative array
+//  */
+// function getCourseCodes()
+// {
+//     $codes = array(null => null);
+//     try {
+//         // establishing connection
+//         require("connection.php");
+//         // setting and running the query
+//         $query = $db->query("SELECT COURSE_CODE FROM COURSE");
+//         if ($allCodes = $query->fetch(PDO::FETCH_ASSOC)) {
+//             // getting the list of courses if the query was successful
+//             $codes = $allCodes;
+//         }
+//     } catch (PDOException $ex) {
+//         // printing the error message if error happens
+//         echo $ex->getMessage();
+//     }
+//     // closing connection with the database
+//     $db = null;
+
+//     return $codes;
+// }
+
+// /**
+//  * Returns a list of all the courses
+//  * available in the database
+//  * 
+//  * @author Omar Eldanasoury
+//  * @return array course id, and course code = as an associative array
+//  */
+// function getCourseIds()
+// {
+//     $ids = array();
+//     try {
+//         // establishing connection
+//         require("connection.php");
+//         // setting and running the query
+//         $query = $db->query("SELECT COURSE_ID FROM COURSE");
+//         if ($allIds = $query->fetch(PDO::FETCH_ASSOC)) {
+//             // getting the list of courses if the query was successful
+//             $ids = $allIds;
+//         }
+//     } catch (PDOException $ex) {
+//         // printing the error message if error happens
+//         echo $ex->getMessage();
+//     }
+//     // closing connection with the database
+//     $db = null;
+
+//     return $ids;
+// }
