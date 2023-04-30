@@ -30,10 +30,12 @@ function getStudentList()
     return array(
         "Course Registration" => "student/",
         "Course Schedule" => "student/",
+        "View Grades" => 'student/',
         "View Attendance" => 'student/',
         "View Transcript" => 'student/',
         "Simulate GPA" => 'student/',
         "Request Summer Seat" => 'student/',
+        "Add Appealing Request" => 'student/',
     );
 }
 
