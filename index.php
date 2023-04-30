@@ -105,7 +105,7 @@ $servicesList = getServicesList($userTypeAsText);
         <!-- The Search Bar -->
         <div id="searchFeatureBlock" class="wrap">
             <div class="search">
-                <input type="text" class="searchTerm" onkeyup="search(this.value)" placeholder="What are you looking for?">
+                <input type="text" class="searchTerm" onkeyup="search(this.value)" onfocusout="clearResults()" placeholder="What are you looking for?">
                 <button type="submit" class="searchButton">
                     <i class="fa fa-search search-icon"></i>
                 </button>
@@ -162,7 +162,7 @@ $servicesList = getServicesList($userTypeAsText);
             return;
         }
         // reset the results, and get new ones
-        document.getElementById("searchList").innerHTML = "";
+        clearResults();
         const request = new XMLHttpRequest();
         request.onload = showResults;
         request.open("GET", "searchServices.php?text=" + text);
@@ -178,14 +178,17 @@ $servicesList = getServicesList($userTypeAsText);
      */
     function showResults() {
         results = this.responseText.split("#");
-        console.log("Response Text: " + this.responseText);
         for (let result of results) {
-            console.log("result: " + result);
             resultAndPath = result.split("@");
             if (resultAndPath[0] == '')
                 continue;
             document.getElementById("searchList").innerHTML += "<div class='searchResult'> <a class='non-button' style='color: black;' href='" + resultAndPath[1] + "'> " + resultAndPath[0] + "</a></div>";
         }
+    }
+
+    function clearResults() {
+        document.getElementById("searchList").innerHTML = "";
+
     }
 </script>
 
