@@ -119,7 +119,7 @@ function getDeanList()
  * @author Omar Eldanasoury
  * @return array<string> User's List as an array of string
  */
-function getUserList($userType)
+function getUserServicesList($userType)
 {
     if ($userType == 'student')
         return getStudentList();
