@@ -18,8 +18,8 @@ if (isset($_GET["text"]))
 
 $output = '';
 $services = getUserServicesList(getUserTypeAsText($_SESSION["activeUser"][1]));
-foreach ($services as $service)
+foreach ($services as $service => $path)
     if (str_contains($service, $userText))
-        $output += "#$service";
+        $output += "#$service@$path";
 
 echo $output;
