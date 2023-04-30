@@ -63,7 +63,8 @@ if (isset($_POST["add-section"])) {
     require_once("../functions.php");
     // Required varialbes for adding the section
     $courses = getCourses(); // get the courses list from the database
-
+    $professorNames = getProfessorNames();
+    $buildings = getBuildings();
 
     ?>
 
@@ -94,9 +95,28 @@ if (isset($_POST["add-section"])) {
                             echo "<option value='$code'>$code</option>";
                         ?>
                     </select>
-
-
                 </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="prof-name">Professor:</label><br><br>
+                    <select class="selecter" name="prof-name" id="prof-name">
+                        <?php
+                        foreach ($professorNames as $name)
+                            echo "<option value='$name'>$name</option>";
+                        ?>
+                    </select>
+                </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="prof-name">Building:</label><br><br>
+                    <select class="selecter" name="bldng" id="bldng">
+                        <?php
+                        foreach ($buildings as $bldng)
+                            echo "<option value='$bldng'>$bldng</option>";
+                        ?>
+                    </select>
+                </div>
+
             </div>
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-secton" id="add-section" value="Add a Section!">
