@@ -11,6 +11,7 @@ require_once("functions.php");
 function getProfessorList()
 {
     return array(
+        // TODO: Fill the paths of these pages
         "Manage Grades" => "professor/professor-grades.php",
         "Manage Appealing Requests" => "professor/professor-grades.php",
         "Manage Attendance" => 'professor/professor-view-section.php',
@@ -28,6 +29,7 @@ function getProfessorList()
 function getStudentList()
 {
     return array(
+        // TODO: Fill the paths of these pages
         "Course Registration" => "student/",
         "Course Schedule" => "student/",
         "View Grades" => 'student/',
@@ -49,7 +51,7 @@ function getStudentList()
 function getAdminList()
 {
     return array(
-
+        // TODO: Fill the paths of these pages
         "Manage Profile" => "",
         "Add Users" => "",
         // ******* These can be done in the same page
@@ -77,6 +79,7 @@ function getAdminList()
  */
 function getHodList()
 {
+    // TODO: Fill the paths of these pages
     return array(
         "View Seat Requests" => "dean-hod/",
         "View Students" => "dean-hod/",
