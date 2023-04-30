@@ -240,6 +240,64 @@ function getCourses()
     return $courses;
 }
 
+/**
+ * Retrieves all the names
+ * of professors from the system
+ * 
+ * @author Omar Eldanasoury
+ * @return array of names
+ */
+function getProfessorNames()
+{
+    $names = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT USERNAME FROM USERS WHERE USERS.TYPE_ID = 1");
+        if ($allNames = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $names = $allNames;
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+
+    return $names;
+}
+
+/**
+ * Retrieves all the buildings
+ * from the system
+ * 
+ * @author Omar Eldanasoury
+ * @return array of names
+ */
+function getBuildings()
+{
+    $buildings = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT BUILDING_NAME FROM BUILDING");
+        if ($allBldngs = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $buildings = $allBldngs;
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+
+    return $buildings;
+}
+
 // /**
 //  * Returns a list of all the courses
 //  * available in the database
