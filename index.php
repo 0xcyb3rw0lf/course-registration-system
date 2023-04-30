@@ -126,7 +126,7 @@ $servicesList = getServicesList($userTypeAsText);
                 $userList = getUserServicesList($userTypeAsText);
                 foreach ($userList as $title => $path) {
                 ?>
-                    <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em;">
+                    <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em; margin-bottom: 1.5em;">
                         <?php echo $title ?>
                     </a>
                 <?php
