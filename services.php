@@ -52,20 +52,20 @@ function getAdminList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Manage Profile" => "",
-        "Add Users" => "",
+        "Manage Profile" => "admin/",
+        "Add Users" => "admin/",
         // ******* These can be done in the same page
-        "Delete Users" => "",
-        "View/Update Users" => '',
+        "Delete Users" => "admin/",
+        "View/Update Users" => 'admin/',
         // *********
-        "Manage Rooms" => '',
-        "Generate Reports" => '',
-        "Manage Semesters" => '',
-        "Add Course" => '',
-        "View/Edit Course" => '',
-        "Delete Course" => '',
-        "Add Section" => '',
-        "View/Edit Section" => '',
+        "Manage Rooms" => 'admin/',
+        "Generate Reports" => 'admin/',
+        "Manage Semesters" => 'admin/',
+        "Add Course" => 'admin/',
+        "View/Edit Course" => 'admin/',
+        "Delete Course" => 'admin/',
+        "Add Section" => 'admin/add-section.php',
+        "View/Edit Section" => 'admin/',
     );
 }
 
