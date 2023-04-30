@@ -78,12 +78,11 @@ function getAdminList()
 function getHodList()
 {
     return array(
-
-        "Manage Grades" => "professor/professor-grades.php",
-        "Manage Appealing Requests" => "professor/professor-grades.php",
-        "Manage Attendance" => 'professor/professor-view-section.php',
-        "View Section" => 'professor/professor-view-section.php',
-
+        "View Seat Requests" => "dean-hod/",
+        "View Students" => "dean-hod/",
+        "Close Section" => 'dean-hod/',
+        "Edit Course Details" => 'dean-hod/',
+        "Generate Reports" => 'dean-hod/'
     );
 }
 
@@ -104,8 +103,8 @@ function getDeanList()
         "View Students" => "dean-hod/",
         "View Staff" => 'dean-hod/',
         "Edit Course Details" => 'dean-hod/',
+        "Close Section" => 'dean-hod/',
         "Generate Reports" => 'dean-hod/'
-
     );
 }
 
