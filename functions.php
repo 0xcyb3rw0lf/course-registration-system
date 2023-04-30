@@ -211,20 +211,4 @@ function getDepartmentName($userId, $userType)
     return $depName;
 }
 
-/**
- * Returns the list of services to be provided
- * to users by which type they are. example:
- * professors have certain services, also students, and so on.  
- * 
- * This list will be populated in the front-end
- * for the user to choose from.
- * 
- * @author Omar Eldanasoury
- * @param string $userType the text of user describtion, e.x.: admin.
- * @return array an array of each service and its corresponding .php file.
- */
-function getServicesList($userTypeAsText)
-{
-    $services = null;
-    return $services;
-}
+
