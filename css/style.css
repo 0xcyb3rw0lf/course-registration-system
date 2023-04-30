@@ -83,9 +83,9 @@ main a:focus {
 }
 
 .primary-butn:hover {
-    background-color: #EFE2BA;
-    color: black;
-    border-color: #EFE2BA;
+    background-color: #4056A1;
+    color: #EFE2BA;
+    border-color: #4056A1;
     transition-duration: 0.5s;
 }
 
