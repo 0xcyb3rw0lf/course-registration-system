@@ -324,6 +324,33 @@ function getRooms()
     }
     // closing connection with the database
     $db = null;
-    print_r($rooms);
+    return $rooms;
+}
+
+/**
+ * Returns the rooms inside a building
+ * by retreiving them from the database
+ * 
+ * @author Omar Eldanasoury
+ * @return string to be handeled by javascript code
+ */
+function getBuildingRooms($buildingId)
+{
+    $rooms = "";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT ROOM_ID, ROOM_NAME FROM ROOM WHERE BUILDING_ID = $buildingId");
+        while ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $rooms .= $allRooms[0] . "@" . $allRooms[1] . "#";
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
     return $rooms;
 }
