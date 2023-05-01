@@ -91,7 +91,7 @@ if (isset($_POST["add-section"])) {
                 <!-- Course Code and Section Number -->
                 <div class="attendance-inner-flex">
                     <label for="course-code">Course Code:</label><br><br>
-                    <select class="selecter" name="course-code" id="course-code">
+                    <select class="selecter" onchange="getSection(this.value)" name="course-code" id="course-code">
                         <?php
                         if ($courses != array())
                             for ($i = 0; $i < count($courses); $i++)
@@ -103,9 +103,9 @@ if (isset($_POST["add-section"])) {
                     </select>
                     <br><br><br>
                     <!-- Section Number -->
-                    <label for="section-num">Course Code:</label><br><br>
+                    <label for="section-num">Section Number:</label><br><br>
                     <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
-                    <input type="text" value="" disabled class="selecter" name="section-num" id="section-num">
+                    <input type="text" class="selecter" name="section-num" id="section-num">
                 </div>
 
                 <!-- Building and Room -->
@@ -186,9 +186,7 @@ if (isset($_POST["add-section"])) {
      */
     function showRooms() {
         clearRooms();
-        console.log(this.responseText);
         results = this.responseText.split("#");
-        //console.log(results);
         for (let result of results) {
             idAndRoom = result.split("@");
             if (idAndRoom[0] == '')
@@ -207,6 +205,51 @@ if (isset($_POST["add-section"])) {
     function clearRooms() {
         document.getElementById("room").innerHTML = "<option value=''>Select a Room</option>"
     }
+
+
+
+    // // *********************************************
+
+    // /**@function getSection
+    //  * gets the successive section number to be added
+    //  * for a particular course id; using AJAX.
+    //  * 
+    //  * @author Omar Eldanasoury
+    //  */
+    // function getSection(courseId) {
+    //     if (courseId.length == 0) {
+    //         return;
+    //     }
+
+    //     const request = new XMLHttpRequest();
+    //     request.onload = showSection;
+    //     request.open("GET", "getRecentSection.php?cid=" + courseId);
+    //     request.send();
+    // }
+
+    // /**@function showSection
+    //  * Shows the section number
+    //  * retrieved from the database
+    //  * to the user through html.
+    //  */
+    // function showSection() {
+    //     clearSectionNumber();
+    //     results = this.responseText.split("#");
+    //     //console.log(results);
+    //     for (let result of results) {
+    //         idAndRoom = result.split("@");
+    //         if (idAndRoom[0] == '')
+    //             continue;
+    //         document.getElementById("room").innerHTML += "\n<option value='" + idAndRoom[0] + "'>" + idAndRoom[1] + "</option>";
+    //     }
+    // }
+
+    // /**@function clearSectionNumber
+    //  * clears the html that shows the section number
+    //  */
+    // function clearSectionNumber() {
+    //     document.getElementById("section-number").value = "";
+    // }
 </script>
 
 </html>
