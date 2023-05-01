@@ -65,6 +65,7 @@ if (isset($_POST["add-section"])) {
     $courses = getCourses(); // get the courses list from the database
     $professorNames = getProfessorNames();
     $buildings = getBuildings();
+    $rooms = getRooms();
 
     ?>
 
@@ -91,8 +92,12 @@ if (isset($_POST["add-section"])) {
                     <label for="course-code">Course Code:</label><br><br>
                     <select class="selecter" name="course-code" id="course-code">
                         <?php
-                        foreach ($courses as $code)
-                            echo "<option value='$code'>$code</option>";
+                        if ($courses != array())
+                            for ($i = 0; $i < count($courses); $i++)
+                                foreach ($courses[$i] as $id => $code) {
+                                    echo "<option value='" . strval($id) . "'>" . $code . "</option>";
+                                }
+
                         ?>
                     </select>
                 </div>
@@ -113,6 +118,16 @@ if (isset($_POST["add-section"])) {
                         <?php
                         foreach ($buildings as $bldng)
                             echo "<option value='$bldng'>$bldng</option>";
+                        ?>
+                    </select>
+                </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="prof-name">Room:</label><br><br>
+                    <select class="selecter" name="bldng" id="bldng">
+                        <?php
+                        foreach ($rooms as $room)
+                            echo "<option value='$room'>$room</option>";
                         ?>
                     </select>
                 </div>

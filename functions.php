@@ -225,10 +225,11 @@ function getCourses()
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT COURSE_CODE FROM COURSE");
-        if ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
+        $query = $db->query("SELECT COURSE_ID, COURSE_CODE FROM COURSE ORDER BY COURSE_ID");
+        while ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $courses = $allCourses;
+            $course = array($allCourses[0] => $allCourses[1]);
+            array_push($courses, $course);
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens
@@ -236,7 +237,6 @@ function getCourses()
     }
     // closing connection with the database
     $db = null;
-
     return $courses;
 }
 
@@ -296,6 +296,35 @@ function getBuildings()
     $db = null;
 
     return $buildings;
+}
+
+/**
+ * Retrieves all the buildings
+ * from the system
+ * 
+ * @author Omar Eldanasoury
+ * @return array of names
+ */
+function getRooms()
+{
+    $rooms = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT ROOM_NAME FROM ROOM;");
+        if ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $db = null;
+            return $allRooms;
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $rooms;
 }
 
 // /**
