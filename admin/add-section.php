@@ -120,8 +120,12 @@ if (isset($_POST["add-section"])) {
                     <label for="prof-name">Building:</label><br><br>
                     <select class="selecter" name="bldng" id="bldng">
                         <?php
-                        foreach ($buildings as $bldng)
-                            echo "<option value='$bldng'>$bldng</option>";
+                        if ($buildings != array())
+                            for ($i = 0; $i < count($buildings); $i++)
+                                foreach ($buildings[$i] as $id => $name) {
+                                    echo "<option value='" . strval($id) . "'>" . $name . "</option>";
+                                }
+
                         ?>
                     </select>
                 </div>

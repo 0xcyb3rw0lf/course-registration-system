@@ -283,10 +283,11 @@ function getBuildings()
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT BUILDING_NAME FROM BUILDING");
-        if ($allBldngs = $query->fetch(PDO::FETCH_NUM)) {
+        $query = $db->query("SELECT * FROM BUILDING");
+        while ($allBldngs = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $buildings = $allBldngs;
+            $bldng = array($allBldngs[0] => $allBldngs[1]);
+            array_push($buildings, $bldng);
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens
@@ -294,7 +295,6 @@ function getBuildings()
     }
     // closing connection with the database
     $db = null;
-
     return $buildings;
 }
 
