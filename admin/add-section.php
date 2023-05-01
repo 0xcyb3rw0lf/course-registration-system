@@ -117,7 +117,7 @@ if (isset($_POST["add-section"])) {
                 </div>
 
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                    <label for="prof-name">Building:</label><br><br>
+                    <label for="bldng">Building:</label><br><br>
                     <select class="selecter" name="bldng" id="bldng">
                         <?php
                         if ($buildings != array())
@@ -131,11 +131,15 @@ if (isset($_POST["add-section"])) {
                 </div>
 
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                    <label for="prof-name">Room:</label><br><br>
-                    <select class="selecter" name="bldng" id="bldng">
+                    <label for="room">Room:</label><br><br>
+                    <select class="selecter" name="room" id="room">
                         <?php
-                        foreach ($rooms as $room)
-                            echo "<option value='$room'>$room</option>";
+                        if ($rooms != array())
+                            for ($i = 0; $i < count($rooms); $i++)
+                                foreach ($rooms[$i] as $id => $name) {
+                                    echo "<option value='" . strval($id) . "'>" . $name . "</option>";
+                                }
+
                         ?>
                     </select>
                 </div>

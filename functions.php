@@ -312,11 +312,11 @@ function getRooms()
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT ROOM_NAME FROM ROOM;");
-        if ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
+        $query = $db->query("SELECT ROOM_ID, ROOM_NAME FROM ROOM");
+        while ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $db = null;
-            return $allRooms;
+            $room = array($allRooms[0] => $allRooms[1]);
+            array_push($rooms, $room);
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens
@@ -324,5 +324,6 @@ function getRooms()
     }
     // closing connection with the database
     $db = null;
+    print_r($rooms);
     return $rooms;
 }
