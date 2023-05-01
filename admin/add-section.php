@@ -87,7 +87,8 @@ if (isset($_POST["add-section"])) {
                 Pop up message should display the seciton number to user
          -->
         <form method="post" class="form" style="margin-left: 2.75em;">
-            <div class="attendance-flex">
+            <div class="attendance-flex catalogue-main">
+                <!-- Course Code and Section Number -->
                 <div class="attendance-inner-flex">
                     <label for="course-code">Course Code:</label><br><br>
                     <select class="selecter" name="course-code" id="course-code">
@@ -100,22 +101,14 @@ if (isset($_POST["add-section"])) {
 
                         ?>
                     </select>
+                    <br><br><br>
+                    <!-- Section Number -->
+                    <label for="section-num">Course Code:</label><br><br>
+                    <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
+                    <input type="text" value="" disabled class="selecter" name="section-num" id="section-num">
                 </div>
 
-                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                    <label for="prof-name">Professor:</label><br><br>
-                    <select class="selecter" name="prof-name" id="prof-name">
-                        <?php
-                        if ($professorNames != array())
-                            for ($i = 0; $i < count($professorNames); $i++)
-                                foreach ($professorNames[$i] as $id => $name) {
-                                    echo "<option value='" . strval($id) . "'>" . $name . "</option>";
-                                }
-
-                        ?>
-                    </select>
-                </div>
-
+                <!-- Building and Room -->
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                     <label for="bldng">Building:</label><br><br>
                     <select onchange="getRooms(this.value)" class="selecter" name="bldng" id="bldng">
@@ -129,16 +122,32 @@ if (isset($_POST["add-section"])) {
 
                         ?>
                     </select>
-                </div>
-
-                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <br><br><br>
                     <label for="room">Room:</label><br><br>
                     <select class="selecter" name="room" id="room">
                         <option value="">Select a Room</option>
                         <!-- The options will be optained from the database using AJAX and PHP -->
+                        <!-- Refer to the script at the end of the page, after <body> -->
                     </select>
                 </div>
 
+                <!-- Professor and Date+Time -->
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="prof-name">Professor:</label><br><br>
+                    <select class="selecter" name="prof-name" id="prof-name">
+                        <?php
+                        if ($professorNames != array())
+                            for ($i = 0; $i < count($professorNames); $i++)
+                                foreach ($professorNames[$i] as $id => $name) {
+                                    echo "<option value='" . strval($id) . "'>" . $name . "</option>";
+                                }
+
+                        ?>
+                    </select>
+                    <br><br><br>
+                    <label for="datetime">Date and Time:</label><br><br>
+                    <input type="datetime-local" name="datetime" id="datetime">
+                </div>
             </div>
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-secton" id="add-section" value="Add a Section!">
