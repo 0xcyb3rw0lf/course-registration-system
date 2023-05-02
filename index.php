@@ -25,13 +25,14 @@ $userTypeId = $_SESSION["activeUser"][1];
 $semId = $_SESSION["activeUser"][2];
 
 require_once("functions.php");
+require_once("services.php");
 $username = getUserName($userId); // done
 $userTypeAsText = getUserTypeAsText($userTypeId);
 $semesterName = getSemesterName($semId); //done
 $major = getMajorName($userId, $userTypeAsText); // DONE
 $college = getCollegeName($userId, $userTypeAsText);
 $department = getDepartmentName($userId, $userTypeAsText);
-$servicesList = getServicesList($userTypeAsText);
+$servicesList = getUserServicesList($userTypeAsText);
 
 ?>
 

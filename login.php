@@ -5,6 +5,10 @@
  * @author Omar Eldanasoury (202005808)
  */
 session_start();
+if (isset($_SESSION["activeUser"]))
+    header("location: /course-registration-system/index.php");
+
+
 if (isset($_POST["login"])) { // if the user clicked on login button
     // we get the input and sanitize it
     require("functions.php");
