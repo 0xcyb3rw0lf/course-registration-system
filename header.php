@@ -13,7 +13,7 @@
             <a href="catalogue.php">Catalogue</a>
             <a href="history.php">My History</a>
             <a href="myprofile.php">My Profile</a>
-            <a href="logout.php" class="butn">Sign out</a>
+            <a href="/course-registration-system/logout.php" class="butn">Sign out</a>
         </div>
     </header>
 </div>
