@@ -4,6 +4,51 @@ session_start(); // for the header
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: login.php");
 if (isset($_POST["add-section"])) {
+    require_once("../functions.php");
+    // input validation is done later
+    // First, validate the datetime
+    // $dateErr = $secNumErr = $sameSecErr = $insertErr = "";
+    // unset($dateErr, $secNumErr, $sameSecErr, $insertErr);
+
+    // $datetime = $_POST["datetime"];
+    // $currentDate = date('d-m-y h:i:s');
+    // // $userDate = date();
+    // echo $currentDate;
+    // echo $datetime;
+    // if ($datetime < $currentDate) {
+    //     $dateErr = "Invalid date or time!";
+    //     header("location: add-section.php");
+    // }
+
+    // // Also validate the section number
+    // $sectionNumber = checkInput($_POST["section-num"]);
+    // if (preg_match('/^\d+$/', $sectionNumber)) {
+    //     $secNumErr = "Invalid Section Number!";
+    //     header("location: add-section.php");
+    // }
+
+    // // Second check if the section number exists
+    // if (sectionExists()) {
+    //     $secNumErr = "Section number already exists!";
+    //     header("location: add-section.php");
+    // }
+
+    // Finally add the section
+    $courseId = $_POST["course-code"];
+    $professorId = $_POST["prof-name"];
+    $sectionNum = $_POST["section-num"];
+    $buildingId = $_POST["bldng"];
+    $roomId = $_POST["room"];
+    $dateTime = $_POST["datetime"];
+
+    if (addSection($courseId, $professorId, $sectionNum, $buildingId, $roomId, $dateTime)) {
+        // display the popup screen and empty the selections or screens
+    } else {
+        // display error popup screen + do not empty the screen
+    }
+
+    // ...
+
     //     try {
     //         require("connection.php");
     //         $sql = "INSERT INTO RESERVATIONS VALUES (null, ?, ?, ?, ?, NOW())";
@@ -149,10 +194,19 @@ if (isset($_POST["add-section"])) {
                     <input type="datetime-local" name="datetime" id="datetime">
                 </div>
             </div>
-
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-secton" id="add-section" value="Add a Section!">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-section" id="add-section" value="Add a Section!">
         </form>
 
+        <?php
+        if (isset($dateErr))
+            echo "<p style='color: red; font-size: 1em;'></p>$dateErr</p>";
+        if (isset($secNumErr))
+            echo "<p style='color: red; font-size: 1em;'></p>$secNumErr</p>";
+        if (isset($sameSecErr))
+            echo "<p style='color: red; font-size: 1em;'></p>$sameSecErr</p>";
+        if ((isset($insertErr)))
+            echo "<p style='color: red; font-size: 1em;'></p>$insertErr</p>";
+        ?>
     </main>
 
     <?php require("../footer.php") ?>
