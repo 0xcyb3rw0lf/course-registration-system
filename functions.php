@@ -354,3 +354,14 @@ function getBuildingRooms($buildingId)
     $db = null;
     return $rooms;
 }
+
+/**
+ * Inserts a section into the system
+ * 
+ * @author Omar Eldanasoury
+ * @return bool true if the operation was true, otherwise false
+ */
+function addSection($cid, $pid, $secNum, $bldngId, $roomId, $datetime)
+{
+    
+}
