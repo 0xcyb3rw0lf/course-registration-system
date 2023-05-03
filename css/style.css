@@ -287,7 +287,7 @@ form input[type=time],
     font-size: 1.1em;
     background-color: white;
     color: #4056A1;
-    border-radius: 1em;
+    border-radius: 0.35em;
 }
 
 input[type=text]:focus,
