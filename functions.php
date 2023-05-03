@@ -361,7 +361,51 @@ function getBuildingRooms($buildingId)
  * @author Omar Eldanasoury
  * @return bool true if the operation was true, otherwise false
  */
-function addSection($cid, $pid, $secNum, $bldngId, $roomId, $datetime)
+function addSection($sid, $cid, $secNum, $pid, $roomId, $datetime)
 {
-    
+    try {
+        require("connection.php");
+        $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?);";
+        $db->beginTransaction();
+        $statement = $db->prepare($sql);
+        $statement->execute(array($sid, $cid, $secNum, $pid, $roomId, $datetime));
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        echo $e->getMessage() . "<br>";
+        // print_r(array($sid, $cid, $secNum, $pid, $roomId, $datetime)) . "<br>";
+        // echo "sem id: " . $sid;
+
+        $db = null;
+        return false;
+    }
+
+    if ($statement->rowCount() != 1)
+        return false;
+    echo "row count: " . $statement->rowCount();
+    return true;
+}
+
+/**
+ * Gets the id of the current semester
+ * from the database
+ * 
+ * @author Omar Eldanasoury
+ * @return mixed the id of the semester, or null if there is an error
+ */
+function getCurrentSemesterId()
+{
+    $currentSemesterId = null;
+    require("connection.php");
+    try {
+        $query = $db->query("SELECT SEM_ID FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
+        if ($sem = $query->fetch(PDO::FETCH_NUM)) {
+            $currentSemesterId =  $sem[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return $currentSemesterId;
 }
