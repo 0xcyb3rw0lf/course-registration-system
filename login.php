@@ -107,7 +107,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
 
                 // Setting the session
                 $_SESSION["activeUser"] = array($userId, $userTypeId, $currentSemesterId);
-                header("location: index.php");
+                header("location: /course-registration-system/index.php");
             } else { // if the password is wrong!
                 $loginErr = "Please enter the correct password!";
                 header("login.php");
