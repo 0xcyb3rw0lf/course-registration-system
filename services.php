@@ -65,7 +65,9 @@ function getAdminList()
         "View/Edit Course" => 'admin/',
         "Delete Course" => 'admin/',
         "Add Section" => 'admin/add-section.php',
-        "View/Edit Section" => 'admin/',
+        "View Section" => 'admin/view-section.php',
+        "Update Section" => 'admin/',
+        "Delete Section" => 'admin/delete-section.php',
     );
 }
 
