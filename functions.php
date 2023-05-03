@@ -489,3 +489,34 @@ function getCourseSections($courseId)
     $db = null;
     return $sections;
 }
+
+/**
+ * Deletes a section from the database
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed courseId
+ * @param mixed sectionId
+ * @return bool true if delete operation was successfull, otherwise false
+ */
+function deleteSection($sectionId)
+{
+    require("connection.php");
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $db->beginTransaction();
+        $sql = "DELETE FROM COURSE_SECTION WHERE SECTION_ID = ?";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($sectionId));
+        $db->commit();
+    } catch (PDOException $ex) {
+        $db->rollBack();
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        return false;
+    }
+    // closing connection with the database
+    $db = null;
+    return true;
+}
