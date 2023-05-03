@@ -409,3 +409,17 @@ function getCurrentSemesterId()
     $db = null; // closing the connection
     return $currentSemesterId;
 }
+
+/**
+ * Returns if there is a time conflict
+ * when adding a section by the admin
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed sectionDays
+ * @param mixed sectionRoom
+ * @param mixed sectionTime
+ * @return bool true if there is a time conflict, false otherwise
+ */
+function hasTimeConflict($sectionDays, $sectionRoom, $sectionTime)
+{
+}
