@@ -464,23 +464,22 @@ function createSuccessPopUp($msg)
  * 
  * @author Omar Eldanasoury
  * @param mixed courseId Course Id
- * @return mixed associative array of the section id pointing to section number
+ * @return mixed string of the section id and section num separated by @, and # is used to separate each section
  */
 function getCourseSections($courseId)
 {
     // first we get the id of current semester from the db
-    $sections = array();
+    $sections = "";
     $currentSemId = getCurrentSemesterId();
     require("connection.php");
     try {
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT SECTION_ID, SECTION_NUM FROM COURSE_SECTION WHERE SEM_ID = $currentSemId AND COURSE_ID = $courseId");
+        $query = $db->query("SELECT SECTION_ID, SEC_NUM FROM COURSE_SECTION WHERE SEM_ID = $currentSemId AND COURSE_ID = $courseId");
         while ($allSections = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $section = array($allSections[0] => $allSections[1]);
-            array_push($sections, $section);
+            $sections .= $allSections[0] . "@" . $allSections[1] . "#";
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens

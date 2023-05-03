@@ -11,7 +11,7 @@
  */
 session_start();
 require_once("../functions.php"); // already has included funcitons.php inside it
-if (isset($_GET["id"]))
-    $id = checkInput($_GET["id"]); // called checkInput() to sanitize the input from user
+if (isset($_GET["cid"]))
+    $id = checkInput($_GET["cid"]); // called checkInput() to sanitize the input from user
 
 echo getCourseSections($id);
