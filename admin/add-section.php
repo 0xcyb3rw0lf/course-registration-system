@@ -41,11 +41,12 @@ if (isset($_POST["add-section"])) {
     $buildingId = $_POST["bldng"];
     $roomId = $_POST["room"];
     $dateTime = $_POST["datetime"];
+    $days = $_POST["days"];
     $semId = getCurrentSemesterId();
     // need to reorder parameters
-    if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $dateTime)) {
+    if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime)) {
         // display the popup screen and empty the selections or screens
-        echo "true";
+        $feedback = true;
     } else {
         // display error popup screen + do not empty the screen
     }
@@ -91,6 +92,7 @@ if (isset($_POST["add-section"])) {
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/popup.scss">
     <link rel="stylesheet" href="../css/style.css" />
 
     <!-- Adding the Fonts -->
@@ -149,7 +151,7 @@ if (isset($_POST["add-section"])) {
 
                         ?>
                     </select>
-                    <br><br><br>
+                    <br><br>
                     <!-- Section Number -->
                     <label for="section-num">Section Number:</label><br><br>
                     <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
@@ -193,6 +195,14 @@ if (isset($_POST["add-section"])) {
                         ?>
                     </select>
                     <br><br><br>
+                    <label for="datetime">Days:</label><br><br>
+                    <select class="selecter" name="days" id="days">
+                        <option value="UTH">UTH</option>
+                        <option value="MW">MW</option>
+                    </select>
+                </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                     <label for="datetime">Time:</label><br><br>
                     <input type="time" name="datetime" id="datetime">
                 </div>
@@ -201,6 +211,8 @@ if (isset($_POST["add-section"])) {
         </form>
 
         <?php
+        if (isset($feedback) and $feedback == true)
+            createSuccessPopUp("Section Added Successfully!");
         if (isset($secNumErr))
             echo "<p style='color: red; font-size: 1em;'></p>$secNumErr</p>";
         if (isset($sameSecErr))
@@ -305,6 +317,17 @@ if (isset($_POST["add-section"])) {
     // function clearSectionNumber() {
     //     document.getElementById("section-number").value = "";
     // }
+</script>
+
+<!-- Script for popup -->
+<script>
+    document.getElementById('button').addEventListener('click', function() {
+        document.querySelector('.bg-modal').style.display = 'flex';
+    });
+
+    document.querySelector('.close').addEventListener('click', function() {
+        document.querySelector('.bg-modal').style.display = 'none';
+    });
 </script>
 
 </html>

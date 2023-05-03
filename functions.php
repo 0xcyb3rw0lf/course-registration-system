@@ -361,14 +361,14 @@ function getBuildingRooms($buildingId)
  * @author Omar Eldanasoury
  * @return bool true if the operation was true, otherwise false
  */
-function addSection($sid, $cid, $secNum, $pid, $roomId, $datetime)
+function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
 {
     try {
         require("connection.php");
-        $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($sid, $cid, $secNum, $pid, $roomId, $datetime));
+        $statement->execute(array($sid, $cid, $secNum, $pid, $roomId, $days, $datetime));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
@@ -410,7 +410,7 @@ function getCurrentSemesterId()
     return $currentSemesterId;
 }
 
-/**
+/** // TODO: complete the funciton
  * Returns if there is a time conflict
  * when adding a section by the admin
  * 
@@ -422,4 +422,18 @@ function getCurrentSemesterId()
  */
 function hasTimeConflict($sectionDays, $sectionRoom, $sectionTime)
 {
+}
+
+function createSuccessPopUp($msg)
+{
+    return "<div class='bg-modal'>
+<div class='modal-contents'>
+
+    <div class='close'>+</div>
+    <p>$msg</p>    
+    <a href='#' class='button'>Ok</a>
+
+</div>
+</div>
+";
 }
