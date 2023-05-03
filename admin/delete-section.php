@@ -4,10 +4,24 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
-// if (isset($_POST["delete-section"])) {
-//     require_once("../functions.php");
-//     // Finally add the section
-// }
+if (isset($_POST["delete-section"])) {
+    require_once("../functions.php");
+
+    // TODO: after user confirms (using JS)
+    // first get data
+    $cid = checkInput($_POST["course-code"]);
+    $secId = checkInput($_POST["section-number"]);
+
+    // TODO: only validate for empty values from the <select>
+    // when the user click delete button with no options selected
+
+    // then delete the section + TODO: Feedback message of success of failed
+    if (deleteSection($secId)) {
+        echo "Deleted Successfully!";
+        // TODO: SHOW FEEDBACK MESSAGES!
+    } else {
+    }
+}
 
 
 
@@ -63,24 +77,22 @@ if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be 
                                 foreach ($courses[$i] as $id => $code) {
                                     echo "<option value='" . strval($id) . "'>" . $code . "</option>";
                                 }
-
                         ?>
                     </select>
                 </div>
 
-
+                <div class="attendance-inner-flex">
+                    <!-- Section Number -->
+                    <label for="section-number">Section Number:</label><br><br>
+                    <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
+                    <select class="selecter" name="section-number" id="section-number" style="margin-left: 0">
+                        <option value="">Select a Course First</option>
+                        <!-- Will be filled by AJAX -->
+                    </select>
+                </div>
             </div>
-            <div class="attendance-flex catalogue-main">
-                <!-- Section Number -->
-                <label for="section-number">Section Number:</label><br><br>
-                <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
-                <select class="selecter" name="section-number" id="section-number" style="margin-left: 0">
-                    <option value="">Select a Course First</option>
-                    <!-- Will be filled by AJAX -->
-                </select>
-            </div>
 
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="delete-section" id="delete-section" value="Add a Section!">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="delete-section" id="delete-section" value="Delete Section">
         </form>
 
         <?php
