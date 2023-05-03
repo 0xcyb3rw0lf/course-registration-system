@@ -278,6 +278,7 @@ form input[type=password],
 form input[type=number],
 form input[type=date],
 form input[type=datetime-local],
+form input[type=time],
 .selecter {
     padding: 0.75em 1em;
     border: 1px solid #4056A1;

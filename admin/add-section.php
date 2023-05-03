@@ -1,8 +1,9 @@
 <?php
 
-session_start(); // for the header
+session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
-    header("location: login.php");
+    header("location: /course-registration-system/login.php");
+
 if (isset($_POST["add-section"])) {
     require_once("../functions.php");
     // input validation is done later
@@ -40,9 +41,11 @@ if (isset($_POST["add-section"])) {
     $buildingId = $_POST["bldng"];
     $roomId = $_POST["room"];
     $dateTime = $_POST["datetime"];
-
-    if (addSection($courseId, $professorId, $sectionNum, $buildingId, $roomId, $dateTime)) {
+    $semId = getCurrentSemesterId();
+    // need to reorder parameters
+    if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $dateTime)) {
         // display the popup screen and empty the selections or screens
+        echo "true";
     } else {
         // display error popup screen + do not empty the screen
     }
@@ -190,16 +193,14 @@ if (isset($_POST["add-section"])) {
                         ?>
                     </select>
                     <br><br><br>
-                    <label for="datetime">Date and Time:</label><br><br>
-                    <input type="datetime-local" name="datetime" id="datetime">
+                    <label for="datetime">Time:</label><br><br>
+                    <input type="time" name="datetime" id="datetime">
                 </div>
             </div>
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-section" id="add-section" value="Add a Section!">
         </form>
 
         <?php
-        if (isset($dateErr))
-            echo "<p style='color: red; font-size: 1em;'></p>$dateErr</p>";
         if (isset($secNumErr))
             echo "<p style='color: red; font-size: 1em;'></p>$secNumErr</p>";
         if (isset($sameSecErr))
