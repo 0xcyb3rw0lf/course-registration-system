@@ -363,6 +363,9 @@ function getBuildingRooms($buildingId)
  */
 function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
 {
+    if (hasTimeConflict($days, $roomId, $datetime))
+        throw new Exception();
+
     try {
         require("connection.php");
         $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
@@ -411,17 +414,33 @@ function getCurrentSemesterId()
 }
 
 /** // TODO: complete the funciton
+ * // TODO: do the pop up menus using ajax, and js
  * Returns if there is a time conflict
  * when adding a section by the admin
  * 
  * @author Omar Eldanasoury
  * @param mixed sectionDays
- * @param mixed sectionRoom
+ * @param mixed sectionRoomId
  * @param mixed sectionTime
  * @return bool true if there is a time conflict, false otherwise
  */
-function hasTimeConflict($sectionDays, $sectionRoom, $sectionTime)
+function hasTimeConflict($sectionDays, $sectionRoomId, $sectionTime)
 {
+    $count = 0;
+    require("connection.php");
+    try {
+        $query = $db->query("SELECT COUNT(*) FROM COURSE_SECTION WHERE LEC_DAYS = $sectionDays AND ROOM_ID = $sectionRoomId AND LEC_TIME = $sectionTime");
+        if ($result = $query->fetch(PDO::FETCH_NUM)) {
+            $count =  $result[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    if ($count != 0) // if there are sections with the same time
+        return true; // there is a conflict
+    return false; // otherwise, there is no conflict
 }
 
 function createSuccessPopUp($msg)

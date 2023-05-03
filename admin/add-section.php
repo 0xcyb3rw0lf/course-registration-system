@@ -44,12 +44,18 @@ if (isset($_POST["add-section"])) {
     $days = $_POST["days"];
     $semId = getCurrentSemesterId();
     // need to reorder parameters
-    if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime)) {
-        // display the popup screen and empty the selections or screens
-        $feedback = true;
-    } else {
-        // display error popup screen + do not empty the screen
+    // here we use try catch statement to handle when the admin enter
+    // the section with time conflict
+    try {
+        if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime)) {
+            // display the popup screen and empty the selections or screens
+            $feedback = true;
+        } else {
+            // display error popup screen + do not empty the screen
+        }
+    } catch (Exception $timeConflict) {
     }
+
 
     // ...
 
@@ -92,7 +98,6 @@ if (isset($_POST["add-section"])) {
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/popup.scss">
     <link rel="stylesheet" href="../css/style.css" />
 
     <!-- Adding the Fonts -->
