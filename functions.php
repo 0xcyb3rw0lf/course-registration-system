@@ -535,7 +535,7 @@ function getProfessorCourses($professorId)
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT COURSE_ID, COURSE_CODE FROM COURSE_SECTION AS CS, COURSE AS C WHERE C.COURSE_ID = CS.COURSE_ID AND CS.PROFESSOR_ID = $professorId AND CS.SEM_ID = $currentSemesterId");
+        $query = $db->query("SELECT CS.COURSE_ID, C.COURSE_CODE FROM COURSE_SECTION AS CS, COURSE AS C WHERE C.COURSE_ID = CS.COURSE_ID AND CS.PROFESSOR_ID = $professorId AND CS.SEM_ID = $currentSemesterId");
         while ($idAndCode = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
             $course = array($idAndCode[0] => $idAndCode[1]);
