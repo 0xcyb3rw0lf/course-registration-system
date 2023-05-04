@@ -526,6 +526,8 @@ function deleteSection($sectionId)
  * is teaching in the current semester
  * 
  * @author Omar Eldanasoury
+ * @param mixed $professorId the user(professor) id in the system
+ * @return mixed an associative array of course id pointing to course code if the professor has courses, otherwise it returns empty array
  */
 function getProfessorCourses($professorId)
 {
