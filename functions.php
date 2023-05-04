@@ -552,11 +552,34 @@ function getProfessorCourses($professorId)
     return $courses;
 }
 /**
- * Get sections that the professor teaches in
- * the current semester
+ * Returns the sections that current professor
+ * is teaching in the current semester
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $professorId the user(professor) id in the system
+ * @param mixed $courseId the id of the course that the professor want to retrieve its sections
+ * @return mixed a string that has the section id + "@" + section num + "#", the # separates each section data
  */
-function getProfessorSections()
+function getProfessorSections($professorId, $courseId)
 {
+    $currentSemesterId = getCurrentSemesterId();
+    $sections = "";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT SECTION_ID, SEC_NUM FROM COURSE_SECTION WHERE PROFESSOR_ID = $professorId AND SEM_ID = $currentSemesterId AND COURSE_ID = $courseId");
+        while ($idAndNum = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $sections .= $idAndNum[0] . "@" . $idAndNum[1] . "#";
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $sections;
 }
 
 /**
