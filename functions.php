@@ -520,3 +520,46 @@ function deleteSection($sectionId)
     $db = null;
     return true;
 }
+
+/**
+ * Returns the courses that current professor
+ * is teaching in the current semester
+ * 
+ * @author Omar Eldanasoury
+ */
+function getProfessorCourses($professorId)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT COURSE_ID, COURSE_CODE FROM COURSE_SECTION AS CS, COURSE AS C WHERE C.COURSE_ID = CS.COURSE_ID AND CS.PROFESSOR_ID = $professorId AND CS.SEM_ID = $currentSemesterId");
+        while ($idAndCode = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $course = array($idAndCode[0] => $idAndCode[1]);
+            array_push($courses, $course);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
+}
+/**
+ * Get sections that the professor teaches in
+ * the current semester
+ */
+function getProfessorSections()
+{
+}
+
+/**
+ * Gets the list of students in the section
+ */
+function getSectionStudents($sectionId)
+{
+}
