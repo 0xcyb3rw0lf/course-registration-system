@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Manage Attendance Page
+ * Allows the professor user to 
+ * add/update/delete students'
+ * attendance in the system
+ * 
+ * @author Omar Eldanasoury 
+ */
 // session_start(); // for the header
 // if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
 //     header("location: signin.php");

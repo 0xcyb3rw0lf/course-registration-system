@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * View Section Page
+ * Allows the professor user to 
+ * view students and their information
+ * in sections he/she is teaching
+ * 
+ * @author Omar Eldanasoury 
+ */
 session_start();
 
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page

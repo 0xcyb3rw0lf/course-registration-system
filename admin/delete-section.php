@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Delete Section Page
+ * Allows the admin user to 
+ * delete sections from the system
+ * 
+ * @author Omar Eldanasoury 
+ */
+
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
