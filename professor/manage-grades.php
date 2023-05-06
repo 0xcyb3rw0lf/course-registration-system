@@ -22,41 +22,29 @@ if (isset($_POST["manage-grades"])) {
     $secId = checkInput($_POST["section-number"]);
     $_SESSION["section"] = $secId;
 
-    if ($cid == "" or $secId == "") {
-        $feedbackMsg = "<span style='failed-feedback'>Please select a course and a section!</span>";
-        header("location: /course-registration-system/professor/manage-grades.php");
+    if ($cid == "" or $secId == "") { // if the user didn't choose a value for the course or the section
+        $feedbackMsg = "<span class='failed-feedback'>Please select a course and a section!</span>";
+    } else {
+        $students = getStudentsGrades($secId);
+        $tableBody = "";
+
+        // generating the table body based on the data
+        $eachStudent = preg_split("/#/", $students);
+        foreach ($eachStudent as $studentData) {
+            $piecesOfData = preg_split("/@/", $studentData);
+            // add the complete table row for each student to the table body
+            if ($piecesOfData[0] == "")
+                continue; // solves the null issue, where it prints empty values
+            // $piecesOfData[0] = id
+            // $piecesOfData[1] = name
+            // $piecesOfData[2] = grade
+            $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
+                . $piecesOfData[1] . "</td>\n<td>"
+                . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" step=".01" name="grade[]" value="' . $piecesOfData[2] . '" />'
+                //below, we store the id of the student
+                . "\n<input type='hidden' name='student-id[]' value='" . $piecesOfData[0] . "'/>\n</td>\n</tr>";
+        } // after this, the table will shown as html
     }
-
-    $students = getStudentsGrades($secId);
-    $tableBody = "";
-
-    // generating the table body based on the data
-    $eachStudent = preg_split("/#/", $students);
-    // echo print_r($eachStudent);
-    foreach ($eachStudent as $studentData) {
-        $piecesOfData = preg_split("/@/", $studentData);
-        // echo print_r($piecesOfData);
-        // add the complete table row for each student to the table body
-        if ($piecesOfData[0] == "")
-            continue; // solves the null issue, where it prints empty values
-        // $piecesOfData[0] = id
-        // $piecesOfData[1] = name
-        // $piecesOfData[2] = grade
-        $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
-            . $piecesOfData[1] . "</td>\n<td>"
-            . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" step=".01" name="grade[]" value="' . $piecesOfData[2] . '" />'
-            //below, we store the id of the student
-            . "\n<input type='hidden' name='student-id[]' value='" . $piecesOfData[0] . "'/>\n</td>\n</tr>";
-    } // after this, the table will shown as html
-    // TODO: only validate for empty values from the <select>
-    // when the user click delete button with no options selected
-
-    // then delete the section + TODO: Feedback message of success of failed
-    // if () {
-    //     echo "Deleted Successfully!";
-    //     // TODO: SHOW FEEDBACK MESSAGES!
-    // } else {
-    // }
 }
 
 // Now submitting the grade into the db
@@ -64,15 +52,22 @@ if (isset($_POST["update-grades"])) {
     $sectionId = $_SESSION["section"];
     $grades = $_POST["grade"]; // now we have the list of grades
     $ids = $_POST["student-id"];
-    if (count($grades) == 0) {
-        $feedbackMsg = "<span class='failed-feedback'>Please enter grades for students!</span>";
-        header("/course-registration-system/professor/manage-grades.php");
-    }
 
-    if (updateGrade($sectionId, $ids, $grades)) {
-        $feedbackMsg = "<span class='success-feedback'>Grades Updated Successfully!</span>";
+    $hasEmptyGrade = false; // check if it has a place were there is no grade
+    for ($i = 0; $i < count($grades); $i++)
+        if ($grades[$i] == "") {
+            $hasEmptyGrade = true;
+            break;
+        }
+
+    if ($hasEmptyGrade) {
+        $feedbackMsg = "<span class='failed-feedback'>Please enter grades for all students!</span>";
     } else {
-        $feedbackMsg = "<span class='failed-feedback'>Error Updating Grades!</span>";
+        if (updateGrade($sectionId, $ids, $grades)) {
+            $feedbackMsg = "<span class='success-feedback'>Grades Updated Successfully!</span>";
+        } else {
+            $feedbackMsg = "<span class='failed-feedback'>Error Updating Grades!</span>";
+        }
     }
 }
 
