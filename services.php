@@ -12,10 +12,10 @@ function getProfessorList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Manage Grades" => "professor/professor-grades.php",
-        "Manage Appealing Requests" => "professor/professor-grades.php",
-        "Manage Attendance" => 'professor/professor-view-section.php',
-        "View Section" => 'professor/professor-view-section.php',
+        "Manage Grades" => "professor/manage-grades.php",
+        "Manage Appealing Requests" => "professor/appeal-requests.php",
+        "Manage Attendance" => 'professor/manage-attendance.php',
+        "View Section" => 'professor/view-section.php',
     );
 }
 
