@@ -584,6 +584,10 @@ function getProfessorSections($professorId, $courseId)
 
 /**
  * Gets the list of students in the section
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionId the id of the section
+ * @return string string of students, each student is separated by #, and data is separated by @
  */
 function getSectionStudents($sectionId)
 {
@@ -608,3 +612,72 @@ function getSectionStudents($sectionId)
     $db = null;
     return $students;
 }
+
+/**
+ * Returns the student informaiton
+ * as well as the grade of each student,
+ * as a number
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionId id of the section of students
+ * @return string string of students, each student is separated by #, and data is separated by @
+ */
+function getStudentsGrades($sectionId)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    $students = "";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.GRADE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId");
+        while ($studentData = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+
+            // if the grde is not enterned yet, it is shown to professor as -1
+            // if he/she tried to insert this as the grade as -1, input validation will prevent this
+            $grade = $studentData[2] == "" ? "-1" : $studentData[2];
+            $students .= $studentData[0] . "@" . $studentData[1] . "@" . $grade . "#";
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $students;
+}
+
+// function encodeGrade($grade)
+// {
+//     //   TODO: ADD COMMENT PHP DOC AND FIX THE RANGES
+//     // GRADES ARE STORED IN THE DB AS NUMBERS
+//     // THEY ARE DISPLAYED TO PROFESSORS AS NUMBERS
+//     // AND TO STUDENTS AS LETTERS
+
+//     if ($grade >= 90 and $grade <= 100)
+//         return "A";
+//     else if ($grade >= 87 and $grade <= 89)
+//         return "A-";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "B+";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "B";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "B-";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "C+";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "C";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "C-";
+//     else if ($grade >= 90 and $grade <= 100)
+//         return "D";
+//     else if ($grade <= 59)
+//         return "F";
+// }
+
+// // transforms the letter to a value to help calculate the gpa
+// function decodeGrade()
+// {
+// }

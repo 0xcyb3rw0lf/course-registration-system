@@ -15,7 +15,7 @@ if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be 
 
 require_once("../functions.php");
 echo getSectionStudents(4);
-if (isset($_POST["view-section"])) {
+if (isset($_POST["manage-grades"])) {
 
     // TODO: after user confirms (using JS)
     // first get data
@@ -29,7 +29,7 @@ if (isset($_POST["view-section"])) {
         $errMsg = "<span style='color: red;'>Please select a course and a section!</span>";
     }
 
-    $students = getSectionStudents($secId);
+    $students = getStudentsGrades($secId);
     $tableBody = "";
 
     // generating the table body based on the data
@@ -43,9 +43,8 @@ if (isset($_POST["view-section"])) {
             continue; // solves the null issue, where it prints empty values
         $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
             . $piecesOfData[1] . "</td>\n<td>"
-            . $piecesOfData[2] . "</td>\n<td>"
-            . $piecesOfData[3] . "</td>\n<td>"
-            . $piecesOfData[4] . "</td>\n</tr>";
+            . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" name="grade" value="' . $piecesOfData[2] . '" />'
+            . "</td>\n</tr>";
     } // after this, the table will shown as html
     // TODO: only validate for empty values from the <select>
     // when the user click delete button with no options selected
@@ -70,7 +69,7 @@ if (isset($_POST["view-section"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Section</title>
+    <title>Manage Grades</title>
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="../css/reset.css">
@@ -135,7 +134,7 @@ if (isset($_POST["view-section"])) {
                 </div>
             </div>
 
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="view-section" id="view-section" value="View Section">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="manage-grades" id="manage-grades" value="View Student's Grades">
         </form>
 
         <?php
@@ -157,36 +156,16 @@ if (isset($_POST["view-section"])) {
                     <tr>
                         <th class="th-color">Student ID</th>
                         <th class="th-color">Student Name</th>
-                        <th class="th-color">Absense Rate</th>
                         <th class="th-color">Grade</th>
-                        <th class="th-color">Appeal Request?</th>
-
-
 
                     </tr>
                 </thead>
-                <tbody id="newRow">
+                <tbody>
                     <!--  Here we add the dynamic content from the database -->
                     <?php
-                    if (isset($tableBody)) {
+                    if (isset($tableBody))
                         echo $tableBody;
-                    }
                     ?>
-                    <!-- <tr>
-                        <td>20200000</td>
-                        <td>Name</td>
-                        <td>1.4%</td>
-                        <td>A-</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>20200000</td>
-                        <td>Name</td>
-                        <td>1.4%</td>
-                        <td>A-</td>
-                        <td>No</td>
-                    </tr> -->
-
                 </tbody>
             </table>
         </div>
