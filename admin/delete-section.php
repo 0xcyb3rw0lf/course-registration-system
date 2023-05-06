@@ -14,20 +14,20 @@ if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be 
 
 if (isset($_POST["delete-section"])) {
     require_once("../functions.php");
-
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
 
-    // TODO: only validate for empty values from the <select>
-    // when the user click delete button with no options selected
-
-    // then delete the section + TODO: Feedback message of success of failed
-    if (deleteSection($secId)) {
-        echo "Deleted Successfully!";
-        // TODO: SHOW FEEDBACK MESSAGES!
+    // then validate user input
+    if ($cid == "" or $secId == "") { // if the user didn't choose a value for the course or the section
+        $feedbackMsg = "<span class='failed-feedback'>Please select a course and a section!</span>";
     } else {
+        // then delete the section
+        if (deleteSection($secId)) {
+            $feedbackMsg = "<span class='success-feedback'>Section is deleted successfully!</span>";
+        } else {
+            $feedbackMsg = "<span class='failed-feedback'>Error deleting seciton<br>Please try again later!</span>";
+        }
     }
 }
 
@@ -100,19 +100,15 @@ if (isset($_POST["delete-section"])) {
                 </div>
             </div>
 
-            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="delete-section" id="delete-section" value="Delete Section">
+            <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" onclick="return confirm('Are you sure you want to delete this section?')" name="delete-section" id="delete-section" value="Delete Section">
+            <?php
+            if (isset($feedbackMsg)) {
+                echo $feedbackMsg;
+                unset($feedbackMsg);
+            }
+            ?>
         </form>
 
-        <?php
-        if (isset($feedback) and $feedback == true)
-            createSuccessPopUp("Section Added Successfully!");
-        if (isset($secNumErr))
-            echo "<p style='color: red; font-size: 1em;'></p>$secNumErr</p>";
-        if (isset($sameSecErr))
-            echo "<p style='color: red; font-size: 1em;'></p>$sameSecErr</p>";
-        if ((isset($insertErr)))
-            echo "<p style='color: red; font-size: 1em;'></p>$insertErr</p>";
-        ?>
     </main>
 
     <?php require("../footer.php") ?>
@@ -165,17 +161,6 @@ if (isset($_POST["delete-section"])) {
         document.getElementById("section-number").innerHTML = "<option value=''>Select a Section</option>";
 
     }
-</script>
-
-<!-- Script for popup -->
-<script>
-    document.getElementById('button').addEventListener('click', function() {
-        document.querySelector('.bg-modal').style.display = 'flex';
-    });
-
-    document.querySelector('.close').addEventListener('click', function() {
-        document.querySelector('.bg-modal').style.display = 'none';
-    });
 </script>
 
 </html>
