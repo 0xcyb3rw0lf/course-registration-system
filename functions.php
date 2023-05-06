@@ -648,6 +648,53 @@ function getStudentsGrades($sectionId)
     return $students;
 }
 
+/**
+ * Updates the grade of student
+ * in the database
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId id of the student
+ */
+function updateGrade($sectionId, $studentIds, $studentGrades)
+{
+    $currentSemesterId = intval(getCurrentSemesterId());
+    require("connection.php");
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $sql = "UPDATE REGISTRATION_COURSES SET GRADE = ? WHERE SEM_ID = ? AND SECTION_ID = ? AND STUDENT_ID = ?;";
+        $statement = $db->prepare($sql);
+
+        // foucs here
+        // $studentId = intval($studentId);
+        $sectionId = intval($sectionId);
+        // $studentGrade = intval($studentGrade);
+        $statement->bindParam(1, $studentGrade);
+        $statement->bindParam(2, $currentSemesterId);
+        $statement->bindParam(3, $sectionId);
+        $statement->bindParam(4, $studentId);
+        for ($i = 0; $i < count($studentIds); $i++) {
+            $db->beginTransaction();
+            $studentId = $studentIds[$i];
+            $studentGrade = $studentGrades[$i];
+            $statement->execute();
+            $db->commit();
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        $db->rollBack();
+        return false;
+    }
+    // closing connection with the database
+    $db = null;
+    return true;
+}
+
+/**
+ * Gets
+ */
 // function encodeGrade($grade)
 // {
 //     //   TODO: ADD COMMENT PHP DOC AND FIX THE RANGES
