@@ -5,6 +5,7 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+$errMsg = "";
 if (isset($_POST["view-section"])) {
     require_once("../functions.php");
 
@@ -13,8 +14,6 @@ if (isset($_POST["view-section"])) {
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
 
-    $errMsg = "";
-    unset($errMsg);
     if ($cid == "" or $secId == "") {
         $errMsg = "<span style='color: red;'>Please select a course and a section!</span>";
         header("location: view-section.php");
@@ -123,6 +122,10 @@ if (isset($_POST["view-section"])) {
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="view-section" id="view-section" value="View Section">
         </form>
+        <?php
+        if ($errMsg != "") echo $errMsg;
+        unset($errMsg);
+        ?>
 
         <?php
         // if (isset($feedback) and $feedback == true)
