@@ -655,6 +655,7 @@ tr:nth-child(odd) {
     border-radius: 0.5em;
     margin-top: 1.5em;
     margin-right: auto;
+    border-left: 10px solid darkgreen;
 }
 
 .failed-feedback {
@@ -664,6 +665,7 @@ tr:nth-child(odd) {
     border-radius: 0.5em;
     margin-top: 1.5em;
     margin-right: auto;
+    border-left: 10px solid #72190c;
 }
 
 /* End of styles for feedback messages */
