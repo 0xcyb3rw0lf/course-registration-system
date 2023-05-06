@@ -180,7 +180,7 @@ if (isset($_POST["update-grades"])) {
                 </table>
                 <br><br><br>
                 <input <?php if (isset($tableBody)) echo "style='visibility: visible; width: 35%;'";
-                        else echo "style='visibility: hidden;'" ?> type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-grades" id="update-grades" value="Update Student's Grades">
+                        else echo "style='visibility: hidden;'" ?> onclick="return confirm('Do you want to update the grades for this section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-grades" id="update-grades" value="Update Student's Grades">
             </form>
         </div>
     </main>
