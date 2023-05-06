@@ -43,7 +43,7 @@ if (isset($_POST["manage-grades"])) {
             continue; // solves the null issue, where it prints empty values
         $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
             . $piecesOfData[1] . "</td>\n<td>"
-            . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" name="grade" value="' . $piecesOfData[2] . '" />'
+            . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" step=".01" name="grade" value="' . $piecesOfData[2] . '" />'
             . "</td>\n</tr>";
     } // after this, the table will shown as html
     // TODO: only validate for empty values from the <select>
@@ -55,6 +55,10 @@ if (isset($_POST["manage-grades"])) {
     //     // TODO: SHOW FEEDBACK MESSAGES!
     // } else {
     // }
+}
+
+// Now submitting the grade into the db
+if (isset($_POST["update-grades"])) {
 }
 
 
@@ -104,7 +108,7 @@ if (isset($_POST["manage-grades"])) {
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">View Section</h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">Manage Grades</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
                 <!-- Course Code and Section Number -->
@@ -150,24 +154,29 @@ if (isset($_POST["manage-grades"])) {
 
         <!-- The Table of students list -->
         <div class="catalogue-main" style="margin-bottom: 2em;">
-            <table id="displayTable" <?php if (isset($tableBody)) echo "style='visibility: visible;'";
-                                        else echo "style='visibility: hidden;'" ?>>
-                <thead>
-                    <tr>
-                        <th class="th-color">Student ID</th>
-                        <th class="th-color">Student Name</th>
-                        <th class="th-color">Grade</th>
+            <form method="post" class="form" style="margin-left: 2.75em;  text-align: center;">
+                <table id="displayTable" <?php if (isset($tableBody)) echo "style='visibility: visible; margin: 0;'";
+                                            else echo "style='visibility: hidden;'" ?>>
+                    <thead>
+                        <tr>
+                            <th class="th-color">Student ID</th>
+                            <th class="th-color">Student Name</th>
+                            <th class="th-color">Grade</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--  Here we add the dynamic content from the database -->
-                    <?php
-                    if (isset($tableBody))
-                        echo $tableBody;
-                    ?>
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--  Here we add the dynamic content from the database -->
+                        <?php
+                        if (isset($tableBody))
+                            echo $tableBody;
+                        ?>
+                    </tbody>
+                </table>
+                <br><br><br>
+                <input <?php if (isset($tableBody)) echo "style='visibility: visible; width: 35%;'";
+                        else echo "style='visibility: hidden;'" ?> type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-grades" id="update-grades" value="Update Student's Grades">
+            </form>
         </div>
     </main>
 
