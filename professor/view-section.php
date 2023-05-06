@@ -22,42 +22,29 @@ if (isset($_POST["view-section"])) {
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
 
-    if ($cid == "" or $secId == "") {
-        $errMsg = "<span style='color: red;'>Please select a course and a section!</span>";
-        header("location: view-section.php");
+    if ($cid == "" or $secId == "") { // if the user didn't choose a value for the course or the section
+        $feedbackMsg = "<span class='failed-feedback'>Please select a course and a section!</span>";
+    } else {
+        $students = getSectionStudents($secId);
+        $tableBody = "";
+
+        // generating the table body based on the data
+        $eachStudent = preg_split("/#/", $students);
+        // echo print_r($eachStudent);
+        foreach ($eachStudent as $studentData) {
+            $piecesOfData = preg_split("/@/", $studentData);
+            // echo print_r($piecesOfData);
+            // add the complete table row for each student to the table body
+            if ($piecesOfData[0] == "")
+                continue; // solves the null issue, where it prints empty values
+            $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
+                . $piecesOfData[1] . "</td>\n<td>"
+                . $piecesOfData[2] . "</td>\n<td>"
+                . $piecesOfData[3] . "</td>\n<td>"
+                . $piecesOfData[4] . "</td>\n</tr>";
+        } // after this, the table will shown as html
     }
-
-    $students = getSectionStudents($secId);
-    $tableBody = "";
-
-    // generating the table body based on the data
-    $eachStudent = preg_split("/#/", $students);
-    // echo print_r($eachStudent);
-    foreach ($eachStudent as $studentData) {
-        $piecesOfData = preg_split("/@/", $studentData);
-        // echo print_r($piecesOfData);
-        // add the complete table row for each student to the table body
-        if ($piecesOfData[0] == "")
-            continue; // solves the null issue, where it prints empty values
-        $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
-            . $piecesOfData[1] . "</td>\n<td>"
-            . $piecesOfData[2] . "</td>\n<td>"
-            . $piecesOfData[3] . "</td>\n<td>"
-            . $piecesOfData[4] . "</td>\n</tr>";
-    } // after this, the table will shown as html
-    // TODO: only validate for empty values from the <select>
-    // when the user click delete button with no options selected
-
-    // then delete the section + TODO: Feedback message of success of failed
-    // if () {
-    //     echo "Deleted Successfully!";
-    //     // TODO: SHOW FEEDBACK MESSAGES!
-    // } else {
-    // }
 }
-
-
-
 ?>
 
 
@@ -129,22 +116,13 @@ if (isset($_POST["view-section"])) {
             </div>
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="view-section" id="view-section" value="View Section">
+            <?php
+            if (isset($feedbackMsg)) {
+                echo $feedbackMsg;
+                unset($feedbackMsg);
+            }
+            ?>
         </form>
-        <?php
-        if ($errMsg != "") echo $errMsg;
-        unset($errMsg);
-        ?>
-
-        <?php
-        // if (isset($feedback) and $feedback == true)
-        //     createSuccessPopUp("Section Added Successfully!");
-        // if (isset($secNumErr))
-        //     echo "<p style='color: red; font-size: 1em;'></p>$secNumErr</p>";
-        // if (isset($sameSecErr))
-        //     echo "<p style='color: red; font-size: 1em;'></p>$sameSecErr</p>";
-        // if ((isset($insertErr)))
-        //     echo "<p style='color: red; font-size: 1em;'></p>$insertErr</p>";
-        ?>
 
         <!-- The Table of students list -->
         <div class="catalogue-main" style="margin-bottom: 2em;">
@@ -225,85 +203,6 @@ if (isset($_POST["view-section"])) {
         document.getElementById("section-number").innerHTML = "<option value=''>Select a Section</option>";
 
     }
-</script>
-
-
-<!-- <script>
-    // *************************************** NEXT: AJAX code to get student's list
-    /**@function getSection
-     * gets the successive section number to be added
-     * for a particular course id; using AJAX.
-     * 
-     * @author Omar Eldanasoury
-     */
-    function showStudents(sectionId) {
-        if (sectionId == "") {
-            return;
-        }
-
-        let request2 = new XMLHttpRequest();
-        request2.onload = showStudentsTable;
-        request2.open("GET", "getStudentsList.php?sectionId=" + sectionId);
-        request2.send();
-    }
-
-    /**@function showSection
-     * Shows the section number
-     * retrieved from the database
-     * to the user through html.
-     */
-    function showStudentsTable() {
-        clearStudentsTable();
-        console.log(this.responseText);
-        console.log("code: " + this.status);
-        console.log(this.status);
-        console.log("ready state = " + this.readyState);
-        if (this.responseText.length == 0) {
-            document.getElementById("newRow").innerHTML += "\nSection is empty!";
-            return;
-        }
-        results = this.responseText.split("#");
-        showStudentsTable();
-        for (let result of results) {
-            studentData = result.split("@");
-            if (studentData[0] == '')
-                continue;
-            document.getElementById("newRow").innerHTML += "\n<tr>\n<td>" + studentData[0] + "</td>\n<td>" + studentData[1] + "</td>\n<td>" + studentData[2] + "</td>\n<td>" + studentData[3] + "</td>\n<td>" + studentData[4] + "</td>\n</tr>";
-        }
-
-        // if (isStudentsTableHidden())
-        //     showStudentsTable();
-    }
-
-    /**@function clearSectionNumber
-     * clears the html that shows the students table
-     */
-    function clearStudentsTable() {
-        document.getElementById("newRow").innerHTML = "";
-
-    }
-
-    function hideStudentsTable() {
-        document.getElementById("displayTable").style.display = "hidden";
-    }
-
-    function showStudentsTable() {
-        document.getElementById("displayTable").style.visibility = "visible";
-    }
-
-    function isStudentsTableHidden() {
-        return document.getElementById("displayTable").style.visibility === "hidden";
-    }
-</script> -->
-<!-- Script for popup -->
-<script>
-    document.getElementById('button').addEventListener('click', function() {
-        document.querySelector('.bg-modal').style.display = 'flex';
-    });
-
-    document.querySelector('.close').addEventListener('click', function() {
-        document.querySelector('.bg-modal').style.display = 'none';
-    });
 </script>
 
 </html>
