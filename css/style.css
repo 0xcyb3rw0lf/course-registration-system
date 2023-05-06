@@ -646,6 +646,28 @@ tr:nth-child(odd) {
 
 /* End of style for displaying tables */
 
+
+/* Start of styles for feedback messages */
+.success-feedback {
+    color: green;
+    background-color: lightgreen;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    margin-top: 1.5em;
+    margin-right: auto;
+}
+
+.failed-feedback {
+    color: darkred;
+    background-color: #FF7276;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+    margin-top: 1.5em;
+    margin-right: auto;
+}
+
+/* End of styles for feedback messages */
+
 /* Start of style for screens less than 1100px  */
 @media (max-width: 1100px) {
 
