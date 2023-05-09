@@ -84,6 +84,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                  * - User Type ID
                  * - Current Semester ID
                  * 
+                 * 
                  * we need to query the database to get sem_id
                  * NOTE + TODO: there are two functions that help us get
                  * the name of the current semester + a function
@@ -105,7 +106,12 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                     header("login.php");
                 }
 
-                // Setting the session
+                // Setting the session(s)
+                $_SESSION["userType"] = getUserTypeAsText($userTypeId); // this makes it easier
+                // to manage authorization based on the user type, so instead of querying
+                // the database each time to check the user type, we store the text in this
+                // session variable accross the whole web application.
+
                 $_SESSION["activeUser"] = array($userId, $userTypeId, $currentSemesterId);
                 header("location: /course-registration-system/index.php");
             } else { // if the password is wrong!
