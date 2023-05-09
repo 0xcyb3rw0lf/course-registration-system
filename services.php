@@ -31,7 +31,7 @@ function getStudentList()
     return array(
         // TODO: Fill the paths of these pages
         "Course Registration" => "student/",
-        "Course Schedule" => "student/",
+        "View Course Schedule" => "student/",
         "View Grades" => 'student/',
         "View Attendance" => 'student/',
         "View Transcript" => 'student/',
@@ -58,7 +58,8 @@ function getAdminList()
         "Delete Users" => "admin/",
         "View/Update Users" => 'admin/',
         // *********
-        "Manage Rooms" => 'admin/',
+        "Add Room" => 'admin/',
+        "Delete Room" => 'admin/',
         "Generate Reports" => 'admin/',
         "Manage Semesters" => 'admin/',
         "Add Course" => 'admin/',
@@ -66,7 +67,7 @@ function getAdminList()
         "Delete Course" => 'admin/',
         "Add Section" => 'admin/add-section.php',
         "View Section" => 'admin/view-section.php',
-        "Update Section" => 'admin/',
+        "Update Section" => 'admin/update-section.php',
         "Delete Section" => 'admin/delete-section.php',
     );
 }
