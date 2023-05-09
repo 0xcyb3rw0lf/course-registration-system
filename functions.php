@@ -39,7 +39,7 @@ function getUserName($userId)
     $username = null;
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT USERNAME FROM USERS WHERE USER_ID = $userId");
         if ($query->rowCount() != 0 and $name = $query->fetch(PDO::FETCH_NUM)) {
@@ -70,7 +70,7 @@ function getMajorName($userId, $userType)
     if ($userType == "student") { // only student users has major, other users do not
         try {
             // establishing connection
-            require("connection.php");
+            require_once("connection.php");
             // setting and running the query
             $query = $db->query("SELECT PC.PROGRAM_NAME FROM STUDENT_INFO AS SI, PROGRAM_COLLEGE AS PC WHERE SI.STUDENT_ID = $userId AND SI.PROG_ID = PC.PROGRAM_ID");
             if ($program = $query->fetch(PDO::FETCH_NUM)) {
@@ -101,7 +101,7 @@ function getSemesterName($semId)
     $semName = "";
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = "SELECT SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS'";
         $rows = $db->prepare($query);
@@ -133,7 +133,7 @@ function getUserTypeAsText($userTypeId)
     $type = null;
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT USER_TYPE FROM USER_TYPE WHERE TYPE_ID = $userTypeId");
         if ($result = $query->fetch(PDO::FETCH_NUM)) {
@@ -164,7 +164,7 @@ function getCollegeName($userId, $userType)
     if ($userType != 'admin') {
         try {
             // establishing connection
-            require("connection.php");
+            require_once("connection.php");
             // setting and running the query
             $query = $db->query("SELECT COLLEGE_NAME FROM COLLEGE AS C, USERS AS U WHERE C.COLLEGE_ID = U.COLLEGE_ID AND USER_ID = $userId");
             if ($result = $query->fetch(PDO::FETCH_NUM)) {
@@ -195,7 +195,7 @@ function getDepartmentName($userId, $userType)
     if ($userType != 'admin') {
         try {
             // establishing connection
-            require("connection.php");
+            require_once("connection.php");
             // setting and running the query
             $query = $db->query("SELECT DEP_NAME FROM DEPARTMENT AS D, USERS AS U WHERE D.DEP_ID = U.DEP_ID AND USER_ID = $userId");
             if ($result = $query->fetch(PDO::FETCH_NUM)) {
@@ -223,7 +223,7 @@ function getCourses()
     $courses = array();
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT COURSE_ID, COURSE_CODE FROM COURSE ORDER BY COURSE_ID");
         while ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
@@ -252,7 +252,7 @@ function getProfessorNames()
     $names = array();
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT USER_ID, USERNAME FROM USERS WHERE TYPE_ID = 1");
         while ($allNames = $query->fetch(PDO::FETCH_NUM)) {
@@ -281,7 +281,7 @@ function getBuildings()
     $buildings = array();
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT * FROM BUILDING");
         while ($allBldngs = $query->fetch(PDO::FETCH_NUM)) {
@@ -310,7 +310,7 @@ function getRooms()
     $rooms = array();
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT ROOM_ID, ROOM_NAME FROM ROOM");
         while ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
@@ -339,7 +339,7 @@ function getBuildingRooms($buildingId)
     $rooms = "";
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT ROOM_ID, ROOM_NAME FROM ROOM WHERE BUILDING_ID = $buildingId");
         while ($allRooms = $query->fetch(PDO::FETCH_NUM)) {
@@ -367,7 +367,7 @@ function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
         throw new Exception();
 
     try {
-        require("connection.php");
+        require_once("connection.php");
         $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
@@ -399,7 +399,7 @@ function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
 function getCurrentSemesterId()
 {
     $currentSemesterId = null;
-    require("connection.php");
+    require_once("connection.php");
     try {
         $query = $db->query("SELECT SEM_ID FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
         if ($sem = $query->fetch(PDO::FETCH_NUM)) {
@@ -427,7 +427,7 @@ function getCurrentSemesterId()
 function hasTimeConflict($sectionDays, $sectionRoomId, $sectionTime)
 {
     $count = 0;
-    require("connection.php");
+    require_once("connection.php");
     try {
         $query = $db->query("SELECT COUNT(*) FROM COURSE_SECTION WHERE LEC_DAYS = $sectionDays AND ROOM_ID = $sectionRoomId AND LEC_TIME = $sectionTime");
         if ($result = $query->fetch(PDO::FETCH_NUM)) {
@@ -471,10 +471,10 @@ function getCourseSections($courseId)
     // first we get the id of current semester from the db
     $sections = "";
     $currentSemId = getCurrentSemesterId();
-    require("connection.php");
+    require_once("connection.php");
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT SECTION_ID, SEC_NUM FROM COURSE_SECTION WHERE SEM_ID = $currentSemId AND COURSE_ID = $courseId");
         while ($allSections = $query->fetch(PDO::FETCH_NUM)) {
@@ -500,10 +500,10 @@ function getCourseSections($courseId)
  */
 function deleteSection($sectionId)
 {
-    require("connection.php");
+    require_once("connection.php");
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $db->beginTransaction();
         $sql = "DELETE FROM COURSE_SECTION WHERE SECTION_ID = ?";
@@ -535,7 +535,7 @@ function getProfessorCourses($professorId)
     $courses = array();
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT CS.COURSE_ID, C.COURSE_CODE FROM COURSE_SECTION AS CS, COURSE AS C WHERE C.COURSE_ID = CS.COURSE_ID AND CS.PROFESSOR_ID = $professorId AND CS.SEM_ID = $currentSemesterId");
         while ($idAndCode = $query->fetch(PDO::FETCH_NUM)) {
@@ -566,7 +566,7 @@ function getProfessorSections($professorId, $courseId)
     $sections = "";
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT SECTION_ID, SEC_NUM FROM COURSE_SECTION WHERE PROFESSOR_ID = $professorId AND SEM_ID = $currentSemesterId AND COURSE_ID = $courseId");
         while ($idAndNum = $query->fetch(PDO::FETCH_NUM)) {
@@ -595,7 +595,7 @@ function getSectionStudents($sectionId)
     $students = "";
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.ABSENCE, RC.GRADE, RC.APPEAL_STATE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId");
         while ($studentData = $query->fetch(PDO::FETCH_NUM)) {
@@ -628,7 +628,7 @@ function getStudentsGrades($sectionId)
     $students = "";
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.GRADE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId");
         while ($studentData = $query->fetch(PDO::FETCH_NUM)) {
@@ -658,10 +658,10 @@ function getStudentsGrades($sectionId)
 function updateGrade($sectionId, $studentIds, $studentGrades)
 {
     $currentSemesterId = intval(getCurrentSemesterId());
-    require("connection.php");
+    require_once("connection.php");
     try {
         // establishing connection
-        require("connection.php");
+        require_once("connection.php");
         // setting and running the query
         $sql = "UPDATE REGISTRATION_COURSES SET GRADE = ? WHERE SEM_ID = ? AND SECTION_ID = ? AND STUDENT_ID = ?;";
         $statement = $db->prepare($sql);
