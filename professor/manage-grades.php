@@ -27,23 +27,29 @@ if (isset($_POST["manage-grades"])) {
     } else {
         $students = getStudentsGrades($secId);
         $tableBody = "";
+        $submitGrades = true;
 
         // generating the table body based on the data
         $eachStudent = preg_split("/#/", $students);
-        foreach ($eachStudent as $studentData) {
-            $piecesOfData = preg_split("/@/", $studentData);
-            // add the complete table row for each student to the table body
-            if ($piecesOfData[0] == "")
-                continue; // solves the null issue, where it prints empty values
-            // $piecesOfData[0] = id
-            // $piecesOfData[1] = name
-            // $piecesOfData[2] = grade
-            $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
-                . $piecesOfData[1] . "</td>\n<td>"
-                . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" step=".01" name="grade[]" value="' . $piecesOfData[2] . '" />'
-                //below, we store the id of the student
-                . "\n<input type='hidden' name='student-id[]' value='" . $piecesOfData[0] . "'/>\n</td>\n</tr>";
-        } // after this, the table will shown as html
+        if (empty($eachStudent[0])) {
+            $tableBody = "<tr><td colspan='3'>No Student Has Registered In This Section Yet!</td></tr>";
+            $submitGrades = false;
+        } else {
+            foreach ($eachStudent as $studentData) {
+                $piecesOfData = preg_split("/@/", $studentData);
+                // add the complete table row for each student to the table body
+                if ($piecesOfData[0] == "")
+                    continue; // solves the null issue, where it prints empty values
+                // $piecesOfData[0] = id
+                // $piecesOfData[1] = name
+                // $piecesOfData[2] = grade
+                $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
+                    . $piecesOfData[1] . "</td>\n<td>"
+                    . '<input style="font-size: medium; padding: 0.1em; width: min-content; border-radius: 0.1em" type="number" min="0" max="100" step=".01" name="grade[]" value="' . $piecesOfData[2] . '" />'
+                    //below, we store the id of the student
+                    . "\n<input type='hidden' name='student-id[]' value='" . $piecesOfData[0] . "'/>\n</td>\n</tr>";
+            } // after this, the table will shown as html
+        }
     }
 }
 
@@ -179,7 +185,7 @@ if (isset($_POST["update-grades"])) {
                     </tbody>
                 </table>
                 <br><br><br>
-                <input <?php if (isset($tableBody)) echo "style='visibility: visible; width: 35%;'";
+                <input <?php if (isset($tableBody) and !(isset($submitGrades) and !$submitGrades)) echo "style='visibility: visible; width: 35%;'";
                         else echo "style='visibility: hidden;'" ?> onclick="return confirm('Do you want to update the grades for this section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-grades" id="update-grades" value="Update Student's Grades">
             </form>
         </div>
