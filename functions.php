@@ -692,6 +692,92 @@ function updateGrade($sectionId, $studentIds, $studentGrades)
     return true;
 }
 
+
+
+/**
+ * Returns the students informaiton
+ * as well as the grade of each student,
+ * as a number. it only returns the list
+ * of students who has made an appealing
+ * request.
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionId id of the section of students
+ * @return string string of students, each student is separated by #, and data is separated by @
+ */
+function getAppealingRequests($sectionId)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    $students = "";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.GRADE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId AND RC.APPEAL_STATE = 1");
+        while ($studentData = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+
+            // if the grde is not enterned yet, it is shown to professor as -1
+            // if he/she tried to insert this as the grade as -1, input validation will prevent this
+            $grade = $studentData[2] == "" ? "-1" : $studentData[2];
+            $students .= $studentData[0] . "@" . $studentData[1] . "@" . $grade . "#";
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $students;
+}
+
+/**
+ * Updates the grade of student
+ * in the database and closes
+ * the appealing request
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId id of the student
+ */
+function closeAppealingRequest($sectionId, $studentIds, $studentGrades)
+{
+    $currentSemesterId = intval(getCurrentSemesterId());
+    require("connection.php");
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $sql = "UPDATE REGISTRATION_COURSES SET GRADE = ?, APPEAL_STATE = 2 WHERE SEM_ID = ? AND SECTION_ID = ? AND STUDENT_ID = ?;";
+        $statement = $db->prepare($sql);
+
+        // foucs here
+        // $studentId = intval($studentId);
+        $sectionId = intval($sectionId);
+        // $studentGrade = intval($studentGrade);
+        $statement->bindParam(1, $studentGrade);
+        $statement->bindParam(2, $currentSemesterId);
+        $statement->bindParam(3, $sectionId);
+        $statement->bindParam(4, $studentId);
+        for ($i = 0; $i < count($studentIds); $i++) {
+            $db->beginTransaction();
+            $studentId = $studentIds[$i];
+            $studentGrade = $studentGrades[$i];
+            $statement->execute();
+            $db->commit();
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        $db->rollBack();
+        return false;
+    }
+    // closing connection with the database
+    $db = null;
+    return true;
+}
+
+
+
 /**
  * Gets
  */
