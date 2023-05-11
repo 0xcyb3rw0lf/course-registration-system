@@ -13,8 +13,7 @@ function getProfessorList()
     return array(
         // TODO: Fill the paths of these pages
         "Manage Grades" => "professor/manage-grades.php",
-        "Manage Appealing Requests" => "professor/appeal-requests.php",
-        "Manage Attendance" => 'professor/manage-attendance.php',
+        "Manage Appealing Requests" => "professor/appealing-requests.php",
         "View Section" => 'professor/view-section.php',
     );
 }
@@ -30,7 +29,7 @@ function getStudentList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Course Registration" => "student/",
+        "Course Registration" => "student/course-registration.php",
         "View Course Schedule" => "student/",
         "View Grades" => 'student/',
         "View Attendance" => 'student/',
