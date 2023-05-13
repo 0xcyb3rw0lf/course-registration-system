@@ -359,13 +359,18 @@ function getBuildingRooms($buildingId)
  * Inserts a section into the system
  * 
  * @author Omar Eldanasoury
+ * @param $semId the semester id
+ * ...
  * @return bool true if the operation was true, otherwise false
  */
 function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime)
 {
-    if (hasTimeConflict($days, $roomId, $datetime))
-        throw new Exception();
+    // checking for time conflict
+    $timeConflict = hasTimeConflictAddSection($days, $roomId, $datetime);
+    if ($timeConflict == 'conflict')
+        throw new Exception();;
 
+    // if there is no time conflicts, we process with adding the section
     require("connection.php");
     try {
         $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
@@ -376,14 +381,11 @@ function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime)
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
-
         $db = null;
         return false;
     }
 
-    if ($statement->rowCount() != 1)
-        return false;
-    return true;
+    return ($statement->rowCount() == 1);
 }
 
 /**
@@ -410,46 +412,65 @@ function getCurrentSemesterId()
     return $currentSemesterId;
 }
 
-/** // TODO: complete the funciton
- * // TODO: do the pop up menus using ajax, and js
+/**
  * Returns if there is a time conflict
- * when adding a section by the admin
+ * when updating a section by the admin
  * 
  * @author Omar Eldanasoury
- * @param mixed sectionDays
- * @param mixed sectionRoomId
- * @param mixed sectionTime
- * @return bool true if there is a time conflict, false otherwise
+ * @param mixed $sectionId the id of the section which user is updating
+ * @param mixed $sectionDays the days of the section
+ * @param mixed $sectionRoomId the id of the room in which section is present
+ * @param mixed $sectionTime the time of the section
+ * @return string existing state of the conflict (conflict, sameAsPrevious, or none)
  */
-function hasTimeConflict($sectionDays, $sectionRoomId, $sectionTime)
+function hasTimeConflict($sectionId, $sectionDays, $sectionRoomId, $sectionTime)
 {
     require("connection.php");
     try {
-        $query = $db->query("SELECT COUNT(*) FROM COURSE_SECTION WHERE LEC_DAYS = $sectionDays AND ROOM_ID = $sectionRoomId AND LEC_TIME = $sectionTime");
-        if ($result = $query->fetch(PDO::FETCH_NUM)) {
+        $query = $db->prepare("SELECT SECTION_ID FROM COURSE_SECTION WHERE LEC_DAYS LIKE ? AND ROOM_ID = ? AND LEC_TIME = ?;");
+        $query->execute(array($sectionDays, $sectionRoomId, $sectionTime));
+        if ($secId = $query->fetch(PDO::FETCH_NUM)) {
+            if ($secId[0] == $sectionId) { // if the user already selected the same time, days, and room; and didnt change any value
+                return "sameAsPrevious"; // then there is no conflict, and the user will be prompted to enter another time 
+            }
+            // if the conflicted section is not the same section
             $db = null; // closing the connection
-            return  $result[0];
+            return "conflict";
         }
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
 
     $db = null; // closing the connection
-    return false; // otherwise, there is no conflict
+    return "none"; // otherwise, there is no conflict
 }
 
-function createSuccessPopUp($msg)
+/**
+ * Returns if there is a time conflict
+ * when adding a section by the admin
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionDays the days of the section
+ * @param mixed $sectionRoomId the id of the room in which section is present
+ * @param mixed $sectionTime the time of the section
+ * @return string existing state of the conflict (conflict, sameAsPrevious, or none)
+ */
+function hasTimeConflictAddSection($sectionDays, $sectionRoomId, $sectionTime)
 {
-    return "<div class='bg-modal'>
-<div class='modal-contents'>
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT * FROM COURSE_SECTION WHERE LEC_DAYS LIKE ? AND ROOM_ID = ? AND LEC_TIME = ?;");
+        $query->execute(array($sectionDays, $sectionRoomId, $sectionTime));
+        if ($result = $query->fetch(PDO::FETCH_NUM)) { // if there is a time conflict
+            $db = null; // closing the connection
+            return "conflict";
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 
-    <div class='close'>+</div>
-    <p>$msg</p>    
-    <a href='#' class='button'>Ok</a>
-
-</div>
-</div>
-";
+    $db = null; // closing the connection
+    return "none"; // otherwise, there is no conflict
 }
 
 /**
@@ -783,11 +804,15 @@ function closeAppealingRequest($sectionId, $studentIds, $studentGrades)
  * @param mixed $sectionNumber the new section number
  * @param mixed $room the new room
  * @param mixed $days the new days
+ * @return bool true if the operation was successfull, otherwise false
  */
 function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumber, $roomId, $days)
 {
-    if (hasTimeConflict($days, $roomId, $time))
+    $timeConflict = hasTimeConflict($sectionId, $days, $roomId, $time);
+    if ($timeConflict == 'conflict')
         throw new Exception();
+    else if (($timeConflict == 'sameAsPrevious'))
+        throw new LogicException();
 
     try {
         require("connection.php");
@@ -799,16 +824,12 @@ function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumbe
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
-        // print_r(array($sid, $cid, $secNum, $pid, $roomId, $datetime)) . "<br>";
-        // echo "sem id: " . $sid;
 
         $db = null;
         return false;
     }
 
-    if ($statement->rowCount() != 1)
-        return false;
-    return true;
+    return ($statement->rowCount() == 1);
 }
 
 /**
