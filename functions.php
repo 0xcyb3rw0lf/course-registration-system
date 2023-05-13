@@ -771,6 +771,45 @@ function closeAppealingRequest($sectionId, $studentIds, $studentGrades)
     return true;
 }
 
+/**
+ * Updates sections' information
+ * inside the system's database
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionId the section id
+ * @param mixed $courseId the course id
+ * @param mixed $professorId the professor id
+ * @param mixed $time the new time
+ * @param mixed $sectionNumber the new section number
+ * @param mixed $room the new room
+ * @param mixed $days the new days
+ */
+function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumber, $roomId, $days)
+{
+    if (hasTimeConflict($days, $roomId, $time))
+        throw new Exception();
+
+    try {
+        require("connection.php");
+        $sql = "UPDATE COURSE_SECTION SET COURSE_ID = ?, SEC_NUM = ?, PROFESSOR_ID = ?, ROOM_ID = ?, LEC_DAYS = ?, LEC_TIME = ? WHERE SECTION_ID = ?;";
+        $db->beginTransaction();
+        $statement = $db->prepare($sql);
+        $statement->execute(array($courseId, $sectionNumber, $professorId, $roomId, $days, $time, $sectionId));
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        echo $e->getMessage() . "<br>";
+        // print_r(array($sid, $cid, $secNum, $pid, $roomId, $datetime)) . "<br>";
+        // echo "sem id: " . $sid;
+
+        $db = null;
+        return false;
+    }
+
+    if ($statement->rowCount() != 1)
+        return false;
+    return true;
+}
 
 
 /**
