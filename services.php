@@ -51,19 +51,28 @@ function getAdminList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Manage Profile" => "admin/",
         "Add Users" => "admin/",
-        // ******* These can be done in the same page
+        "View Users" => 'admin/',
+        "Update Users" => 'admin/', // this is the same as managing the profile of users
         "Delete Users" => "admin/",
-        "View/Update Users" => 'admin/',
         // *********
+        "Add Buildings" => 'admin/',
+        "Delete Buildings" => 'admin/',
+
         "Add Room" => 'admin/',
         "Delete Room" => 'admin/',
+
         "Generate Reports" => 'admin/',
-        "Manage Semesters" => 'admin/',
+
+        "Add Semesters" => 'admin/',
+        "Edit Semesters" => 'admin/',
+        "Delete Semesters" => 'admin/',
+
         "Add Course" => 'admin/',
-        "View/Edit Course" => 'admin/',
+        "View Course" => 'admin/',
+        "Edit Course" => 'admin/',
         "Delete Course" => 'admin/',
+
         "Add Section" => 'admin/add-section.php',
         "View Section" => 'admin/view-section.php',
         "Update Section" => 'admin/update-section.php',
