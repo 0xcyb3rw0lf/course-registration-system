@@ -360,10 +360,17 @@ function getBuildingRooms($buildingId)
  * 
  * @author Omar Eldanasoury
  * @param $semId the semester id
- * ...
+ * @param $cid the course id
+ * @param $secNum the section number id
+ * @param $pid the id of the professor
+ * @param $roomId room id for the section
+ * @param $days the semester id
+ * @param $datetime the time of the section
+ * @param $capacity the number of seats available in the section
+ * 
  * @return bool true if the operation was true, otherwise false
  */
-function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime)
+function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime, $capacity)
 {
     // checking for time conflict
     $timeConflict = hasTimeConflictAddSection($days, $roomId, $datetime);
@@ -373,10 +380,10 @@ function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime)
     // if there is no time conflicts, we process with adding the section
     require("connection.php");
     try {
-        $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($semId, $cid, $secNum, $pid, $roomId, $days, $datetime));
+        $statement->execute(array($semId, $cid, $secNum, $pid, $roomId, $days, $datetime, $capacity));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
