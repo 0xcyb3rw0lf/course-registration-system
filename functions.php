@@ -361,23 +361,21 @@ function getBuildingRooms($buildingId)
  * @author Omar Eldanasoury
  * @return bool true if the operation was true, otherwise false
  */
-function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
+function addSection($semId, $cid, $secNum, $pid, $roomId, $days, $datetime)
 {
     if (hasTimeConflict($days, $roomId, $datetime))
         throw new Exception();
 
+    require("connection.php");
     try {
-        require("connection.php");
         $sql = "INSERT INTO COURSE_SECTION VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($sid, $cid, $secNum, $pid, $roomId, $days, $datetime));
+        $statement->execute(array($semId, $cid, $secNum, $pid, $roomId, $days, $datetime));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
-        // print_r(array($sid, $cid, $secNum, $pid, $roomId, $datetime)) . "<br>";
-        // echo "sem id: " . $sid;
 
         $db = null;
         return false;
@@ -385,7 +383,6 @@ function addSection($sid, $cid, $secNum, $pid, $roomId, $days, $datetime)
 
     if ($statement->rowCount() != 1)
         return false;
-    echo "row count: " . $statement->rowCount();
     return true;
 }
 
@@ -426,20 +423,18 @@ function getCurrentSemesterId()
  */
 function hasTimeConflict($sectionDays, $sectionRoomId, $sectionTime)
 {
-    $count = 0;
     require("connection.php");
     try {
         $query = $db->query("SELECT COUNT(*) FROM COURSE_SECTION WHERE LEC_DAYS = $sectionDays AND ROOM_ID = $sectionRoomId AND LEC_TIME = $sectionTime");
         if ($result = $query->fetch(PDO::FETCH_NUM)) {
-            $count =  $result[0];
+            $db = null; // closing the connection
+            return  $result[0];
         }
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
 
     $db = null; // closing the connection
-    if ($count != 0) // if there are sections with the same time
-        return true; // there is a conflict
     return false; // otherwise, there is no conflict
 }
 
