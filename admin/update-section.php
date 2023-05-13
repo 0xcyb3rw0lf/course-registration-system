@@ -40,6 +40,7 @@ if (isset($_POST["update-section"])) {
     $roomId = $_POST["room"];
     $dateTime = $_POST["datetime"];
     $days = $_POST["days"];
+    $capacity = $_POST["capacity"];
     $semId = getCurrentSemesterId();
 
     // check for empty section number, or any empty value
@@ -52,13 +53,14 @@ if (isset($_POST["update-section"])) {
         or empty($roomId)
         or empty($dateTime)
         or empty($days)
+        or empty($capacity)
     ) {
         $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
     } else if (!preg_match("/\d+/", $sectionNum)) { // if the user entered wrong value for section number\
         $feedbackMsg = "<span class='failed-feedback'>Enter only numbers for section number!</span>";
     } else {
         try {
-            if (updateSection($_SESSION["section"], $courseId, $professorId, $dateTime, $sectionNum, $roomId, $days)) {
+            if (updateSection($_SESSION["section"], $courseId, $professorId, $dateTime, $sectionNum, $roomId, $days, $capacity)) {
                 $feedbackMsg = "<span class='success-feedback'>Section is Updated Successfully!</span>";
             } else { // if updateSection() returned false
                 $feedbackMsg = "<span class='failed-feedback'>Error Updating Section!</span>";
@@ -104,8 +106,6 @@ if (isset($_POST["update-section"])) {
 <body>
 
     <?php require("../header.php");
-    // TODO: do these 2 functions and getProfessorSection() and display data, no validation required here,
-    // also show if the section is empty
 
     // Required varialbes for adding the section
     $courses = getCourses(); // get the courses and sections that the professor
@@ -236,6 +236,9 @@ if (isset($_POST["update-section"])) {
                         <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                             <label for="datetime">Time:</label><br><br>
                             <input type="time" name="datetime" id="datetime">
+                            <br><br><br>
+                            <label for="capacity">Capacity:</label><br><br>
+                            <input type="number" min="15" max="9999" class="selecter" name="capacity" id="capacity">
                         </div>
                     </div>
                     <input onclick="return confirm('Do you want to update the information for this section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-section" id="update-section" value="Update Section">

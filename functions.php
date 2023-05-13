@@ -811,9 +811,10 @@ function closeAppealingRequest($sectionId, $studentIds, $studentGrades)
  * @param mixed $sectionNumber the new section number
  * @param mixed $room the new room
  * @param mixed $days the new days
+ * @param mixed $capacity the new capacity foof the section
  * @return bool true if the operation was successfull, otherwise false
  */
-function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumber, $roomId, $days)
+function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumber, $roomId, $days, $capacity)
 {
     $timeConflict = hasTimeConflict($sectionId, $days, $roomId, $time);
     if ($timeConflict == 'conflict')
@@ -823,10 +824,10 @@ function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumbe
 
     try {
         require("connection.php");
-        $sql = "UPDATE COURSE_SECTION SET COURSE_ID = ?, SEC_NUM = ?, PROFESSOR_ID = ?, ROOM_ID = ?, LEC_DAYS = ?, LEC_TIME = ? WHERE SECTION_ID = ?;";
+        $sql = "UPDATE COURSE_SECTION SET COURSE_ID = ?, SEC_NUM = ?, PROFESSOR_ID = ?, ROOM_ID = ?, LEC_DAYS = ?, LEC_TIME = ? , CAPACITY = ? WHERE SECTION_ID = ?;";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($courseId, $sectionNumber, $professorId, $roomId, $days, $time, $sectionId));
+        $statement->execute(array($courseId, $sectionNumber, $professorId, $roomId, $days, $time, $capacity, $sectionId));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
