@@ -811,6 +811,32 @@ function updateSection($sectionId, $courseId, $professorId, $time, $sectionNumbe
     return true;
 }
 
+/**
+ * Returns all section information
+ * from the system
+ * 
+ * @author Omar Eldanasoury
+ * @param $sectionId the id of the section
+ * @return mixed an array of the section data, and returns null if the section does not exist in the system 
+ */
+function getSectionData($sectionId)
+{
+    try {
+        require("connection.php");
+        $sql = "SELECT * FROM COURSE_SECTION WHERE SECTION_ID = $sectionId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($section = $statement->fetch(PDO::FETCH_ASSOC)) {
+            return $section;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+
+        $db = null;
+    }
+    return null;
+}
 
 /**
  * Gets
