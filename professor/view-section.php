@@ -40,8 +40,7 @@ if (isset($_POST["view-section"])) {
             $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
                 . $piecesOfData[1] . "</td>\n<td>"
                 . $piecesOfData[2] . "</td>\n<td>"
-                . $piecesOfData[3] . "</td>\n<td>"
-                . $piecesOfData[4] . "</td>\n</tr>";
+                . $piecesOfData[3] . "</td>\n</tr>";
         } // after this, the table will shown as html
     }
 }
@@ -132,7 +131,6 @@ if (isset($_POST["view-section"])) {
                     <tr>
                         <th class="th-color">Student ID</th>
                         <th class="th-color">Student Name</th>
-                        <th class="th-color">Absense Times</th>
                         <th class="th-color">Grade</th>
                         <th class="th-color">Appeal Request?</th>
                     </tr>

@@ -620,12 +620,12 @@ function getSectionStudents($sectionId)
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.ABSENCE, RC.GRADE, RC.APPEAL_STATE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId");
+        $query = $db->query("SELECT RC.STUDENT_ID, U.USERNAME, RC.GRADE, RC.APPEAL_STATE FROM REGISTRATION_COURSES AS RC, USERS AS U WHERE U.USER_ID = RC.STUDENT_ID AND RC.SECTION_ID = $sectionId AND RC.SEM_ID = $currentSemesterId");
         while ($studentData = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $grade = $studentData[3] == "" ? "Not Inserted Yet" : $studentData[3];
-            $appealRequest = $studentData[4] == "" ? "No" : $studentData[4];
-            $students .= $studentData[0] . "@" . $studentData[1] . "@" . $studentData[2] . "@" . $grade . "@" . $appealRequest .  "#";
+            $grade = $studentData[2] == "" ? "Not Inserted Yet" : $studentData[2];
+            $appealRequest = $studentData[3] == 0  ? "No" : ($studentData[3] == 1 ? "Pending Re-grading" : "Completed");
+            $students .= $studentData[0] . "@" . $studentData[1] . "@" . $grade . "@" . $appealRequest .  "#";
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens
