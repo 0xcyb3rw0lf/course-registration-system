@@ -23,6 +23,7 @@ if (isset($_POST["add-section"])) {
     $dateTime = $_POST["datetime"];
     $days = $_POST["days"];
     $semId = getCurrentSemesterId();
+    $capacity = $_POST["capacity"];
 
     // but before proceesing we validate input
     // check for empty section number, or any empty value
@@ -34,13 +35,14 @@ if (isset($_POST["add-section"])) {
         or empty($roomId)
         or empty($dateTime)
         or empty($days)
+        or empty($capacity)
     ) {
         $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
-    } else if (!preg_match("/\d+/", $sectionNum)) { // if the user entered wrong value for section number\
+    } else if (!preg_match("/\d+/", $sectionNum)) { // if the user entered wrong value for section number {handled by HTML too}
         $feedbackMsg = "<span class='failed-feedback'>Enter only numbers for section number!</span>";
     } else {
         try {
-            if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime)) {
+            if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime, $capacity)) {
                 $feedbackMsg = "<span class='success-feedback'>Section is Added Successfully!</span>";
             } else { // if updateSection() returned false
                 $feedbackMsg = "<span class='failed-feedback'>Error Adding Section!</span>";
@@ -176,6 +178,9 @@ if (isset($_POST["add-section"])) {
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                     <label for="datetime">Time:</label><br><br>
                     <input type="time" name="datetime" id="datetime">
+                    <br><br><br>
+                    <label for="capacity">Capacity:</label><br><br>
+                    <input type="number" min="15" max="9999" class="selecter" name="capacity" id="capacity">
                 </div>
             </div>
             <input onclick="return confirm('Are you sure you want to add a section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-section" id="add-section" value="Add a Section!">
