@@ -21,13 +21,13 @@ if (isset($_POST["login"])) { // if the user clicked on login button
 
     // we then validate if the user typed a correct email
     if (empty($email)) {
-        $emailErr = "Email is required!";
+        $emailErr = "<span class='failed-feedback'>Email is required!</span>";
         header("login.php");
     } else {
         // if the email is not a student email (@stu.uob.edu.bh)
         // or not an employee email (@uob.edu.bh); then it is an invalid email
         if (!preg_match('/[a-z0-9]+@stu\.uob\.edu\.bh$/', $email) && !preg_match('/[a-z0-9]+@uob\.edu\.bh$/', $email)) {
-            $emailErr = "Invalid email, please type a correct one!";
+            $emailErr = "<span class='failed-feedback'>Invalid email, please type a correct one!</span>";
             header("login.php");
         }
     } // end of email validation
@@ -35,7 +35,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     // password validation: if the password field is empty
     // then we print the error message
     if (empty($password)) {
-        $passwordErr = "Password is required!";
+        $passwordErr = "<span class='failed-feedback'>Password is required!</span>";
         header("login.php");
     }
 
@@ -49,7 +49,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
     } catch (PDOException $e) {
         echo $e->getMessage();
         // Showing Error Message to the user
-        $loginErr = "Unexpected error, please try again later!";
+        $loginErr = "<span class='failed-feedback'>Unexpected error, please try again later!</span>";
         header("login.php");
     }
 
@@ -65,7 +65,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
          * information than needed.
          */
         if (!isset($emailErr))
-            $loginErr = "Email is not registered in the system!";
+            $loginErr = "<span class='failed-feedback'>Invalid Email!</span>";
         header("login.php");
     } else { // if the user email is in the database
         // then we proceed by checking the password
@@ -76,6 +76,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
             $userId = $user["user_id"];
             $userTypeId = $user["type_id"];
             // TODO: add password_verify to the following if
+            // TODO: remove email is not in system message: security reasons
             if ($password == $hashedPassword) { // here we update the session
                 // user is signed in!
                 /**
@@ -102,7 +103,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 } catch (PDOException $e) {
                     echo $e->getMessage();
                     // Showing Error Message to the user
-                    $loginErr = "Unexpected error, please try again later!";
+                    $loginErr = "<span class='failed-feedback'>Unexpected error, please try again later!</span>";
                     header("login.php");
                 }
 
@@ -115,7 +116,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 $_SESSION["activeUser"] = array($userId, $userTypeId, $currentSemesterId);
                 header("location: /course-registration-system/index.php");
             } else { // if the password is wrong!
-                $loginErr = "Please enter the correct password!";
+                $loginErr = "<span class='failed-feedback'>Please enter the correct password!</span>";
                 header("login.php");
             }
         }
@@ -172,13 +173,21 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 <br>
 
                 <input type="submit" class="butn primary-butn sign-butn" name="login" id="login" value="Log in!">
-                <br><span style="color: red; font-size: 1em;"> <?php
-                                                                /**
-                                                                 * The error messages are shown 1 by 1 if anyone of them happend
-                                                                 */
-                                                                if (isset($emailErr)) echo $emailErr . "<br>";
-                                                                if (isset($passwordErr)) echo $passwordErr . "<br>";
-                                                                if (isset($loginErr)) echo $loginErr . "<br>"; ?></span>
+                <br><br>
+                <?php
+                /**
+                 * The error messages are shown 1 by 1 if anyone of them happend
+                 */
+                if (isset($emailErr)) {
+                    echo $emailErr . "<br>";
+                    unset($emailErr);
+                } else if (isset($passwordErr)) {
+                    echo $passwordErr . "<br>";
+                    unset($passwordErr);
+                } else if (isset($loginErr)) {
+                    echo $loginErr . "<br>";;
+                    unset($loginErr);
+                } ?>
             </form>
         </section>
     </main>
