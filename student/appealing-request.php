@@ -20,7 +20,7 @@ if (isset($_POST["add-appeal-request"])) {
     // then validate user input
     if ($cid == "") { // if the user didn't choose a value for the course or the section
         $feedbackMsg = "<span class='failed-feedback'>Please select a course!</span>";
-    } else if ($cid = "out") {
+    } else if (!isInAppealPeriod()) {
         $feedbackMsg = "<span class='failed-feedback'>Out Of Appeal Period!</span>";
     } else {
         // then delete the section
