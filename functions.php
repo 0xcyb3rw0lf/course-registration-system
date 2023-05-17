@@ -74,7 +74,6 @@ function getMajorName($userId, $userType)
             // setting and running the query
             $query = $db->query("SELECT PC.PROGRAM_NAME FROM STUDENT_INFO AS SI, PROGRAM_COLLEGE AS PC WHERE SI.STUDENT_ID = $userId AND SI.PROG_ID = PC.PROGRAM_ID");
             if ($program = $query->fetch(PDO::FETCH_NUM)) {
-                $major = "hey";
                 $major = $program[0]; // getting the major if the query was successful
             }
         } catch (PDOException $ex) {
@@ -303,7 +302,7 @@ function getBuildings()
  * from the system
  * 
  * @author Omar Eldanasoury
- * @return array of names
+ * @return array of rooms
  */
 function getRooms()
 {
@@ -865,6 +864,63 @@ function getSectionData($sectionId)
         $db = null;
     }
     return null;
+}
+
+
+/**
+ * Returns an associative array
+ * of elligible courses to add
+ * appeal requests on by student
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId
+ * @return array of associative arrays (course id => course code)
+ */
+function getEligibleCourses($studentId)
+{
+    $semId = getCurrentSemesterId();
+    $courses = array();
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT RC.COURSE_ID, C.COURSE_CODE FROM COURSE AS C, REGISTRATION_COURSES AS RC WHERE RC.COURSE_ID = C.COURSE_ID AND RC.SEM_ID = ? AND RC.STUDENT_ID = ? AND APPEAL_STATE = 0;";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($semId, $studentId));
+
+        while ($course = $statement->fetch(PDO::FETCH_NUM)) {
+            array_push($courses, array($course[0] => $course[1]));
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $courses;
+}
+
+/**
+ * Adds an appeal request for the students
+ * for the selected course
+ * 
+ * @param mixed $studentId the id of student
+ * @param mixed $courseId the course id
+ * @return bool whether the operatio was successful or not!
+ */
+function addAppealRequest($studentId, $courseId)
+{
+    $semId = getCurrentSemesterId();
+    try {
+        require("connection.php");
+        $sql = "UPDATE REGISTRATION_COURSES SET APPEAL_STATE = 1 WHERE SEM_ID = ? AND STUDENT_ID = ? AND COURSE_ID = ?";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($semId, $studentId, $courseId));
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+
+    return ($statement->rowCount() == 1);
 }
 
 /**
