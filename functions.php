@@ -962,6 +962,28 @@ function getStudentAppealingRequests($studentId)
     return $requests;
 }
 
+/**
+ * Checks if the student is out
+ * of the appeal period
+ * 
+ * @author Omar Eldanasoury
+ * @return bool true if the student is out of appeal period, false otherwise
+ */
+function isInAppealPeriod()
+{
+    try {
+        require("connection.php");
+        $sql = "SELECT SEM_ID FROM SEMESTER WHERE NOW() >= APPEAL_START AND NOW() <= APPEAL_END;";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $statement->fetch(PDO::FETCH_NUM) != null; // if the database returns nothing, so the student is out of appealing period 
+}
+
 
 
 /**
