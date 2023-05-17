@@ -44,7 +44,7 @@
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
         <h1 class="catalogue-header" style="color: #4056A1;">Get Help!</h1>
-        <form method="post" class="form" style="margin-left: 2.75em;">
+        <div class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main" style="font-style: normal;">
                 <h2>Forgot Your Passowrd?</h2>
 
@@ -58,7 +58,7 @@
 
                 <p style="color: black;">You can contact the administrator at <a href="mailto: admin1@uob.edu.bh" style="color: black;">admin1@uob.edu.bh</a></p>
             </div>
-        </form>
+        </div>
 
     </main>
 
