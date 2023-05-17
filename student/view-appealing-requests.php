@@ -18,6 +18,9 @@ require_once("../functions.php");
 
 $requests = getStudentAppealingRequests($_SESSION["activeUser"][0]);
 $tableBody = "";
+if ($requests == array()) {
+    $tableBody = "<tr><td colspan='4'>You Have No Appealing Requests!</td></tr>";
+}
 
 
 foreach ($requests as $request) {
