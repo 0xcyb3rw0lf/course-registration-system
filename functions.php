@@ -902,6 +902,7 @@ function getEligibleCourses($studentId)
  * Adds an appeal request for the students
  * for the selected course
  * 
+ * @author Omar Eldanasoury
  * @param mixed $studentId the id of student
  * @param mixed $courseId the course id
  * @return bool whether the operatio was successful or not!
@@ -922,6 +923,46 @@ function addAppealRequest($studentId, $courseId)
 
     return ($statement->rowCount() == 1);
 }
+
+/**
+ * Reutrns the appealing requests done
+ * by a student in the form array
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId
+ * @return array array for each request information
+ */
+function getStudentAppealingRequests($studentId)
+{
+    $semId = getCurrentSemesterId();
+    $requests = array();
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT C.COURSE_CODE, C.COURSE_NAME, RC.APPEAL_STATE, RC.GRADE FROM COURSE AS C, REGISTRATION_COURSES AS RC WHERE RC.COURSE_ID = C.COURSE_ID AND RC.SEM_ID = ? AND RC.STUDENT_ID = ? AND (APPEAL_STATE = 1 OR APPEAL_STATE = 2);";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($semId, $studentId));
+
+        while ($request = $statement->fetch(PDO::FETCH_NUM)) {
+            $state = "Not Re-Graded Yet!";
+            $grade = "N/A";
+            if ($request[2] == 2) {
+                $state = "Re-graded!";
+                $grade = $request[3];
+            } // if the request has been re-graded by professor
+
+
+            array_push($requests, array($request[0], $request[1], $state, $grade));
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $requests;
+}
+
+
 
 /**
  * Gets
