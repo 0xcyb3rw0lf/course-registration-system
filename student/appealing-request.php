@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Delete Section Page
- * Allows the admin user to 
- * delete sections from the system
+ * Add Appealing Requests Page
+ * Allow students to add appealing
+ * requests to the system
+ * TODO: add the validation for the date
  * 
  * @author Omar Eldanasoury 
  */
@@ -19,6 +20,8 @@ if (isset($_POST["add-appeal-request"])) {
     // then validate user input
     if ($cid == "") { // if the user didn't choose a value for the course or the section
         $feedbackMsg = "<span class='failed-feedback'>Please select a course!</span>";
+    } else if ($cid = "out") {
+        $feedbackMsg = "<span class='failed-feedback'>Out Of Appeal Period!</span>";
     } else {
         // then delete the section
         if (addAppealRequest($_SESSION["activeUser"][0], $cid)) {
@@ -64,7 +67,8 @@ if (isset($_POST["add-appeal-request"])) {
     <?php require("../header.php");
     require_once("../functions.php");
     // Required varialbes for adding the section
-    $courses = getEligibleCourses($_SESSION["activeUser"][0]); // get the courses list from the database
+    if (isInAppealPeriod())
+        $courses = getEligibleCourses($_SESSION["activeUser"][0]); // get the courses list from the database
     ?>
 
 
@@ -83,6 +87,9 @@ if (isset($_POST["add-appeal-request"])) {
                                 foreach ($courses[$i] as $id => $code) {
                                     echo "<option value='" . strval($id) . "'>" . $code . "</option>";
                                 }
+                        else {
+                            echo "<option value='out'>Out Of Appeal Period!</option>";
+                        }
                         ?>
                     </select>
                 </div>
