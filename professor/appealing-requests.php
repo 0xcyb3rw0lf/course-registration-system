@@ -143,7 +143,7 @@ if (isset($_POST["update-grades"])) {
                     </select>
                 </div>
 
-                <div class="attendance-inner-flex">
+                <div class="attendance-inner-flex add-margin">
                     <!-- Section Number -->
                     <!-- onchange="showStudents(this.value)" -->
                     <label for="section-number">Section Number:</label><br><br>
