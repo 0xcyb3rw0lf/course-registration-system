@@ -32,11 +32,12 @@ function getStudentList()
         "Course Registration" => "student/course-registration.php",
         "View Course Schedule" => "student/",
         "View Grades" => 'student/',
-        "View Attendance" => 'student/',
         "View Transcript" => 'student/',
         "Simulate GPA" => 'student/',
         "Request Summer Seat" => 'student/',
-        "Add Appealing Request" => 'student/',
+        "Add Appealing Request" => 'student/appealing-request.php',
+        "View Appealing Requests" => 'student/view-appealing-requests.php',
+        "Pay Courses Fees" => 'student/',
     );
 }
 
