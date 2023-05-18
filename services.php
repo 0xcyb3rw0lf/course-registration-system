@@ -64,8 +64,10 @@ function getAdminList()
         "Delete Room" => 'admin/',
 
         "Generate Reports" => 'admin/',
+        "View Summer Seats" => 'admin/',
 
         "Add Semesters" => 'admin/',
+        "View Semesters" => 'admin/',
         "Edit Semesters" => 'admin/',
         "Delete Semesters" => 'admin/',
 
@@ -118,7 +120,6 @@ function getDeanList()
         "View Students" => "dean-hod/",
         "View Staff" => 'dean-hod/',
         "Edit Course Details" => 'dean-hod/',
-        "Close Section" => 'dean-hod/',
         "Generate Reports" => 'dean-hod/'
     );
 }
