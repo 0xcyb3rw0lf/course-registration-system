@@ -1072,7 +1072,7 @@ function getStudentProgramId($studentId)
 }
 
 /**
- * Retunrns the course name
+ * Returns the course name based on course id
  * 
  * @author Omar Eldanasoury <email>
  * @param mixed $courseId
@@ -1097,6 +1097,34 @@ function getCourseName($courseId)
     $db = null;
     return null;
 }
+
+/**
+ * Returns the professor name based on professor id
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $professorId
+ * @return mixed professor name
+ */
+function getProfessorName($professorId)
+{
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT USERNAME FROM USERS WHERE USER_ID = $professorId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($professorName = $statement->fetch(PDO::FETCH_NUM)) {
+            return $professorName[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return null;
+}
+
 /**
  * Gets
  */
