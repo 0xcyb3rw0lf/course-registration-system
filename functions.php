@@ -1126,6 +1126,32 @@ function getProfessorName($professorId)
 }
 
 /**
+ * Returns the professor name based on professor id
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $
+ * @return mixed professor name
+ */
+function getBuildingName($roomId)
+{
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT B.BUILDING_NAME FROM BUILDING AS B, ROOM AS R WHERE B.BUILDING_ID = R.BUILDING_ID AND R.ROOM_ID = $roomId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($buildingName = $statement->fetch(PDO::FETCH_NUM)) {
+            return $buildingName[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return null;
+}
+/**
  * Gets
  */
 // function encodeGrade($grade)
