@@ -255,7 +255,7 @@ function getProfessorNames()
         // setting and running the query
         $query = $db->query("SELECT USER_ID, USERNAME FROM USERS WHERE TYPE_ID = 1");
         while ($allNames = $query->fetch(PDO::FETCH_NUM)) {
-            // getting the list of courses if the query was successful
+            // getting the list of professors if the query was successful
             $name = array($allNames[0] => $allNames[1]);
             array_push($names, $name);
         }
@@ -1046,6 +1046,8 @@ function getProgramCourses($programId)
 /**
  * Returns the id of the program that student
  * is enrolled in
+ * 
+ * @author Omar Eldanasoury <email>
  * @param mixed $studentId
  * @return mixed the id of the student's program 
  */
@@ -1060,6 +1062,33 @@ function getStudentProgramId($studentId)
 
         if ($programId = $statement->fetch(PDO::FETCH_NUM)) {
             return $programId[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return null;
+}
+
+/**
+ * Retunrns the course name
+ * 
+ * @author Omar Eldanasoury <email>
+ * @param mixed $courseId
+ * @return mixed course name
+ */
+function getCourseName($courseId)
+{
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT COURSE_NAME FROM COURSE WHERE COURSE_ID = $courseId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($courseName = $statement->fetch(PDO::FETCH_NUM)) {
+            return $courseName[0];
         }
     } catch (PDOException $e) {
         echo $e->getMessage() . "<br>";
