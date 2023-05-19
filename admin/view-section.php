@@ -27,54 +27,19 @@ if (isset($_POST["view-section"])) {
         // shows the form for the user to enter new information for the section
         $displayForm = true;
         $sectionData = getSectionData($_SESSION["section"]); // passing the id of the section user selected
+
+
+        // extracting data from the id
+        $courseCode = getCourseCode($sectionData["course_id"]);
+        $professorName = getProfessorName($sectionData["professor_id"]);
+        $sectionNumber = $sectionData["Sec_num"];
+        $buildingName = getBuildingName($sectionData["room_id"]);
+        $roomName = getRoomName($sectionData["room_id"]);
+        $days = $sectionData["lec_days"];
+        $time = $sectionData["lec_time"];
+        $capacity = $sectionData["capacity"];
     }
 }
-
-// Now submitting the grade into the db
-if (isset($_POST["get-section"])) {
-    $sectionId = $_SESSION["section"];
-    $courseId = $_POST["course-code"];
-    $professorId = $_POST["prof-name"];
-    $sectionNum = checkInput($_POST["section-num"]);
-    $buildingId = $_POST["bldng"];
-    $roomId = $_POST["room"];
-    $dateTime = $_POST["datetime"];
-    $days = $_POST["days"];
-    $capacity = $_POST["capacity"];
-    $semId = getCurrentSemesterId();
-
-    // check for empty section number, or any empty value
-    if (
-        empty($sectionId)
-        or empty($courseId)
-        or empty($professorId)
-        or (empty($sectionNum))
-        or empty($buildingId)
-        or empty($roomId)
-        or empty($dateTime)
-        or empty($days)
-        or empty($capacity)
-    ) {
-        $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
-    } else if (!preg_match("/\d+/", $sectionNum)) { // if the user entered wrong value for section number\
-        $feedbackMsg = "<span class='failed-feedback'>Enter only numbers for section number!</span>";
-    } else {
-        try {
-            if (updateSection($_SESSION["section"], $courseId, $professorId, $dateTime, $sectionNum, $roomId, $days, $capacity)) {
-                $feedbackMsg = "<span class='success-feedback'>Section is Updated Successfully!</span>";
-            } else { // if updateSection() returned false
-                $feedbackMsg = "<span class='failed-feedback'>Error Updating Section!</span>";
-            }
-        } catch (LogicException $samePreviousTimeRoomDays) { // if there is a time conflict, an exception will be thrown by updateSection()
-            $feedbackMsg = "<span class='failed-feedback'>You Chose The Same Time, Room, And Days!<br>Please Choose Different Time/Room/Day Other Than Existing One(s)!</span>";
-        } catch (Exception $exception) { // if there is a time conflict, an exception will be thrown by updateSection()
-            $feedbackMsg = "<span class='failed-feedback'>Time Conflict Exists, Please Choose Another Time/Days!</span>";
-        }
-    }
-}
-
-
-
 ?>
 
 
@@ -85,7 +50,7 @@ if (isset($_POST["get-section"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Section</title>
+    <title>View Section</title>
 
     <!-- Adding the css files -->
     <link rel="stylesheet" href="../css/reset.css">
@@ -97,6 +62,11 @@ if (isset($_POST["get-section"])) {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        label,
+        p {
+            display: inline;
+        }
     </style>
 
     <!-- Adding FontAwesome Kit -->
@@ -117,7 +87,7 @@ if (isset($_POST["get-section"])) {
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">Update Section</h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">View Section</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
                 <!-- Course Code and Section Number -->
@@ -163,85 +133,47 @@ if (isset($_POST["get-section"])) {
                 if (isset($displayForm) and $displayForm) {
                     // $sectionInfo = getSectionInformation(); // an array
                     // Required varialbes for adding the section
-                    $courses = getCourses(); // get the courses list from the database
-                    $professorNames = getProfessorNames();
-                    $buildings = getBuildings();
-                    $rooms = getRooms();
+
+                    // TODO: edit the form, to display only data + write the functions to get data from the database
                 ?>
 
                     <div class="attendance-flex catalogue-main">
                         <!-- Course Code and Section Number -->
-                        <div class="attendance-inner-flex">
-                            <label for="course-code">Course Code:</label><br><br>
-                            <select class="selecter" name="course-code" id="course-code">
-                                <?php
-                                if ($courses != array())
-                                    for ($i = 0; $i < count($courses); $i++)
-                                        foreach ($courses[$i] as $id => $code) {
-                                            echo "<option value='" . strval($id) . "'>" . $code . "</option>";
-                                        }
-
-                                ?>
-                            </select>
-                            <br><br>
+                        <div class="attendance-inner-flex" style="flex: 4;">
+                            <label for="course-code">Course Code:</label>
+                            <p style="color: black;"><?php echo $courseCode ?></p>
+                            <br><br><br>
                             <!-- Section Number -->
-                            <label for="section-num">Section Number:</label><br><br>
-                            <input type="number" min="1" class="selecter" name="section-num" id="section-num">
+                            <label for="section-num">Section Number:</label>
+                            <p style="color: black;"></p><?php echo $sectionNumber ?></p>
                         </div>
 
                         <!-- Building and Room -->
                         <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                            <label for="bldng">Building:</label><br><br>
-                            <select onchange="getRooms(this.value)" class="selecter" name="bldng" id="bldng">
-                                <option value="">Select a Building</option>
-                                <?php
-                                if ($buildings != array())
-                                    for ($i = 0; $i < count($buildings); $i++)
-                                        foreach ($buildings[$i] as $id => $name) {
-                                            echo "<option value='" . strval($id) . "'>" . $name . "</option>";
-                                        }
-
-                                ?>
-                            </select>
-                            <br><br><br>
-                            <label for="room">Room:</label><br><br>
-                            <select class="selecter" name="room" id="room">
-                                <option value="">Select a Room</option>
-                                <!-- The options will be optained from the database using AJAX and PHP -->
-                                <!-- Refer to the script at the end of the page, after <body> -->
-                            </select>
+                            <label for="bldng">Building:</label>
+                            <p style="color: black;"><?php echo $buildingName ?></p>
+                            <br><br><br><br>
+                            <label for="room">Room:</label>
+                            <p style="color: black;"><?php echo $roomName ?></p>
                         </div>
 
                         <!-- Professor and Date+Time -->
                         <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                             <label for="prof-name">Professor:</label><br><br>
-                            <select class="selecter" name="prof-name" id="prof-name">
-                                <?php
-                                if ($professorNames != array())
-                                    for ($i = 0; $i < count($professorNames); $i++)
-                                        foreach ($professorNames[$i] as $id => $name) {
-                                            echo "<option value='" . strval($id) . "'>" . $name . "</option>";
-                                        }
-
-                                ?>
-                            </select>
+                            <p style="color: black;"><?php echo $professorName ?></p>
                             <br><br><br>
                             <label for="datetime">Days:</label><br><br>
-                            <select class="selecter" name="days" id="days">
-                                <option value="UTH">UTH</option>
-                                <option value="MW">MW</option>
-                            </select>
+                            <p style="color: black;"><?php echo $days ?></p>
                         </div>
 
                         <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                             <label for="datetime">Time:</label><br><br>
-                            <input type="time" name="datetime" id="datetime">
+                            <p style="color: black;"><?php echo $time ?></p>
                             <br><br><br>
                             <label for="capacity">Capacity:</label><br><br>
-                            <input type="number" min="15" max="9999" class="selecter" name="capacity" id="capacity">
+                            <p style="color: black;"><?php echo $capacity ?></p>
                         </div>
                     </div>
-                    <input onclick="return confirm('Do you want to get the information for this section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="get-section" id="get-section" value="Update Section">
                 <?php
                 }
                 ?>
