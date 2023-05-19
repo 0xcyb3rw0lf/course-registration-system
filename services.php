@@ -31,13 +31,14 @@ function getStudentList()
         // TODO: Fill the paths of these pages
         "Course Registration" => "student/course-registration.php",
         "View Course Schedule" => "student/",
+        "View Course Prerequisites" => 'student/view-prerequisites.php',
         "View Grades" => 'student/',
         "View Transcript" => 'student/',
         "Simulate GPA" => 'student/',
         "Request Summer Seat" => 'student/',
         "Add Appealing Request" => 'student/appealing-request.php',
         "View Appealing Requests" => 'student/view-appealing-requests.php',
-        "Pay Courses Fees" => 'student/',
+        "Pay Courses Fees" => 'student/pay-fees.php',
     );
 }
 
