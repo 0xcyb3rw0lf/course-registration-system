@@ -984,6 +984,34 @@ function isInAppealPeriod()
     return $statement->fetch(PDO::FETCH_NUM) != null; // if the database returns nothing, so the student is out of appealing period 
 }
 
+/**
+ * Returns and array of courses
+ * that are the prerequisites of it
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $courseId the id of a course
+ * @return array of array of courses
+ */
+function getPrerequisites($courseId)
+{
+    $courses = array();
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT C.COURSE_CODE, C.COURSE_NAME, C.CREDITS FROM COURSE AS C, COURSE_PREREQ AS CP WHERE C.COURSE_ID = CP.PREREQ_ID AND CP.COURSE_ID = ?";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($courseId));
+
+        while ($course = $statement->fetch(PDO::FETCH_NUM)) {
+            array_push($courses, array($course[0], $course[1], $course[2]));
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $courses;
+}
 
 
 /**
