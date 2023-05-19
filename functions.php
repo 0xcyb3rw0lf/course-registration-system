@@ -1078,12 +1078,12 @@ function getStudentProgramId($studentId)
  * @param mixed $courseId
  * @return mixed course name
  */
-function getCourseName($courseId)
+function getCourseCode($courseId)
 {
     try {
         require("connection.php");
         // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
-        $sql = "SELECT COURSE_NAME FROM COURSE WHERE COURSE_ID = $courseId";
+        $sql = "SELECT COURSE_CODE FROM COURSE WHERE COURSE_ID = $courseId";
         $statement = $db->prepare($sql);
         $statement->execute();
 
