@@ -1015,6 +1015,34 @@ function getPrerequisites($courseId)
 
 
 /**
+ * Returns the courses that are
+ * in a program
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $programId the id of a course
+ * @return array of array of courses
+ */
+function getProgramCourses($programId)
+{
+    $courses = array();
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT C.COURSE_ID, C.COURSE_CODE FROM PROGRAM_COURSE AS PC, COURSE AS C WHERE C.COURSE_ID = PC.COURSE_ID AND PC.PROGRAM_ID = ?";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($programId));
+
+        while ($course = $statement->fetch(PDO::FETCH_NUM)) {
+            array_push($courses, array($course[0] => $course[1]));
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $courses;
+}
+/**
  * Gets
  */
 // function encodeGrade($grade)
