@@ -63,8 +63,7 @@ if (isset($_POST["view-section"])) {
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-        label,
-        p {
+        label{
             display: inline;
         }
     </style>
@@ -157,7 +156,7 @@ if (isset($_POST["view-section"])) {
                             <p style="color: black;"><?php echo $roomName ?></p>
                         </div>
 
-                        <!-- Professor and Date+Time -->
+                        <!-- Professor and Date -->
                         <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                             <label for="prof-name">Professor:</label><br><br>
                             <p style="color: black;"><?php echo $professorName ?></p>
