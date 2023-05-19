@@ -1042,6 +1042,32 @@ function getProgramCourses($programId)
     $db = null;
     return $courses;
 }
+
+/**
+ * Returns the id of the program that student
+ * is enrolled in
+ * @param mixed $studentId
+ * @return mixed the id of the student's program 
+ */
+function getStudentProgramId($studentId)
+{
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT PROG_ID FROM STUDENT_INFO WHERE STUDENT_ID = $studentId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($programId = $statement->fetch(PDO::FETCH_NUM)) {
+            return $programId[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return null;
+}
 /**
  * Gets
  */
