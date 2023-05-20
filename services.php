@@ -34,6 +34,7 @@ function getStudentList()
         "View Course Prerequisites" => '/course-registration-system/student/view-prerequisites.php',
         "View Grades" => '/course-registration-system/student/',
         "View Transcript" => '/course-registration-system/student/',
+        "View Program Courses" => '/course-registration-system/student/',
         "Simulate GPA" => '/course-registration-system/student/',
         "Request Summer Seat" => '/course-registration-system/student/',
         "Add Appealing Request" => '/course-registration-system/student/appealing-request.php',
