@@ -21,7 +21,7 @@ if (!isset($_SESSION["activeUser"]))
  * at index 2: sem_id
  */
 $userId = $_SESSION["activeUser"][0];
-$userTypeId = $_SESSION["activeUser"][1];
+$userTypeId = $_SESSION["activeUser"][1]; // TODO: Change it to store the type as text directly
 $semId = $_SESSION["activeUser"][2];
 
 require_once("functions.php");
