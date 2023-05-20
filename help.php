@@ -8,6 +8,7 @@
  * 
  * @author Omar Eldanasoury 
  */
+session_start();
 ?>
 
 
