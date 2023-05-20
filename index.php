@@ -126,11 +126,16 @@ $servicesList = getUserServicesList($userTypeAsText);
                 require_once("services.php");
                 $userList = getUserServicesList($userTypeAsText);
                 foreach ($userList as $title => $path) {
+                    if ($path == "break") {
+                        echo "<a style='width: 100%'></a>";
+                    } else {
                 ?>
-                    <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em; margin-bottom: 1.5em;">
-                        <?php echo $title ?>
-                    </a>
+
+                        <a <?php echo "href='$path'" ?> class="butn primary-butn" style="text-align: center;margin-right: 1.5em; margin-bottom: 1em;">
+                            <?php echo $title ?>
+                        </a>
                 <?php
+                    }
                 }
                 ?>
             </div>
@@ -183,6 +188,7 @@ $servicesList = getUserServicesList($userTypeAsText);
             resultAndPath = result.split("@");
             if (resultAndPath[0] == '')
                 continue;
+
             document.getElementById("searchList").innerHTML += "<div class='searchResult'> <a class='non-button' style='color: black;' href='" + resultAndPath[1] + "'> " + resultAndPath[0] + "</a></div>";
         }
     }
