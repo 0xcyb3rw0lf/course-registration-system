@@ -29,16 +29,16 @@ function getStudentList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Course Registration" => "student/course-registration.php",
-        "View Course Schedule" => "student/",
-        "View Course Prerequisites" => 'student/view-prerequisites.php',
-        "View Grades" => 'student/',
-        "View Transcript" => 'student/',
-        "Simulate GPA" => 'student/',
-        "Request Summer Seat" => 'student/',
-        "Add Appealing Request" => 'student/appealing-request.php',
-        "View Appealing Requests" => 'student/view-appealing-requests.php',
-        "Pay Courses Fees" => 'student/pay-fees.php',
+        "Course Registration" => "/course-registration-system/student/course-registration.php",
+        "View Course Schedule" => "/course-registration-system/student/",
+        "View Course Prerequisites" => '/course-registration-system/student/view-prerequisites.php',
+        "View Grades" => '/course-registration-system/student/',
+        "View Transcript" => '/course-registration-system/student/',
+        "Simulate GPA" => '/course-registration-system/student/',
+        "Request Summer Seat" => '/course-registration-system/student/',
+        "Add Appealing Request" => '/course-registration-system/student/appealing-request.php',
+        "View Appealing Requests" => '/course-registration-system/student/view-appealing-requests.php',
+        "Pay Courses Fees" => '/course-registration-system/student/pay-fees.php',
     );
 }
 
@@ -57,30 +57,29 @@ function getAdminList()
         "View Users" => 'admin/',
         "Update Users" => 'admin/', // this is the same as managing the profile of users
         "Delete Users" => "admin/",
-        // *********
-        "Add Buildings" => 'admin/',
-        "Delete Buildings" => 'admin/',
-
-        "Add Room" => 'admin/',
-        "Delete Room" => 'admin/',
-
-        "Generate Reports" => 'admin/',
-        "View Summer Seats" => 'admin/',
-
-        "Add Semesters" => 'admin/',
-        "View Semesters" => 'admin/',
-        "Edit Semesters" => 'admin/',
-        "Delete Semesters" => 'admin/',
-
+        "0" => "break", // breaks to separate the options in the front-end
         "Add Course" => 'admin/',
         "View Course" => 'admin/',
         "Edit Course" => 'admin/',
         "Delete Course" => 'admin/',
-
+        "1" => "break", // breaks to separate the options in the front-end
         "Add Section" => 'admin/add-section.php',
         "View Section" => 'admin/view-section.php',
         "Update Section" => 'admin/update-section.php',
         "Delete Section" => 'admin/delete-section.php',
+        "2" => "break", // breaks to separate the options in the front-end
+        "Add Semesters" => 'admin/',
+        "View Semesters" => 'admin/',
+        "Edit Semesters" => 'admin/',
+        "Delete Semesters" => 'admin/',
+        "3" => "break", // breaks to separate the options in the front-end
+        "Add Buildings" => 'admin/',
+        "Delete Buildings" => 'admin/',
+        "Add Room" => 'admin/',
+        "Delete Room" => 'admin/',
+        "4" => "break", // breaks to separate the options in the front-end
+        "View Summer Seats" => 'admin/',
+        "Generate Reports" => 'admin/',
     );
 }
 
