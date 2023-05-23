@@ -13,6 +13,8 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+
+
 if (isset($_POST["add-appeal-request"])) {
     require_once("../functions.php");
     // first get data
@@ -20,15 +22,17 @@ if (isset($_POST["add-appeal-request"])) {
     // then validate user input
     if ($cid == "") { // if the user didn't choose a value for the course or the section
         $feedbackMsg = "<span class='failed-feedback'>Please select a course!</span>";
-    } else if (!isInAppealPeriod()) {
-        $feedbackMsg = "<span class='failed-feedback'>Out Of Appeal Period!</span>";
-    } else {
-        // then delete the section
+    } else if (isInAppealPeriod() and $cid != "out" and $cid != "full") {
+        // then add the request
         if (addAppealRequest($_SESSION["activeUser"][0], $cid)) {
             $feedbackMsg = "<span class='success-feedback'>Appeal Request is Added Successfully!</span>";
         } else {
             $feedbackMsg = "<span class='failed-feedback'>Error Adding Appeal Request<br>Please try again later!</span>";
         }
+    } else if ($cid == "full") { // is student has appeal for all his courses
+        $feedbackMsg = "<span class='failed-feedback'>You Have Appealed For All Registered Courses!</span>";
+    } else { // if the student is out of appeal period
+        $feedbackMsg = "<span class='failed-feedback'>Out Of Appeal Period!</span>";
     }
 }
 
@@ -82,12 +86,16 @@ if (isset($_POST["add-appeal-request"])) {
                     <select class="selecter" name="course-code" id="course-code">
                         <option value="">Select a Course</option>
                         <?php
-                        if ($courses != array())
+                        if ($courses != array() and isInAppealPeriod())
                             for ($i = 0; $i < count($courses); $i++)
                                 foreach ($courses[$i] as $id => $code) {
                                     echo "<option value='" . strval($id) . "'>" . $code . "</option>";
                                 }
-                        else {
+                        else if (isInAppealPeriod()) { // but he has no courses to apply for, meaning that he had
+                            // applied appealing requests for all his courses
+                            // so he has no elligible courses left to add appealing request on
+                            echo "<option value='full'>You Have Appealed For All Registered Courses!</option>";
+                        } else {
                             echo "<option value='out'>Out Of Appeal Period!</option>";
                         }
                         ?>
