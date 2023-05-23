@@ -12,9 +12,9 @@ function getProfessorList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Manage Grades" => "professor/manage-grades.php",
-        "Manage Appealing Requests" => "professor/appealing-requests.php",
-        "View Section" => 'professor/view-section.php',
+        "Manage Grades" => "/course-registration-system/professor/manage-grades.php",
+        "Manage Appealing Requests" => "/course-registration-system/professor/appealing-requests.php",
+        "View Section" => '/course-registration-system/professor/view-section.php',
     );
 }
 
@@ -54,33 +54,33 @@ function getAdminList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "Add Users" => "admin/",
-        "View Users" => 'admin/',
-        "Update Users" => 'admin/', // this is the same as managing the profile of users
-        "Delete Users" => "admin/",
+        "Add Users" => "/course-registration-system/admin/",
+        "View Users" => '/course-registration-system/admin/',
+        "Update Users" => '/course-registration-system/admin/', // this is the same as managing the profile of users
+        "Delete Users" => "/course-registration-system/admin/",
         "0" => "break", // breaks to separate the options in the front-end
-        "Add Course" => 'admin/',
-        "View Course" => 'admin/',
-        "Edit Course" => 'admin/',
-        "Delete Course" => 'admin/',
+        "Add Course" => '/course-registration-system/admin/',
+        "View Course" => '/course-registration-system/admin/',
+        "Edit Course" => '/course-registration-system/admin/',
+        "Delete Course" => '/course-registration-system/admin/',
         "1" => "break", // breaks to separate the options in the front-end
-        "Add Section" => 'admin/add-section.php',
-        "View Section" => 'admin/view-section.php',
-        "Update Section" => 'admin/update-section.php',
-        "Delete Section" => 'admin/delete-section.php',
+        "Add Section" => '/course-registration-system/admin/add-section.php',
+        "View Section" => '/course-registration-system/admin/view-section.php',
+        "Update Section" => '/course-registration-system/admin/update-section.php',
+        "Delete Section" => '/course-registration-system/admin/delete-section.php',
         "2" => "break", // breaks to separate the options in the front-end
-        "Add Semesters" => 'admin/',
-        "View Semesters" => 'admin/',
-        "Edit Semesters" => 'admin/',
-        "Delete Semesters" => 'admin/',
+        "Add Semesters" => '/course-registration-system/admin/',
+        "View Semesters" => '/course-registration-system/admin/',
+        "Edit Semesters" => '/course-registration-system/admin/',
+        "Delete Semesters" => '/course-registration-system/admin/',
         "3" => "break", // breaks to separate the options in the front-end
-        "Add Buildings" => 'admin/',
-        "Delete Buildings" => 'admin/',
-        "Add Room" => 'admin/',
-        "Delete Room" => 'admin/',
+        "Add Buildings" => '/course-registration-system/admin/',
+        "Delete Buildings" => '/course-registration-system/admin/',
+        "Add Room" => '/course-registration-system/admin/',
+        "Delete Room" => '/course-registration-system/admin/',
         "4" => "break", // breaks to separate the options in the front-end
-        "View Summer Seats" => 'admin/',
-        "Generate Reports" => 'admin/',
+        "View Summer Seats" => '/course-registration-system/admin/',
+        "Generate Reports" => '/course-registration-system/admin/',
     );
 }
 
@@ -96,11 +96,11 @@ function getHodList()
 {
     // TODO: Fill the paths of these pages
     return array(
-        "View Seat Requests" => "dean-hod/",
-        "View Students" => "dean-hod/",
-        "Close Section" => 'dean-hod/',
-        "Edit Course Details" => 'dean-hod/',
-        "Generate Reports" => 'dean-hod/'
+        "View Seat Requests" => "/course-registration-system/deanHead",
+        "View Students" => "/course-registration-system/deanHead",
+        "Close Section" => '/course-registration-system/deanHead',
+        "Edit Course Details" => '/course-registration-system/deanHead',
+        "Generate Reports" => '/course-registration-system/deanHead'
     );
 }
 
@@ -117,11 +117,11 @@ function getDeanList()
 {
     return array(
         // TODO: Fill the paths of these pages
-        "View Seat Requests" => "dean-hod/",
-        "View Students" => "dean-hod/",
-        "View Staff" => 'dean-hod/',
-        "Edit Course Details" => 'dean-hod/',
-        "Generate Reports" => 'dean-hod/'
+        "View Seat Requests" => "/course-registration-system/deanHead",
+        "View Students" => "/course-registration-system/deanHead",
+        "View Staff" => '/course-registration-system/deanHead',
+        "Edit Course Details" => '/course-registration-system/deanHead',
+        "Generate Reports" => '/course-registration-system/deanHead'
     );
 }
 
