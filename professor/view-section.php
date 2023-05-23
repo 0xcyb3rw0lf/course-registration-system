@@ -17,7 +17,6 @@ $errMsg = "";
 if (isset($_POST["view-section"])) {
     require_once("../functions.php");
 
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
@@ -28,20 +27,24 @@ if (isset($_POST["view-section"])) {
         $students = getSectionStudents($secId);
         $tableBody = "";
 
-        // generating the table body based on the data
-        $eachStudent = preg_split("/#/", $students);
-        // echo print_r($eachStudent);
-        foreach ($eachStudent as $studentData) {
-            $piecesOfData = preg_split("/@/", $studentData);
-            // echo print_r($piecesOfData);
-            // add the complete table row for each student to the table body
-            if ($piecesOfData[0] == "")
-                continue; // solves the null issue, where it prints empty values
-            $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
-                . $piecesOfData[1] . "</td>\n<td>"
-                . $piecesOfData[2] . "</td>\n<td>"
-                . $piecesOfData[3] . "</td>\n</tr>";
-        } // after this, the table will shown as html
+        if (empty($students)) {
+            $tableBody = "<tr><td colspan='4'>Section is empty!</td></tr>";
+        } else {
+            // generating the table body based on the data
+            $eachStudent = preg_split("/#/", $students);
+            // echo print_r($eachStudent);
+            foreach ($eachStudent as $studentData) {
+                $piecesOfData = preg_split("/@/", $studentData);
+                // echo print_r($piecesOfData);
+                // add the complete table row for each student to the table body
+                if ($piecesOfData[0] == "")
+                    continue; // solves the null issue, where it prints empty values
+                $tableBody .= "\n<tr>\n<td>" . $piecesOfData[0] . "</td>\n<td>"
+                    . $piecesOfData[1] . "</td>\n<td>"
+                    . $piecesOfData[2] . "</td>\n<td>"
+                    . $piecesOfData[3] . "</td>\n</tr>";
+            } // after this, the table will shown as html
+        }
     }
 }
 ?>
