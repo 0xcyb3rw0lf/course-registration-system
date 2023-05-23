@@ -973,7 +973,7 @@ function isInAppealPeriod()
 {
     try {
         require("connection.php");
-        $sql = "SELECT SEM_ID FROM SEMESTER WHERE NOW() >= APPEAL_START AND NOW() <= APPEAL_END;";
+        $sql = "SELECT COUNT(*) FROM SEMESTER WHERE NOW() >= APPEAL_START AND NOW() <= APPEAL_END;";
         $statement = $db->prepare($sql);
         $statement->execute();
     } catch (PDOException $e) {
@@ -981,7 +981,7 @@ function isInAppealPeriod()
         $db = null;
     }
     $db = null;
-    return $statement->fetch(PDO::FETCH_NUM) != null; // if the database returns nothing, so the student is out of appealing period 
+    return $statement->fetch(PDO::FETCH_NUM)[0] == 1; // if the database returns nothing, so the student is out of appealing period 
 }
 
 /**
