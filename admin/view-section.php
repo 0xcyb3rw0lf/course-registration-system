@@ -15,7 +15,6 @@ if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be 
 
 require_once("../functions.php");
 if (isset($_POST["view-section"])) {
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
@@ -63,7 +62,7 @@ if (isset($_POST["view-section"])) {
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-        label{
+        label {
             display: inline;
         }
     </style>
@@ -123,59 +122,53 @@ if (isset($_POST["view-section"])) {
                 echo $feedbackMsg;
                 unset($feedbackMsg);
             }
+
+            if (isset($displayForm)) {
             ?>
         </form>
         <!-- The Table of students list -->
         <div class="catalogue-main" style="margin-bottom: 2em; text-align: left;">
             <form method="post" class="form" style="margin-left: 2.75em;  text-align: center;">
-                <?php
-                if (isset($displayForm) and $displayForm) {
-                    // $sectionInfo = getSectionInformation(); // an array
-                    // Required varialbes for adding the section
-
-                    // TODO: edit the form, to display only data + write the functions to get data from the database
-                ?>
-
-                    <div class="attendance-flex catalogue-main">
-                        <!-- Course Code and Section Number -->
-                        <div class="attendance-inner-flex" style="flex: 4;">
-                            <label for="course-code">Course Code:</label>
-                            <p style="color: black;"><?php echo $courseCode ?></p>
-                            <br><br><br>
-                            <!-- Section Number -->
-                            <label for="section-num">Section Number:</label>
-                            <p style="color: black;"></p><?php echo $sectionNumber ?></p>
-                        </div>
-
-                        <!-- Building and Room -->
-                        <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                            <label for="bldng">Building:</label>
-                            <p style="color: black;"><?php echo $buildingName ?></p>
-                            <br><br><br><br>
-                            <label for="room">Room:</label>
-                            <p style="color: black;"><?php echo $roomName ?></p>
-                        </div>
-
-                        <!-- Professor and Date -->
-                        <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                            <label for="prof-name">Professor:</label><br><br>
-                            <p style="color: black;"><?php echo $professorName ?></p>
-                            <br><br><br>
-                            <label for="datetime">Days:</label><br><br>
-                            <p style="color: black;"><?php echo $days ?></p>
-                        </div>
-
-                        <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                            <label for="datetime">Time:</label><br><br>
-                            <p style="color: black;"><?php echo $time ?></p>
-                            <br><br><br>
-                            <label for="capacity">Capacity:</label><br><br>
-                            <p style="color: black;"><?php echo $capacity ?></p>
-                        </div>
+                <div class="attendance-flex catalogue-main">
+                    <!-- Course Code and Section Number -->
+                    <div class="attendance-inner-flex" style="flex: 4;">
+                        <label for="course-code">Course Code:</label>
+                        <p style="color: black;"><?php echo $courseCode ?></p>
+                        <br><br><br>
+                        <!-- Section Number -->
+                        <label for="section-num">Section Number:</label>
+                        <p style="color: black;"></p><?php echo $sectionNumber ?></p>
                     </div>
-                <?php
-                }
-                ?>
+
+                    <!-- Building and Room -->
+                    <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                        <label for="bldng">Building:</label>
+                        <p style="color: black;"><?php echo $buildingName ?></p>
+                        <br><br><br><br>
+                        <label for="room">Room:</label>
+                        <p style="color: black;"><?php echo $roomName ?></p>
+                    </div>
+
+                    <!-- Professor and Date -->
+                    <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                        <label for="prof-name">Professor:</label><br><br>
+                        <p style="color: black;"><?php echo $professorName ?></p>
+                        <br><br><br>
+                        <label for="datetime">Days:</label><br><br>
+                        <p style="color: black;"><?php echo $days ?></p>
+                    </div>
+
+                    <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                        <label for="datetime">Time:</label><br><br>
+                        <p style="color: black;"><?php echo $time ?></p>
+                        <br><br><br>
+                        <label for="capacity">Capacity:</label><br><br>
+                        <p style="color: black;"><?php echo $capacity ?></p>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
             </form>
         </div>
     </main>
