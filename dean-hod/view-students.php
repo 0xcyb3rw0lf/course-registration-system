@@ -94,7 +94,9 @@ $invalidName = false;
                                         }   ?>>Choose Program</option>
                     <?php try {
                         require('../connection.php');
-                        $r = $db->query("SELECT * FROM `program_college` WHERE 1");
+                        require_once("../functions.php");
+                        $collegeId = getCollegeId($_SESSION["activeUser"][0]);
+                        $r = $db->query("SELECT * FROM `program_college` WHERE COLLEGE_ID = $collegeId");
                         $selected = "";
                         while ($row = $r->fetch()) {
                             if (isset($_POST['program'])) {
@@ -146,7 +148,7 @@ $invalidName = false;
 
             </div>
             <div class="div">
-                <input type="submit" class="butn primary-butn sign-butn small" style="margin-left:100px;" name="attendance" id="attendance" value="Search">
+                <input type="submit" class="butn primary-butn sign-butn small" style="margin-left:100px;" name="get-students" id="get-students" value="Search">
             </div>
 
         </form>
@@ -192,7 +194,7 @@ $invalidName = false;
 
                         $r = $db->query("SELECT * FROM `student_info` as s INNER JOIN `program_college` as p on s.prog_id=p.program_id INNER JOIN college as c ON p.college_id=c.college_id INNER JOIN users as u ON s.student_id=u.user_id WHERE $condition");
                         if ($r->rowCount() == 0) {
-                            echo "<tr><td colspan='6'>No Results!</td></tr>";
+                            echo "<tr><td colspan='6'>No Results Found!</td></tr>";
                         } else {
 
                             while ($row = $r->fetch()) {
