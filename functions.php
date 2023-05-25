@@ -1156,7 +1156,7 @@ function getBuildingName($roomId)
  * Returns the room name based on room id
  * 
  * @author Omar Eldanasoury
- * @param mixed $
+ * @param mixed $roomId the id of the room
  * @return mixed professor name
  */
 function getRoomName($roomId)
@@ -1177,6 +1177,38 @@ function getRoomName($roomId)
     }
     $db = null;
     return null;
+}
+
+/**
+ * Returns a list of all the courses
+ * of the college
+ * available in the database
+ * 
+ * @author Omar Eldanasoury
+ * @param $collegeId the id of the college
+ * @return array course id, and course code = as an associative array
+ */
+function getCollegeCourses($collegeId)
+{
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        // select course id and code from all programs related to the college of the dean
+        $query = $db->query("SELECT DISTINCT C.COURSE_ID, C.COURSE_CODE FROM COURSE AS C, PROGRAM_COURSE AS PCRS, PROGRAM_COLLEGE AS PCLG WHERE PCLG.COLLEGE_ID = $collegeId AND PCLG.PROGRAM_ID = PCRS.PROGRAM_ID;");
+        while ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $course = array($allCourses[0] => $allCourses[1]);
+            array_push($courses, $course);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
 }
 /**
  * Gets
