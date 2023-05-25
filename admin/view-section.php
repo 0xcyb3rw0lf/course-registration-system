@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Manage Appealing Requests Page
- * Allows the professor user to 
- * view students' appealing requests 
- * and update students' grades to the system 
+ * View Section Page
+ * Allows the admin to select
+ * and view section's information
+ * inside the system
+ *  
  * @author Omar Eldanasoury 
  */
 
@@ -12,6 +13,10 @@ session_start();
 
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
+
+// only admin are allowed to view this page, if non-admin users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "admin")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
 
 require_once("../functions.php");
 if (isset($_POST["view-section"])) {

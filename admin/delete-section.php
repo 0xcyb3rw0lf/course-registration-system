@@ -12,6 +12,10 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only admin are allowed to view this page, if non-admin users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "admin")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 if (isset($_POST["delete-section"])) {
     require_once("../functions.php");
     // first get data

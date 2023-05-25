@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Manage Appealing Requests Page
- * Allows the professor user to 
- * view students' appealing requests 
- * and update students' grades to the system 
+ * Update Section Page
+ * Allows the admin to select
+ * and update section's information
+ * inside the system
+ *  
  * @author Omar Eldanasoury 
  */
 
@@ -13,9 +14,12 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only admin are allowed to view this page, if non-admin users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "admin")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 require_once("../functions.php");
 if (isset($_POST["view-section"])) {
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
@@ -106,16 +110,11 @@ if (isset($_POST["update-section"])) {
 <body>
 
     <?php require("../header.php");
-
-    // Required varialbes for adding the section
     $courses = getCourses(); // get the courses and sections that the professor
     // teaches at the current semester from the database
     // as an associative array course => section1, section2, ... etc
-
     // then once the professor selects from them, we will get data using ajax and present them in tables
     ?>
-
-
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
         <h1 class="catalogue-header" style="color: #4056A1;">Update Section</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">

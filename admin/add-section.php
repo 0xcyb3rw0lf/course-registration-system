@@ -11,6 +11,10 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only admin are allowed to view this page, if non-admin users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "admin")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 if (isset($_POST["add-section"])) {
     require_once("../functions.php");
 
@@ -42,19 +46,16 @@ if (isset($_POST["add-section"])) {
         $feedbackMsg = "<span class='failed-feedback'>Enter only numbers for section number!</span>";
     } else {
         try {
-            if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime, $capacity)) {
+            if (addSection($semId, $courseId, $sectionNum, $professorId, $roomId, $days, $dateTime, $capacity)) { // adding section was successful
                 $feedbackMsg = "<span class='success-feedback'>Section is Added Successfully!</span>";
-            } else { // if updateSection() returned false
+            } else {
                 $feedbackMsg = "<span class='failed-feedback'>Error Adding Section!</span>";
             }
-        } catch (Exception $exception) { // if there is a time conflict, an exception will be thrown by updateSection()
+        } catch (Exception $exception) { // if there is a time conflict, an exception will be thrown
             $feedbackMsg = "<span class='failed-feedback'>Time Conflict Exists, Please Choose Another Time/Days!</span>";
         }
     }
 }
-
-
-
 ?>
 
 
@@ -122,6 +123,8 @@ if (isset($_POST["add-section"])) {
                                 foreach ($courses[$i] as $id => $code) {
                                     echo "<option value='" . strval($id) . "'>" . $code . "</option>";
                                 }
+                        else
+                            echo "<option value=''>No Courses Inside The System, Please Add Course(s)</option>";
 
                         ?>
                     </select>
