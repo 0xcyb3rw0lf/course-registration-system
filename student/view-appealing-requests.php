@@ -13,12 +13,16 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only students are allowed to view this page, if non-student users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "student")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 require_once("../functions.php");
 
 
-$requests = getStudentAppealingRequests($_SESSION["activeUser"][0]);
+$requests = getStudentAppealingRequests($_SESSION["activeUser"][0]); // get all student requests, pass the id as a parameter
 $tableBody = "";
-if ($requests == array()) {
+if ($requests == array()) { // if the student has no requests
     $tableBody = "<tr><td colspan='4'>You Have No Appealing Requests!</td></tr>";
 }
 

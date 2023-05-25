@@ -13,10 +13,14 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only students are allowed to view this page, if non-student users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "student")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
+
 require_once("../functions.php");
 if (isset($_POST["get-prereqs"])) {
 
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
 
@@ -36,12 +40,7 @@ if (isset($_POST["get-prereqs"])) {
         }
     }
 }
-
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
