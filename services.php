@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Services.php file
+ * A php file that contains
+ * functions that return the
+ * list of services for each
+ * user type the arrays store
+ * the title and service path
+ * for each service.
+ * 
+ * @author Omar Eldanasoury
+ */
 require_once("functions.php");
 
 /**
@@ -11,7 +23,6 @@ require_once("functions.php");
 function getProfessorList()
 {
     return array(
-        // TODO: Fill the paths of these pages
         "Manage Grades" => "/course-registration-system/professor/manage-grades.php",
         "Manage Appealing Requests" => "/course-registration-system/professor/appealing-requests.php",
         "View Section" => '/course-registration-system/professor/view-section.php',
@@ -94,13 +105,9 @@ function getAdminList()
  */
 function getHodList()
 {
-    // TODO: Fill the paths of these pages
     return array(
-        "View Seat Requests" => "/course-registration-system/deanHead",
-        "View Students" => "/course-registration-system/deanHead",
-        "Close Section" => '/course-registration-system/deanHead',
-        "Edit Course Details" => '/course-registration-system/deanHead',
-        "Generate Reports" => '/course-registration-system/deanHead'
+        "View Seat Requests" => "/course-registration-system/dean-hod/seat-requests.php",
+        "View Students" => "/course-registration-system/dean-hod/view-students.php",
     );
 }
 
@@ -116,17 +123,14 @@ function getHodList()
 function getDeanList()
 {
     return array(
-        // TODO: Fill the paths of these pages
-        "View Seat Requests" => "/course-registration-system/deanHead",
-        "View Students" => "/course-registration-system/deanHead",
-        "View Staff" => '/course-registration-system/deanHead',
-        "Edit Course Details" => '/course-registration-system/deanHead',
-        "Generate Reports" => '/course-registration-system/deanHead'
+        "View Seat Requests" => "/course-registration-system/dean-hod/seat-requests.php",
+        "View Students" => "/course-registration-system/dean-hod/view-students.php",
+        "View Staff" => '/course-registration-system/dean-hod/view-staff.php',
     );
 }
 
 /**
- * returns the list of servies
+ * Returns the list of servies
  * based on the type of the current
  * logged in user
  * 
