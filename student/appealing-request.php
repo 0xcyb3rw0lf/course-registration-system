@@ -13,6 +13,9 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only students are allowed to view this page, if non-student users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "student")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
 
 
 if (isset($_POST["add-appeal-request"])) {
@@ -105,7 +108,7 @@ if (isset($_POST["add-appeal-request"])) {
 
             <input type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" onclick="return confirm('Are you sure you want to add appeal request for this course?')" name="add-appeal-request" id="add-appeal-request" value="Add Appeal Request">
             <?php
-            if (isset($feedbackMsg)) {
+            if (isset($feedbackMsg)) { // shows the feedback message to the user
                 echo $feedbackMsg;
                 unset($feedbackMsg);
             }
