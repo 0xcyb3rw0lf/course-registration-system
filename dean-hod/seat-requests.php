@@ -14,7 +14,9 @@ if (!isset($_SESSION["activeUser"]))
   header("location: /course-registration-system/index.php");
 
 // only dean and heads departments are allowed to view this page, if other users tried to view the page, we prevent them using this code
-if ($_SESSION["userType"] != "dean" or $_SESSION["userType"] != "head of department")
+$isDean = str_contains($_SESSION["userType"], "dean");
+$isHod = str_contains($_SESSION["userType"], "head of department");
+if (!($isDean xor $isHod)) // if neither the user is dean nor head of department, he should not view this page
   die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
 
 require_once("../functions.php");
