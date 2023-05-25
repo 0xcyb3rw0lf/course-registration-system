@@ -1,20 +1,38 @@
 <?php
-//TODO: Show requests of this semester only
-//TODO: Fix buttons to make rounded only on edges and not center
 
+/**
+ * View Seat Requests Page
+ * allows deans and heads of
+ * departments to accept/reject
+ * wait requests done by students
+ * 
+ * @author Omar Eldanaosury
+ * @author Mohammed Alammal
+ */
 session_start();
 if (!isset($_SESSION["activeUser"]))
-  header("location: ../index.php");
+  header("location: /course-registration-system/index.php");
 
 require_once("../functions.php");
-$courses = getCourses();
-
+if ($_SESSION["userType"] == "dean") { // we get the courses from all departments of the college
+  $collegeId = getCollegeId($_SESSION["activeUser"][0]); // we pass the user id to get his college Id
+  $courses = getCollegeCourses($collegeId);
+} else { // we only get courses of the department of the head of department
+  $departmentId = getDepartmentId($_SESSION["activeUser"][0]);
+  $courses = getDepartmentCourses($departmentId);
+}
 //UPDATE wait_reqs SET request_state = 'Accepted' WHERE request_id = 1;
 //Note: Add course to registered courses
+if (isset($_POST["search"])) {
+  if ($_POST["course-code"] == "" or $_POST["section-number"] == "")
+    $feedbackMsg = "<span class='failed-feedback'>Please select a course and a section!</span>";
+  else
+    $displayTable = true;
+}
 
 if (isset($_POST['submit'])) {
   $request_id = $_POST['submit'];
-
+  $displayTable = true;
   $SQL = "UPDATE wait_reqs SET request_state = 1 WHERE request_id = $request_id";
 
   try {
@@ -29,8 +47,10 @@ if (isset($_POST['submit'])) {
   } catch (PDOException $i) {
     $db->rollback();
     echo "Error occurred";
+    $feedbackMsg = "<span class='failed-feedback'>Unexpected Error, please try again later!</span>";
     die($i->getMessage());
   }
+  // TODO: then we add the student to the course_registration table
 }
 
 if (isset($_POST['reject'])) {
@@ -144,40 +164,46 @@ if (isset($_POST['reject'])) {
           </tr>
         </thead>
         <tbody>
-          <?php try {
+          <?php
+          if (!isset($displayTable)) {
+            echo "<tr><td colspan='6'>Please Select a Course and a Section</td></tr>";
+          } else {
+            try {
 
-            $condition = "";
-            if (isset($_POST['course-code'])) {
-              if (trim($_POST['course-code']) != "") {
-                $condition .= " AND w.course_id=" . $_POST['course-code'] . "";
+              $condition = "";
+              if (isset($_POST['course-code'])) {
+                if (trim($_POST['course-code']) != "") {
+                  $condition .= " AND w.course_id=" . $_POST['course-code'] . "";
+                }
               }
-            }
-            if (isset($_POST['section-number'])) {
-              if (trim($_POST['section-number']) != "") {
-                $condition .= " AND w.section_id=" . $_POST['section-number'] . "";
+              if (isset($_POST['section-number'])) {
+                if (trim($_POST['section-number']) != "") {
+                  $condition .= " AND w.section_id=" . $_POST['section-number'] . "";
+                }
               }
+
+              require('../connection.php');
+              $r = $db->query("SELECT * FROM `wait_reqs` as w INNER JOIN `student_info` as s ON w.student_id=s.student_id INNER JOIN `course` as c ON w.course_id=c.course_id INNER JOIN `course_section` as cs ON w.section_id=cs.section_id WHERE request_state IS NULL $condition");
+
+              if ($r->rowCount() == 0) {
+                echo "<tr><td colspan='6'>No active requests for the selected section</td></tr>";
+              }
+              while ($row = $r->fetch()) {
+                echo "<tr>";
+                echo "\n<td>" . $row['course_code'] . "</td>";
+                echo "\n<td>" . $row['Sec_num'] . "</td>";
+                echo "\n<td>" . $row['student_id'] . "</td>";
+                echo "\n<td>" . $row['year'] . "</td>";
+                echo "\n<td>" . $row['credits_done'] . "</td>";
+                echo "\n<td><button style='padding:10px;background-color: #28a745' type='submit' class='butn primary-butn sign-butn no-margin-left margin-top small' name='submit' value='" . $row['request_id'] . "'>Add<button style='padding:10px;background-color: #dc3545' type='submit' class='butn primary-butn sign-butn no-margin-left margin-top small' name='reject' value='" . $row['request_id'] . "'>Reject</td>";
+                echo "</tr>";
+              }
+            } catch (PDOException $i) {
+              echo "Error occurred";
+              die($i->getMessage());
             }
-
-
-
-            require('../connection.php');
-            $r = $db->query("SELECT * FROM `wait_reqs` as w INNER JOIN `student_info` as s ON w.student_id=s.student_id INNER JOIN `course` as c ON w.course_id=c.course_id INNER JOIN `course_section` as cs ON w.section_id=cs.section_id WHERE request_state IS NULL $condition");
-
-            while ($row = $r->fetch()) {
-              echo "<tr>";
-              echo "<td>" . $row['course_code'] . "</td>";
-              echo "<td>" . $row['Sec_num'] . "</td>";
-              echo "<td>" . $row['student_id'] . "</td>";
-              echo "<td>" . $row['year'] . "</td>";
-              echo "<td>" . $row['credits_done'] . "</td>";
-              echo "<td><button style='padding:10px;background-color: #28a745' type='submit' class='butn primary-butn sign-butn no-margin-left margin-top small' name='submit' value='" . $row['request_id'] . "'>Add<button style='padding:10px;background-color: #dc3545' type='submit' class='butn primary-butn sign-butn no-margin-left margin-top small' name='reject' value='" . $row['request_id'] . "'>Reject</td>";
-              echo "</tr>";
-            }
-          } catch (PDOException $i) {
-            echo "Error occurred";
-            die($i->getMessage());
-          } ?>
-
+          }
+          ?>
         </tbody>
       </table>
     </form>
@@ -188,7 +214,9 @@ if (isset($_POST['reject'])) {
   <?php
   require("../footer.php");
   ?>
-
+  <!-- AJAX Script to retrieve section ids and numbers for a course
+    @author Omar Eldanasoury
+  -->
   <script type="text/javascript">
     function getSections(courseId) {
       if (courseId == "") {
