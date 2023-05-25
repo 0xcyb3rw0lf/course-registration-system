@@ -13,6 +13,10 @@ session_start();
 if (!isset($_SESSION["activeUser"]))
   header("location: /course-registration-system/index.php");
 
+// only dean and heads departments are allowed to view this page, if other users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "dean" or $_SESSION["userType"] != "head of department")
+  die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 require_once("../functions.php");
 if ($_SESSION["userType"] == "dean") { // we get the courses from all departments of the college
   $collegeId = getCollegeId($_SESSION["activeUser"][0]); // we pass the user id to get his college Id
