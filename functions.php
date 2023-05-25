@@ -1271,6 +1271,36 @@ function getCollegeId($userId)
 
     return $collegeId;
 }
+
+/**
+ * Retrieves the department id
+ * of the user from the database.
+ * 
+ * @author Omar Eldanasoury
+ * @param int $userId the id of the head of department
+ * @return string department id that the user belongs to
+ */
+function getDepartmentId($userId)
+{
+    $collegeId = null;
+
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT DEP_ID FROM USERS WHERE USER_ID = $userId");
+        if ($result = $query->fetch(PDO::FETCH_NUM)) {
+            $collegeId = $result[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+
+    return $collegeId;
+}
 /**
  * Gets
  */
