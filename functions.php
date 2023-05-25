@@ -1210,6 +1210,37 @@ function getCollegeCourses($collegeId)
     $db = null;
     return $courses;
 }
+
+/**
+ * Returns a list of all the courses
+ * of the department
+ * available in the database
+ * 
+ * @author Omar Eldanasoury
+ * @return array course id, and course code = as an associative array
+ */
+function getDepartmentCourses($departmentId)
+{
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        // gets all courses related to the department
+        $query = $db->query("SELECT DISTINCT C.COURSE_ID, C.COURSE_CODE FROM COURSE AS C, PROGRAM_COURSE AS PCRS, PROGRAM_COLLEGE AS PCLG, DEPARTMENT AS DEP WHERE PCLG.COLLEGE_ID = DEP.COLLEGE_ID AND PCLG.PROGRAM_ID = PCRS.PROGRAM_ID AND DEP.DEP_ID = $departmentId;");
+        while ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $course = array($allCourses[0] => $allCourses[1]);
+            array_push($courses, $course);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
+}
 /**
  * Gets
  */
