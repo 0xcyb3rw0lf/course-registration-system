@@ -1301,6 +1301,37 @@ function getDepartmentId($userId)
 
     return $collegeId;
 }
+
+/**
+ * Returns the programs of a certain college
+ * 
+ * @author Omar Eldanasoury
+ * 
+ */
+function getCollegePrograms($collegeId)
+{
+    $programs = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        // gets all courses related to the department
+        $query = $db->query("SELECT PROGRAM_ID, PROGRAM_NAME FROM PROGRAM_COLLEGE WHERE COLLEGE_ID = $collegeId;");
+        while ($allPrograms = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $program = array($allPrograms[0] => $allPrograms[1]);
+            array_push($programs, $program);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $programs;
+}
+
+
 /**
  * Gets
  */
