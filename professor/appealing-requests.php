@@ -13,10 +13,13 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only professor are allowed to view this page, if non-professor users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "professor")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 require_once("../functions.php");
 if (isset($_POST["manage-appealing-requests"])) {
 
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
@@ -77,9 +80,6 @@ if (isset($_POST["update-grades"])) {
         }
     }
 }
-
-
-
 ?>
 
 
@@ -112,14 +112,9 @@ if (isset($_POST["update-grades"])) {
 
     <?php require("../header.php");
     require_once("../functions.php");
-    // TODO: do these 2 functions and getProfessorSection() and display data, no validation required here,
-    // also show if the section is empty
-
-    // Required varialbes for adding the section
     $courses = getProfessorCourses($_SESSION["activeUser"][0]); // get the courses and sections that the professor
     // teaches at the current semester from the database
     // as an associative array course => section1, section2, ... etc
-
     // then once the professor selects from them, we will get data using ajax and present them in tables
     ?>
 
@@ -139,6 +134,8 @@ if (isset($_POST["update-grades"])) {
                                 foreach ($courses[$i] as $id => $code) {
                                     echo "<option value='" . strval($id) . "'>" . $code . "</option>";
                                 }
+                        else
+                            echo "<option value=''>You have no active courses!</option>";
                         ?>
                     </select>
                 </div>

@@ -13,10 +13,13 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only professor are allowed to view this page, if non-professor users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "professor")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 require_once("../functions.php");
 if (isset($_POST["manage-grades"])) {
 
-    // TODO: after user confirms (using JS)
     // first get data
     $cid = checkInput($_POST["course-code"]);
     $secId = checkInput($_POST["section-number"]);
@@ -111,10 +114,6 @@ if (isset($_POST["update-grades"])) {
 
     <?php require("../header.php");
     require_once("../functions.php");
-    // TODO: do these 2 functions and getProfessorSection() and display data, no validation required here,
-    // also show if the section is empty
-
-    // Required varialbes for adding the section
     $courses = getProfessorCourses($_SESSION["activeUser"][0]); // get the courses and sections that the professor
     // teaches at the current semester from the database
     // as an associative array course => section1, section2, ... etc
@@ -144,7 +143,6 @@ if (isset($_POST["update-grades"])) {
 
                 <div class="attendance-inner-flex">
                     <!-- Section Number -->
-                    <!-- onchange="showStudents(this.value)" -->
                     <label for="section-number">Section Number:</label><br><br>
                     <!-- Will be populated automatically by the system after selecting the course code, again by AJAX -->
                     <select class="selecter" name="section-number" id="section-number" style="margin-left: 0">
@@ -185,6 +183,7 @@ if (isset($_POST["update-grades"])) {
                     </tbody>
                 </table>
                 <br><br><br>
+                <!-- php code controls the visibilty of the <input> -->
                 <input <?php if (isset($tableBody) and !(isset($submitGrades) and !$submitGrades)) echo "style='visibility: visible; width: 35%;'";
                         else echo "style='visibility: hidden;'" ?> onclick="return confirm('Do you want to update the grades for this section?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="update-grades" id="update-grades" value="Update Student's Grades">
             </form>

@@ -13,6 +13,10 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only professor are allowed to view this page, if non-professor users tried to view the page, we prevent them using this code
+if ($_SESSION["userType"] != "professor")
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 $errMsg = "";
 if (isset($_POST["view-section"])) {
     require_once("../functions.php");
@@ -35,7 +39,6 @@ if (isset($_POST["view-section"])) {
             // echo print_r($eachStudent);
             foreach ($eachStudent as $studentData) {
                 $piecesOfData = preg_split("/@/", $studentData);
-                // echo print_r($piecesOfData);
                 // add the complete table row for each student to the table body
                 if ($piecesOfData[0] == "")
                     continue; // solves the null issue, where it prints empty values
