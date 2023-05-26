@@ -10,27 +10,28 @@ if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be 
     header("location: /course-registration-system/login.php");
 
 if (isset($_POST["add-building"])) {
-    require_once("../functions.php");
+    require_once("../functions2.php");
 
     // Adding the building
-    $buildingId = $_POST["building-id"];
     $buildingName = $_POST["building-name"];
 
     // Validate/ check for empty values
     if (
-        empty($buildingId)
-        or empty($buildingName)
+        empty($buildingName)
     ) {
-        $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
-    
+        $feedbackMsg = "<span class='failed-feedback'>Please enter a building name!</span>";
     } else {
-        
-            if (addBuilding($buildingId, $buildingName)) {
+        try {
+            if (addBuilding($buildingName)) {
                 $feedbackMsg = "<span class='success-feedback'>Building is Added Successfully!</span>";
             } else {
                 $feedbackMsg = "<span class='failed-feedback'>Error Adding Building!</span>";
+            }
+        } catch (Exception $exception) { // send error if building already exists
+            $feedbackMsg = "<span class='failed-feedback'>Building Already Exists, Please Choose a New Building Name!</span>";
+        }
     }
-    }}
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,9 +62,8 @@ if (isset($_POST["add-building"])) {
 <body>
 
     <?php require("../header.php");
-    require_once("../functions.php");
-    // Required varialbes for adding the building
-    $buildings = getBuildings();
+    require_once("../functions2.php");
+    
     ?>
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
@@ -71,21 +71,14 @@ if (isset($_POST["add-building"])) {
 
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
-                <!-- Building ID and Building Name -->
+                <!-- Add Building Name -->
                 <div class="attendance-inner-flex">
-                    <label for="building-id">Building ID:</label><br><br>
-                    <input type="number" min="1" class="selecter" name="building-id" id="building-id">
-                    </select>
-                    <br><br>
-                </div>
-                
-                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                     <label for="building-name">Building Name:</label><br><br>
                     <input type="text" class="selecter" name="building-name" id="building-name">
                     </select>
                     <br><br>
                 </div>
-                
+
             </div>
 
             <input onclick="return confirm('Are you sure you want to add a building?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-building" id="add-building" value="Add a Building">
@@ -102,4 +95,5 @@ if (isset($_POST["add-building"])) {
 
     <?php require("../footer.php") ?>
 </body>
+
 </html>
