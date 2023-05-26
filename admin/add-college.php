@@ -4,33 +4,42 @@
  * Add College Page
  * Allows the admin user to 
  * add colleges to the system
+ * 
+ * @author Elyas Raed
+ * @author Omar Eldansoury
  */
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only admin should access the page
+if (!str_contains($_SESSION["userType"], "admin"))
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
+
 if (isset($_POST["add-college"])) {
-    require_once("../functions.php");
+    require_once("../functions2.php");
 
     // Adding the room
-    $collegeId = $_POST["college-id"];
     $collegeName = $_POST["college-name"];
 
     // Validate/ check for empty values
     if (
-        empty($collegeId)
-        or empty($collegeName)
+        empty($collegeName)
     ) {
         $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
-    
     } else {
-        
-            if (addCollege($collegeId, $collegeName)) {
+        try {
+            if (addCollege($collegeName)) {
                 $feedbackMsg = "<span class='success-feedback'>College is Added Successfully!</span>";
             } else {
                 $feedbackMsg = "<span class='failed-feedback'>Error Adding College!</span>";
+            }
+        } catch (Exception $exception) { // send error if college already exists
+            $feedbackMsg = "<span class='failed-feedback'>College Already Exists, Please Choose a New College Name!</span>";
+        }
     }
-    }}
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +70,8 @@ if (isset($_POST["add-college"])) {
 <body>
 
     <?php require("../header.php");
-    require_once("../functions.php");
-    // Required varialbes for adding the room
+    require_once("../functions2.php");
+    // Required varialbes for adding the college
     $buildings = getBuildings();
     ?>
 
@@ -71,21 +80,14 @@ if (isset($_POST["add-college"])) {
 
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
-                <!-- College ID and College Name -->
+                <!-- Add College Name -->
                 <div class="attendance-inner-flex">
-                    <label for="college-id">College ID:</label><br><br>
-                    <input type="number" min="1" class="selecter" name="college-id" id="college-id">
-                    </select>
-                    <br><br>
-                </div>
-                
-                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
                     <label for="college-name">College Name:</label><br><br>
                     <input type="text" class="selecter" name="college-name" id="college-name">
                     </select>
                     <br><br>
                 </div>
-                
+
             </div>
 
             <input onclick="return confirm('Are you sure you want to add a college?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-college" id="add-college" value="Add a College">
