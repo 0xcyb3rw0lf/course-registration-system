@@ -920,3 +920,33 @@ function getBuildingRooms($buildingId)
     $db = null;
     return $rooms;
 }
+
+
+/**
+ * Returns the users' id
+ * and name inside an array
+ * @author Omar Eldanasoury
+ * @param mixed $collegeId the id of the college
+ * @return array an array of arrays; each inner array contains the id pointing to the name of the head of department.
+ */
+function getCollegeHODs($collegeId)
+{
+    $hods = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT USER_ID, USERNAME FROM USERS WHERE TYPE_ID = 5 AND COLLEGE_ID = $collegeId");
+        while ($user = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $hod = array($user[0] => $user[1]);
+            array_push($hods, $hod);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $hods;
+}
