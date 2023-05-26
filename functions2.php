@@ -939,7 +939,7 @@ function getCollegeHODs($collegeId)
         $query = $db->query("SELECT USER_ID, USERNAME FROM USERS WHERE TYPE_ID = 5 AND COLLEGE_ID = $collegeId");
         while ($user = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
-            $hod .= $user[0] . "@" .  $user[1] . "#";
+            $hods .= $user[0] . "@" .  $user[1] . "#";
         }
     } catch (PDOException $ex) {
         // printing the error message if error happens
@@ -948,4 +948,33 @@ function getCollegeHODs($collegeId)
     // closing connection with the database
     $db = null;
     return $hods;
+}
+
+/**
+ * Returns the programs of a certain college
+ * in a string to support AJAX
+ * 
+ * @author Omar Eldanasoury
+ * 
+ */
+function getCollegeProgramsToString($collegeId)
+{
+    $programs = "";
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        // gets all courses related to the department
+        $query = $db->query("SELECT PROGRAM_ID, PROGRAM_NAME FROM PROGRAM_COLLEGE WHERE COLLEGE_ID = $collegeId;");
+        while ($allPrograms = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $programs .= $allPrograms[0] . "@" . $allPrograms[1] . "#";
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $programs;
 }
