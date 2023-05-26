@@ -280,7 +280,7 @@ function hasSemesterConflict($semN)
     $db = null; // closing the connection
     return "none"; // otherwise, there is no conflict
 }
-function addSemester($semName, $semStatus)
+function addSemester($semName, $appealStartDate, $appealEndDate)
 {
     // checking for semester conflict
     $semesterConflict = hasSemesterConflict($semName);
@@ -289,10 +289,10 @@ function addSemester($semName, $semStatus)
 
     require("connection.php");
     try {
-        $sql = "INSERT INTO SEMESTER VALUES(null, ?, ?, 0, null, null);";
+        $sql = "INSERT INTO SEMESTER VALUES(null, ?, 0, 0, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($semName, $semStatus));
+        $statement->execute(array($semName, $appealStartDate, $appealEndDate));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
@@ -301,10 +301,7 @@ function addSemester($semName, $semStatus)
         return false;
     }
 
-    if ($statement->rowCount() != 1)
-        return false;
-    // echo "row count: " . $statement->rowCount();
-    return true;
+    return $statement->rowCount() == 1;
 }
 
 function hasProgramConflict($programN)
