@@ -111,13 +111,13 @@ if (isset($_POST["delete-program"])) {
 
     <?php require("../footer.php") ?>
 </body>
-<!-- Script for getting the rooms after the user selects the buildings :: Using AJAX
+<!-- Script for getting the programs after the user selects the college :: Using AJAX
      Author: Omar Eldanasoury
  -->
 <script>
     /**@@function getPrograms()
      * sends user choice to the script to get
-     * rooms of the building
+     * programs of the college
      * 
      * @author Omar Eldanasoury
      */
@@ -135,7 +135,7 @@ if (isset($_POST["delete-program"])) {
 
     /**@function showPrograms
      * populated the options inside <select>
-     * after getting the rooms
+     * after getting the programs
      * 
      * @author Omar Eldanasoury
      */
