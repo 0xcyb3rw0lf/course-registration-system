@@ -94,9 +94,11 @@ function getAdminList()
         "4" => "break", // breaks to separate the options in the front-end
         "Add College" => $basePath . "add-college.php",
         "Delete College" => $basePath . "delete-college.php",
+        "Add Department" => $basePath . "add-department.php",
+        "Delete Department" => $basePath . "delete-department.php",
+        "5" => "break", // breaks to separate the options in the front-end
         "Add Program" => "",
         "Delete Program" => "",
-        "5" => "break", // breaks to separate the options in the front-end
         "View Summer Seats" => $basePath . "",
         "Generate Reports" => $basePath . "",
     );
