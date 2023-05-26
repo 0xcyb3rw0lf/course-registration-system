@@ -97,8 +97,8 @@ function getAdminList()
         "Add Department" => $basePath . "add-department.php",
         "Delete Department" => $basePath . "delete-department.php",
         "5" => "break", // breaks to separate the options in the front-end
-        "Add Program" => "",
-        "Delete Program" => "",
+        "Add Program" => $basePath . "add-program.php",
+        "Delete Program" => $basePath . "delete-program.php",
         "View Summer Seats" => $basePath . "",
         "Generate Reports" => $basePath . "",
     );
