@@ -212,6 +212,7 @@ if (isset($_POST["add-section"])) {
      */
     function getRooms(buildingId) {
         if (buildingId.length == 0) {
+            clearRooms();
             return;
         }
 
