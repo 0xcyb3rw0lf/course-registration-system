@@ -4,14 +4,20 @@
  * Delete College Page
  * Allows the admin user to 
  * Delete Colleges from the system
+ * 
+ * @author Elyas Raed
+ * @author Omar Eldanasoury
  */
-
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+// only admin should access the page
+if (!str_contains($_SESSION["userType"], "admin"))
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 if (isset($_POST["delete-college"])) {
-    require_once("../functions.php");
+    require_once("../functions2.php");
     // first get data
     $collegeName = checkInput($_POST["college-name"]);
 
@@ -57,7 +63,7 @@ if (isset($_POST["delete-college"])) {
 <body>
 
     <?php require("../header.php");
-    require_once("../functions.php");
+    require_once("../functions2.php");
     // Required varialbes for deleting the college
     $collegeName = getCollegeName(); // get the colleges list from the database
     ?>
@@ -66,7 +72,7 @@ if (isset($_POST["delete-college"])) {
         <h1 class="catalogue-header" style="color: #4056A1;">Delete College</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
-                <!-- Course Code and Section Number -->
+                <!-- College Names -->
                 <div class="attendance-inner-flex">
                     <label for="college-name">College Name:</label><br><br>
                     <select class="selecter" name="college-name" id="college-name">
@@ -96,4 +102,5 @@ if (isset($_POST["delete-college"])) {
 
     <?php require("../footer.php") ?>
 </body>
+
 </html>
