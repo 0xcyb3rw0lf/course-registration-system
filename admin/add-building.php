@@ -4,6 +4,9 @@
  * Add Building Page
  * Allows the admin user to 
  * add buildings to the system
+ * 
+ * @author Omar Eldanasoury
+ * @author Elyas Raed
  */
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
@@ -63,7 +66,7 @@ if (isset($_POST["add-building"])) {
 
     <?php require("../header.php");
     require_once("../functions2.php");
-    
+
     ?>
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
@@ -84,7 +87,7 @@ if (isset($_POST["add-building"])) {
             <input onclick="return confirm('Are you sure you want to add a building?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-building" id="add-building" value="Add a Building">
             <br><br>
             <?php
-            if (isset($feedbackMsg)) {
+            if (isset($feedbackMsg)) { // print feedback messages
                 echo $feedbackMsg;
                 unset($feedbackMsg);
             }
