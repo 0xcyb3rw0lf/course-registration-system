@@ -4,23 +4,30 @@
  * Delete Building Page
  * Allows the admin user to 
  * Delete Buildings from the system
+ * 
+ * @author Omar Eldanasoury
+ * @author Elyas Raed
  */
-
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
+
+// non-admin users cannot view the page
+if (!str_contains($_SESSION["userType"], "admin"))
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
+
 if (isset($_POST["delete-building"])) {
-    require_once("../functions.php");
+    require_once("../functions2.php");
     // first get data
-    $buildings = checkInput($_POST["building-name"]);
+    $buildingName = checkInput($_POST["building-name"]);
 
     // then validate user input
-    if ($buildings == "") { // if the user didn't choose a value for the building name
+    if (empty($buildingName)) { // if the admin user didn't choose a value for the building name
         $feedbackMsg = "<span class='failed-feedback'>Please select a building!</span>";
     } else {
         // then delete the building
-        if (deleteBuilding($buildings)) {
+        if (deleteBuilding($buildingName)) {
             $feedbackMsg = "<span class='success-feedback'>Building is deleted successfully!</span>";
         } else {
             $feedbackMsg = "<span class='failed-feedback'>Error deleting building<br>Please try again later!</span>";
@@ -57,7 +64,7 @@ if (isset($_POST["delete-building"])) {
 <body>
 
     <?php require("../header.php");
-    require_once("../functions.php");
+    require_once("../functions2.php");
     // Required varialbes for deleting the building
     $buildings = getBuildings(); // get the buildings list from the database
     ?>
@@ -66,7 +73,7 @@ if (isset($_POST["delete-building"])) {
         <h1 class="catalogue-header" style="color: #4056A1;">Delete Building</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
-                <!-- Building Name -->
+                <!-- Building Names -->
                 <div class="attendance-inner-flex">
                     <label for="building-name">Building Name:</label><br><br>
                     <select class="selecter" name="building-name" id="building-name">
@@ -96,4 +103,5 @@ if (isset($_POST["delete-building"])) {
 
     <?php require("../footer.php") ?>
 </body>
+
 </html>

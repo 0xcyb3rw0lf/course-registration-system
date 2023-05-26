@@ -85,11 +85,13 @@ function getAdminList()
         "Edit Semesters" => '/course-registration-system/admin/',
         "Delete Semesters" => '/course-registration-system/admin/',
         "3" => "break", // breaks to separate the options in the front-end
-        "Add Buildings" => '/course-registration-system/admin/',
-        "Delete Buildings" => '/course-registration-system/admin/',
+        "Add Buildings" => '/course-registration-system/admin/add-building.php',
+        "Delete Buildings" => '/course-registration-system/admin/delete-building.php',
         "Add Room" => '/course-registration-system/admin/',
         "Delete Room" => '/course-registration-system/admin/',
         "4" => "break", // breaks to separate the options in the front-end
+        "Add Program" => "",
+        "Delete Program" => "",
         "View Summer Seats" => '/course-registration-system/admin/',
         "Generate Reports" => '/course-registration-system/admin/',
     );
