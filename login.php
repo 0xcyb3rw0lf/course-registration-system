@@ -104,7 +104,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                      * will be included in functions.php
                      */
                     try {
-                        $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
+                        $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 1;");
                         if ($sem = $query->fetch(PDO::FETCH_ASSOC)) {
                             $currentSemesterId = $sem["sem_id"];
                             // $semName = $sem["sem_name"];

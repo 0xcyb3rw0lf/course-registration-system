@@ -102,7 +102,7 @@ function getSemesterName($semId)
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = "SELECT SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS'";
+        $query = "SELECT SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 1";
         $rows = $db->prepare($query);
         $rows->execute();
         $semName = "testoo";
@@ -406,7 +406,7 @@ function getCurrentSemesterId()
     $currentSemesterId = null;
     require("connection.php");
     try {
-        $query = $db->query("SELECT SEM_ID FROM SEMESTER WHERE SEM_STATUS = 'IN_PROGRESS';");
+        $query = $db->query("SELECT SEM_ID FROM SEMESTER WHERE SEM_STATUS = 1;");
         if ($sem = $query->fetch(PDO::FETCH_NUM)) {
             $currentSemesterId =  $sem[0];
         }
