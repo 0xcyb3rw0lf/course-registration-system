@@ -999,3 +999,30 @@ function getCurrentSemesterId()
     $db = null; // closing the connection
     return $currentSemesterId;
 }
+
+/**
+ * Returns all semester information
+ * from the system
+ * 
+ * @author Omar Eldanasoury
+ * @param $semesterId the id of the section
+ * @return mixed an array of the section data, and returns null if the section does not exist in the system 
+ */
+function getSemesterData($semesterId)
+{
+    try {
+        require("connection.php");
+        $sql = "SELECT * FROM SEMESTER WHERE SEM_ID = $semesterId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($semester = $statement->fetch(PDO::FETCH_ASSOC)) {
+            return $semester;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+
+        $db = null;
+    }
+    return null;
+}
