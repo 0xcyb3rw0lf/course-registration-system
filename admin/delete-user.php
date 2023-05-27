@@ -76,7 +76,6 @@ if (isset($_POST["delete-user"])) {
         <h1 class="catalogue-header" style="color: #4056A1;">Delete User</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
-                <!-- User Type and User Name -->
                 <div class="attendance-inner-flex">
                     <label for="email">Enter User Email:</label><br><br>
                     <input type="text" class="selecter" name="email" id="email">
