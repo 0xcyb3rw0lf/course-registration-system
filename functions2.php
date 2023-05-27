@@ -603,17 +603,27 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
     // echo "row count: " . $statement->rowCount();
     return true;
 }
-function deleteUser($userId)
+/**
+ * Deletes a user from the database
+ * 
+ * @author Omar Eldanasoury
+ * @author Elyas Raed
+ * @param mixed $userEmail
+ * @return bool true if deletion was successful, otherwise false
+ */
+function deleteUser($userEmail)
 {
+    if (!doesEmailExists($userEmail))
+        throw new Exception();
     require("connection.php");
     try {
         // establishing connection
         require("connection.php");
         // setting and running the query
         $db->beginTransaction();
-        $sql = "DELETE FROM USERS WHERE USER_ID = ?";
+        $sql = "DELETE FROM USERS WHERE EMAIL = ?";
         $statement = $db->prepare($sql);
-        $statement->execute(array($userId));
+        $statement->execute(array($userEmail));
         $db->commit();
     } catch (PDOException $ex) {
         $db->rollBack();
@@ -1034,4 +1044,31 @@ function getSemesterData($semesterId)
         $db = null;
     }
     return null;
+}
+
+/**
+ * Returns true if the email
+ * already exists in the db,
+ * false otherwise.
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $email the user's email
+ * @return bool true if the email already exists in the db, otherwise false
+ */
+function doesEmailExists($email)
+{
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT USER_ID FROM USERS WHERE EMAIL LIKE ?");
+        $query->execute(array($email));
+        if ($result = $query->fetch(PDO::FETCH_NUM)) { // if there is a time conflict
+            $db = null; // closing the connection
+            return true;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return false;
 }
