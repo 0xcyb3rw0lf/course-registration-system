@@ -5,8 +5,8 @@
  * Allows the admin user to 
  * add departments to the system
  * 
- * @author Elyas Raed
  * @author Omar Eldanasoury
+ * @author Elyas Raed
  */
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
