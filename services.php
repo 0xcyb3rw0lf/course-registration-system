@@ -83,9 +83,9 @@ function getAdminList()
         "Delete Section" => $basePath . 'delete-section.php',
         "2" => "break", // breaks to separate the options in the front-end
         "Add Semesters" => $basePath . "add-semester.php",
-        "View Semesters" => $basePath . "delete-semester.php",
+        "View Semesters" => $basePath . "",
         "Edit Semesters" => $basePath . "",
-        "Delete Semesters" => $basePath . "",
+        "Delete Semesters" => $basePath . "delete-semester.php",
         "3" => "break", // breaks to separate the options in the front-end
         "Add Buildings" => $basePath . 'add-building.php',
         "Delete Buildings" => $basePath . 'delete-building.php',
