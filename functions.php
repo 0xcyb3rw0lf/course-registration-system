@@ -105,7 +105,6 @@ function getSemesterName($semId)
         $query = "SELECT SEM_NAME FROM SEMESTER WHERE SEM_STATUS = 1";
         $rows = $db->prepare($query);
         $rows->execute();
-        $semName = "testoo";
         if ($sem = $rows->fetch(PDO::FETCH_NUM)) {
             $semName = $sem[0]; // getting the name if the query was successful
         }
