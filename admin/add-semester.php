@@ -19,15 +19,47 @@ if (!str_contains($_SESSION["userType"], "admin"))
 if (isset($_POST["add-semester"])) {
     require_once("../functions2.php");
 
-    // Adding the semester
+    // Getting input
     $semName = $_POST["sem-name"];
+    $appealStartDate = $_POST["start-date"];
+    $appealEndDate = $_POST["end-date"];
+
+    /**
+     * Here we convert the users input dates
+     * to a specific format, and then compare
+     * it to the current date which we generated
+     * using the same format. The format is unified
+     * to make it easy to compare them in the input 
+     * validation process.
+     * 
+     * @author Omar Eldanasoury
+     */
+    date_default_timezone_set(@date_default_timezone_get() ?: 'AST'); // setiting the timezone to be as the user's timezone
+    $currentDate = date("Y-m-d"); // get current date in specified format
+
+    // convert user's input dates to time stamps
+    $startDateTimeStamp = strtotime($appealStartDate);
+    $endDateTimeStamp = strtotime($appealEndDate);
+
+    // finally, converting the dates the the specified format;
+    // this makes it easier to compare the dates in the follwing
+    // input validation for input validaiton purposes
+    $formattedStartDate = date("Y-m-d", $startDateTimeStamp);
+    $formattedEndDate = date("Y-m-d", $endDateTimeStamp);
+
     // Validate/ check for empty values
     if (
         empty($semName)
+        or empty($appealStartDate)
+        or empty($appealEndDate)
     ) {
         $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
     } else if (!preg_match("/^20[2-9][0-9]\/20[2-9][0-9]\-[1|2|S]$/", $semName)) { // validating the semester name
         $feedbackMsg = "<span class='failed-feedback'>Enter a valid semester name!</span>";
+    } else if ($formattedStartDate < $currentDate or $formattedEndDate < $currentDate) { // if start-date or end-date are less than today
+        $feedbackMsg = "<span class='failed-feedback'>Dates should not be less than today!</span>";
+    } else if ($appealStartDate > $appealEndDate) { // if start-date is less than or equal to end-date
+        $feedbackMsg = "<span class='failed-feedback'>Start date should not be less than end-date!</span>";
     } else {
         try {
             if (addSemester($semName, $appealStartDate, $appealEndDate)) {
