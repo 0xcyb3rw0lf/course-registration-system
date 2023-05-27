@@ -86,8 +86,7 @@ if (isset($_POST["login"])) { // if the user clicked on login button
                 $hashedPassword = $user["password"];
                 $userId = $user["user_id"];
                 $userTypeId = $user["type_id"];
-                // TODO: add password_verify to the following if
-                if ($password == $hashedPassword) { // here we update the session
+                if (password_verify($password, $hashedPassword)) { // here we update the session
                     // user is signed in!
                     /**
                      * We need to store the following in the session data:
