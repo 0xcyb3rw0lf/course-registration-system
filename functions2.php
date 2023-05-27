@@ -376,7 +376,7 @@ function hasDepartmentConflict($departmentN)
     return "none"; // otherwise, there is no conflict
 }
 
-function addDepartment($dname, $collegeId, $hod)
+function addDepartment($dname, $collegeId)
 {
     // checking for time conflict
     $departmentConflict = hasDepartmentConflict($dname);
@@ -385,10 +385,10 @@ function addDepartment($dname, $collegeId, $hod)
 
     require("connection.php");
     try {
-        $sql = "INSERT INTO DEPARTMENT VALUES(null, ?, ?, ?);";
+        $sql = "INSERT INTO DEPARTMENT VALUES(null, ?, ?, null);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($dname, $collegeId, $hod));
+        $statement->execute(array($dname, $collegeId));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
@@ -606,10 +606,8 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
         return false;
     }
 
-    if ($statement->rowCount() != 1)
-        return false;
-    // echo "row count: " . $statement->rowCount();
-    return true;
+
+    return $statement->rowCount() == 1;
 }
 /**
  * Deletes a user from the database
