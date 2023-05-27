@@ -975,3 +975,27 @@ function getCollegeProgramsToString($collegeId)
     $db = null;
     return $programs;
 }
+
+/**
+ * Gets the id of the current semester
+ * from the database
+ * 
+ * @author Omar Eldanasoury
+ * @return mixed the id of the semester, or null if there is an error
+ */
+function getCurrentSemesterId()
+{
+    $currentSemesterId = null;
+    require("connection.php");
+    try {
+        $query = $db->query("SELECT SEM_ID FROM SEMESTER WHERE SEM_STATUS = 1;");
+        if ($sem = $query->fetch(PDO::FETCH_NUM)) {
+            $currentSemesterId =  $sem[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return $currentSemesterId;
+}
