@@ -567,19 +567,28 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
     // checking for name conflict
     $nameConflict = hasNameConflict($un);
     if ($nameConflict == 'conflict')
-        throw new Exception();;
+        throw new Exception();
 
     // checking for email conflict
     $emailConflict = hasEmailConflict($em);
     if ($emailConflict == 'conflict')
         throw new Exception();;
 
+    $college = $coll;
+    $department = $maj;
+
+    if (intval($utp) == 0) // if the user is admin
+        $college = $department = null;
+    else if (intval($utp) == 4)  // if the user is dean
+        $department = null;
+
     require("connection.php");
     try {
+
         $sql = "INSERT INTO USERS VALUES(null, ?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($utp, $un, $em, $pas, $coll, $maj, $gen));
+        $statement->execute(array($utp, $un, $em, password_hash($pas, PASSWORD_DEFAULT), $college, $department, $gen));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
