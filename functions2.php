@@ -43,11 +43,19 @@ function updateStatus($semName, $semStatus)
 function updateUser($uid, $utp, $un, $em, $pas, $coll, $maj, $gen)
 {
     try {
+        $college = $coll;
+        $department = $maj;
+
+        if (intval($utp) == 0) // if the user is admin
+            $college = $department = null;
+        else if (intval($utp) == 4)  // if the user is dean
+            $department = null;
+
         require("connection.php");
         $sql = "UPDATE USERS SET TYPE_ID = ?, USERNAME = ?, EMAIL = ?, PASSWORD = ?, COLLEGE_ID = ?, DEP_ID = ? , GENDER = ? WHERE USER_ID = ?";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($utp, $un, $em, $pas, $coll, $maj, $gen, $uid));
+        $statement->execute(array($utp, $un, $em, $pas, $college, $department, $gen, $uid));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
