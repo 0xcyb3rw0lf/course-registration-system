@@ -68,9 +68,9 @@ function getAdminList()
         // TODO: Fill the paths of these pages
         // $basePath . FILE_NAME
         "Add Users" => $basePath . "add-user.php",
-        "View Users" => $basePath . "delete-user.php",
-        "Update Users" => $basePath . "", // this is the same as managing the profile of users
-        "Delete Users" => $basePath . "",
+        "View Users" => $basePath . "view-user.php",
+        "Update Users" => $basePath . "update-user.php", // this is the same as managing the profile of users
+        "Delete Users" => $basePath . "delete-user.php",
         "0" => "break", // breaks to separate the options in the front-end
         "Add Course" => $basePath . "",
         "View Course" => $basePath . "",
