@@ -20,18 +20,21 @@ if (!str_contains($_SESSION["userType"], "admin"))
 if (isset($_POST["delete-user"])) {
     require_once("../functions2.php");
     // first get data
-    $uid = checkInput($_POST["user-type"]);
-    $uname = checkInput($_POST["user-name"]);
+    $email = checkInput($_POST["email"]);
 
     // then validate user input
-    if ($uid == "" or $uname == "") { // if the user didn't choose a value for the type or the name
-        $feedbackMsg = "<span class='failed-feedback'>Please select a user type and a name!</span>";
+    if (empty($email)) { // if the user didn't choose a value for the type or the name
+        $feedbackMsg = "<span class='failed-feedback'>Please enter an email!</span>";
     } else {
         // then delete the user
-        if (deleteUser($uname)) {
-            $feedbackMsg = "<span class='success-feedback'>User is deleted successfully!</span>";
-        } else {
-            $feedbackMsg = "<span class='failed-feedback'>Error deleting user<br>Please try again later!</span>";
+        try {
+            if (deleteUser($email)) {
+                $feedbackMsg = "<span class='success-feedback'>User is deleted successfully!</span>";
+            } else {
+                $feedbackMsg = "<span class='failed-feedback'>Error deleting user<br>Please try again later!</span>";
+            }
+        } catch (Exception $ex) {
+            $feedbackMsg = "<span class='failed-feedback'>The email you entered does not exist!</span>";
         }
     }
 }
@@ -67,7 +70,6 @@ if (isset($_POST["delete-user"])) {
     <?php require("../header.php");
     require_once("../functions2.php");
     // Required varialbes for adding the section
-    $type = getUserTypeAsText(); // get the types list from the database
     ?>
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
@@ -76,27 +78,9 @@ if (isset($_POST["delete-user"])) {
             <div class="attendance-flex catalogue-main">
                 <!-- User Type and User Name -->
                 <div class="attendance-inner-flex">
-                    <label for="user-type">Choose User Type:</label><br><br>
-                    <select class="selecter" onchange="getUsers(this.value)" name="user-type" id="user-type">
-                        <option value="">Select a User Type</option>
-                        <?php
-                        if ($type != array())
-                            for ($i = 0; $i < count($type); $i++)
-                                foreach ($type[$i] as $id => $code) {
-                                    echo "<option value='" . strval($id) . "'>" . $code . "</option>";
-                                }
-                        ?>
-                    </select>
-                </div>
+                    <label for="email">Enter User Email:</label><br><br>
+                    <input type="text" class="selecter" name="email" id="email">
 
-                <div class="attendance-inner-flex">
-                    <!-- User Name -->
-                    <label for="user-name">Choose User Name:</label><br><br>
-                    <!-- Will be populated automatically by the system after selecting the user type, again by AJAX -->
-                    <select class="selecter" name="user-name" id="user-name" style="margin-left: 0">
-                        <option value="">Select a Type First</option>
-                        <!-- Will be filled by AJAX -->
-                    </select>
                 </div>
             </div>
 
@@ -113,39 +97,5 @@ if (isset($_POST["delete-user"])) {
 
     <?php require("../footer.php") ?>
 </body>
-
-<!-- Script for getting the user names after the user selects the user type-->
-<script>
-    function getUsers($userIds) {
-        if ($userIds == "") {
-            return;
-        }
-
-        const request = new XMLHttpRequest();
-        request.onload = showUsers;
-        request.open("GET", "getNames.php?uid=" + $userIds);
-        request.send();
-    }
-
-    function showUsers() {
-        clearUserNames();
-        if (this.responseText.length == 0) {
-            document.getElementById("user-name").innerHTML += "\n<option value=''>No Users Available</option>";
-            return
-        }
-        results = this.responseText.split("#");
-        for (let result of results) {
-            idAndNum = result.split("@");
-            if (idAndNum[0] == '')
-                continue;
-            document.getElementById("user-name").innerHTML += "\n<option value='" + idAndNum[0] + "'>" + idAndNum[1] + "</option>";
-        }
-    }
-
-    function clearUserNames() {
-        document.getElementById("user-name").innerHTML = "<option value=''>Select a User</option>";
-
-    }
-</script>
 
 </html>
