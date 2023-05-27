@@ -4,10 +4,17 @@
  * Delete Semester Page
  * Allows the admin user to 
  * Delete Semesters from the system
+ * 
+ * @author Elyas Raed
+ * @author Omar Eldanasoury
  */
 session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
+
+// only admin should access the page
+if (!str_contains($_SESSION["userType"], "admin"))
+    die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
 
 if (isset($_POST["delete-semester"])) {
     require_once("../functions2.php");

@@ -860,7 +860,7 @@ function getSemesters()
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER");
+        $query = $db->query("SELECT SEM_ID, SEM_NAME FROM SEMESTER ORDER BY SEM_NAME");
         while ($allSemesters = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of courses if the query was successful
             $semester = array($allSemesters[0] => $allSemesters[1]);
