@@ -85,6 +85,16 @@ if (isset($_POST["add-semester"])) {
                     <br><br>
 
                 </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="datetime">Start of Appeal Requests Date:</label><br><br>
+                    <input type="date" name="start-date" id="start-date">
+                </div>
+
+                <div class="attendance-inner-flex" style="margin-left: 2.5em;">
+                    <label for="capacity">End of Appeal Requests Date:</label><br><br>
+                    <input type="date" class="selecter" name="end-date" id="end-date">
+                </div>
             </div>
 
             <input onclick="return confirm('Are you sure you want to add a semester?')" type="submit" class="butn primary-butn sign-butn no-margin-left margin-top small" name="add-semester" id="add-semester" value="Add a Semester">
