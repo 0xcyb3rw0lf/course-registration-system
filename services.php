@@ -51,7 +51,6 @@ function getStudentList()
         "Simulate GPA" => $basePath . 'simulate-gpa.php',
         "Add Appealing Request" => $basePath . 'appealing-request.php',
         "View Appealing Requests" => $basePath . 'view-appealing-requests.php',
-        "Pay Courses Fees" => $basePath . 'pay-fees.php',
     );
 }
 
