@@ -2003,7 +2003,7 @@ function getStudentGPA($studentId)
         $statement = $db->prepare($sql);
         $statement->execute();
 
-        if ($buildingName = $statement->fetch(PDO::FETCH_NUM)) {
+        if ($studentGPA = $statement->fetch(PDO::FETCH_NUM)) {
             return $studentGPA[0];
         }
     } catch (PDOException $e) {
