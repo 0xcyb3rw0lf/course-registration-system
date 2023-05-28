@@ -1482,7 +1482,6 @@ function getCourseInfo($courseId)
  */
 function getCourseCredit($courseId) //done
 {
-    $credit = 0;
     try {
         require("connection.php");
         $query = $db->query("SELECT credits FROM course WHERE course_id = $courseId");
@@ -1752,7 +1751,7 @@ function getStudentGrades($semesterId, $studentId)
  * @author Abdulmohsen Abbas
  * @param string  $semesterId the semester id
  * @param string  $studentId the id of the student
- * @return string numeric array that contain the credits for the registered courses in the wanted semester
+ * @return array numeric array that contain the credits for the registered courses in the wanted semester
  */
 function getStudentCredits($semesterId, $studentId)
 {
@@ -1928,7 +1927,10 @@ function getSectionInfo($sectionId)
 
 /**
  * Register course in the schedule of the student 
+ * and reduces the capacity if the course
+ * was registered successfully
  * 
+ * @author Omar Eldanasoury
  * @author Abdulmohsen
  * @param $semId the semester id
  * @param $courseid the course id
@@ -1936,15 +1938,17 @@ function getSectionInfo($sectionId)
  * @param $userid the id of the student
  * @return bool true if the operation was true, otherwise false
  */
-function RegisterSection($semid, $courseid, $secid, $userid)
+function registerCourse($semid, $courseid, $secid, $userid, $capacity)
 {
     require("connection.php");
+    // first, we check if student will exceed 19 credits
     try {
         $sql = "INSERT INTO REGISTRATION_COURSES VALUES(?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
         $statement->execute(array($semid, $courseid, $secid, $userid, null, 0, 0));
         $db->commit();
+        reduceCapacity($secId, $capacity);
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
@@ -1961,7 +1965,7 @@ function RegisterSection($semid, $courseid, $secid, $userid)
  * @param $capacity of the section
  * @return bool true if the operation was true, otherwise false
  */
-function ReduceCapacity($sectionId, $capacity)
+function reduceCapacity($sectionId, $capacity)
 {
     require("connection.php");
     try {
@@ -2014,3 +2018,31 @@ function getStudentGPA($studentId)
     $db = null;
     return null;
 }
+
+/**
+ * Checks if the student
+ * will exceed maximum credits load
+ * after registering a certain
+ * course
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId student id
+ * @param mixed $courseId course id
+ * @return bool true if yes, otherwise false
+ */
+function exceededMaximumCredits($studentId, $courseId)
+{
+    // get credits of the desired course
+    $currentCourseCredits = getCourseCredit($courseId);
+    // get all current registered courses with credits
+    $currentCredits = getStudentCredits(getCurrentSemesterId(), $studentId);
+    $creditsSum = $currentCourseCredits;
+    // add these credits with the credit of the course
+    for ($i = 0; $i < count($currentCredits); $i++) {
+        $creditsSum += $currentCredits[$i];
+    }
+    // check if the credits are > 19
+    return $creditsSum > 19;
+}
+
+
