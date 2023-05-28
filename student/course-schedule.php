@@ -134,7 +134,7 @@ foreach ($pCourseSectionIDs as $val) {
                                 $courseName = $courseData[1]; //  Course Name Here in case we need it 
                                 $courseCH = $courseData[2];
                                 $building_id = getBuildingId($room_id);
-                                $building_name = getBuildingName($building_id);
+                                $building_name = getBuildingNameByRoomId($building_id);
 
                                 echo "<tr>";
                                 echo    "<td>" . $courseCode . "</td>";

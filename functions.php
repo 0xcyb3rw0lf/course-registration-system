@@ -1131,7 +1131,7 @@ function getProfessorName($professorId)
  * @param mixed $
  * @return mixed building name
  */
-function getBuildingName($roomId)
+function getBuildingNameByRoomId($roomId)
 {
     try {
         require("connection.php");
@@ -1426,7 +1426,7 @@ function getBuildingId($room_id)
  * @param  $buildingId the id of the building
  * @return string The building name
  */
-function getBuildingNameById($buildingId)
+function getBuildingNameByRoomIdById($buildingId)
 {
     $buildingName = null;
     try {
@@ -1844,9 +1844,9 @@ function getStudentAvailableCourses($studentId)
         $query = $db->query("SELECT CS.prog_id, C.course_id FROM student_info AS CS, program_course AS C WHERE CS.prog_id = C.program_id AND CS.student_id = $studentId");
         while ($idAndCode = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of course_id if the query was successful
-            array_push($courses, $idAndCode[1]);
+            array_push($courses, $idAndCode[1]); // puts all the student's program courses in the array
         }
-        $courses = filterCourses($studentId, $courses);
+        $courses = filterCourses($studentId, $courses); // then we filter the array to remove previously taken courses
     } catch (PDOException $ex) {
         // printing the error message if error happens
         echo $ex->getMessage();
@@ -1871,6 +1871,7 @@ function filterCourses($studentId, $courses)
         // establishing connection
         require("connection.php");
         // setting and running the query
+        // here we query all the previously taken courses by student
         $query = $db->query("SELECT course_id, grade FROM registration_courses WHERE student_id = $studentId");
         while ($idAndGrade = $query->fetch(PDO::FETCH_NUM)) {
             // getting the list of grades and course_id if the query was successful

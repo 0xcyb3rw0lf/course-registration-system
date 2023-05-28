@@ -37,7 +37,7 @@ if (isset($_POST["view-section"])) {
         $courseCode = getCourseCode($sectionData["course_id"]);
         $professorName = getProfessorName($sectionData["professor_id"]);
         $sectionNumber = $sectionData["Sec_num"];
-        $buildingName = getBuildingName($sectionData["room_id"]);
+        $buildingName = getBuildingNameByRoomId($sectionData["room_id"]);
         $roomName = getRoomName($sectionData["room_id"]);
         $days = $sectionData["lec_days"];
         $time = $sectionData["lec_time"];
