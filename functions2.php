@@ -601,9 +601,7 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
 
 
         if (intval($utp) == 5) { // if the user is a head of department
-            // $db->beginTransaction();
             $hodId = getUserIdByEmail($em);
-            echo $hodId . " is hod id";
             $sql = "UPDATE DEPARTMENT SET HOD_ID = ? WHERE DEP_ID = ?;";
             $db->beginTransaction();
             $statement = $db->prepare($sql);
