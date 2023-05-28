@@ -19,6 +19,5 @@ if (!isset($_GET["secid"])){
         $lecture_days=$sectionData[6];
         $lecture_time=$sectionData[7];
         $capacity=$sectionData[8];
-echo "$course_name#$course_code#$prfessor_name#$course_ch#$capacity#$sec_number#$lecture_time#$lecture_days#$room_name";
-    
-    ?>
+        $buildingName = getBuildingNameByRoomId($roomId);
+echo "$course_name#$course_code#$prfessor_name#$course_ch#$capacity#$sec_number#$lecture_time#$lecture_days#$room_name#$buildingName";
