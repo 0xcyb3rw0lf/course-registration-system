@@ -1129,7 +1129,7 @@ function getProfessorName($professorId)
  * 
  * @author Omar Eldanasoury
  * @param mixed $
- * @return mixed professor name
+ * @return mixed building name
  */
 function getBuildingName($roomId)
 {
@@ -1156,7 +1156,7 @@ function getBuildingName($roomId)
  * 
  * @author Omar Eldanasoury
  * @param mixed $roomId the id of the room
- * @return mixed professor name
+ * @return mixed room name
  */
 function getRoomName($roomId)
 {
@@ -1984,4 +1984,32 @@ function ReduceCapacity($sectionId, $capacity)
     // closing connection with the database
     $db = null;
     return true;
+}
+
+/**
+ * Returns the gpa of the
+ * student given his/her id
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId
+ * @return mixed student GPA
+ */
+function getStudentGPA($studentId)
+{
+    try {
+        require("connection.php");
+        // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+        $sql = "SELECT GPA FROM STUDENT_INFO WHERE STUDENT_ID = $studentId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($buildingName = $statement->fetch(PDO::FETCH_NUM)) {
+            return $studentGPA[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return null;
 }
