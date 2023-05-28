@@ -42,13 +42,12 @@ function getStudentList()
     $basePath = "/course-registration-system/student/";
     return array(
         "Course Registration" => $basePath . "course-registration.php",
-        "View Course Schedule" => $basePath . "",
+        "View Course Schedule" => $basePath . "course-schedule.php",
         "View Course Prerequisites" => $basePath . 'view-prerequisites.php',
-        "View Grades" => $basePath . '',
-        "View Transcript" => $basePath . '',
-        "View Program Courses" => $basePath . '',
-        "Simulate GPA" => $basePath . '',
-        "Request Summer Seat" => $basePath . '',
+        "View Grades" => $basePath . 'view-grades.php',
+        "View Transcript" => $basePath . 'view-transcript.php',
+        "View Program Courses" => $basePath . 'program-courses.php',
+        "Simulate GPA" => $basePath . 'simulate-gpa.php',
         "Add Appealing Request" => $basePath . 'appealing-request.php',
         "View Appealing Requests" => $basePath . 'view-appealing-requests.php',
         "Pay Courses Fees" => $basePath . 'pay-fees.php',
