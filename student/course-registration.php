@@ -76,6 +76,8 @@ if (isset($_POST["add-course"])) {
      * 3- check for prerequisites; if they are fulfilled or not
      * 4- check for time conflicts
      * 5- if 1,2,3,4 are fulfilled, then the course is added + section capacity is decreased by 1
+     * 
+     * @author Omar Eldanasoury
      */
     if (!isInRegistrationPeriod()) {
         $feedbackMsg = "<span class='failed-feedback'>Out of registration period!</span>";
