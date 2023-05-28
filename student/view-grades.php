@@ -211,6 +211,7 @@ elseif ($sem == 2)
                 <table>
                     <thead>
                         <tr>
+                            <th class="th-color">Semester</th>
                             <th class="th-color">Course Code</th>
                             <th class="th-color">Course Name</th>
                             <th class="th-color">CH</th>
@@ -220,6 +221,7 @@ elseif ($sem == 2)
                     </thead>
                     <tbody>
                         <tr>
+                            <td colspan="1"><?php echo $semName ?></td>
                             <td colspan="4">You have no registered courses!</td>
                         </tr>
                     </tbody>
