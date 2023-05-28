@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["activeUser"]))
-    header("location: login.php");
+    header("location: /course-registration-system/login.php");
 /**
  * We need the following information to view for the user:
  * 1 - User Name
@@ -189,13 +189,17 @@ $servicesList = getUserServicesList($userTypeAsText);
             if (resultAndPath[0] == '')
                 continue;
 
-            document.getElementById("searchList").innerHTML += "<div class='searchResult'> <a class='non-button' style='color: black;' href='" + resultAndPath[1] + "'> " + resultAndPath[0] + "</a></div>";
+            document.getElementById("searchList").innerHTML += "<div class='searchResult'> <a class='non-button' onclick='goToPage(this)' style='color: black;' href='" + resultAndPath[1] + "'> " + resultAndPath[0] + "</a></div>";
         }
     }
 
     function clearResults() {
         document.getElementById("searchList").innerHTML = "";
 
+    }
+
+    function goToPage(link) {
+        window.location.href = link.href;
     }
 </script>
 

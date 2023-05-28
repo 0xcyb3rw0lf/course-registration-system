@@ -6,4 +6,4 @@
  */
 session_start();
 session_unset();
-header("location: login.php");
+header("location: /course-registration-system/login.php");
