@@ -39,8 +39,8 @@ function getProfessorList()
  */
 function getStudentList()
 {
+    $basePath = "/course-registration-system/student/";
     return array(
-        $basePath = "/course-registration-system/student/",
         "Course Registration" => $basePath . "course-registration.php",
         "View Course Schedule" => $basePath . "",
         "View Course Prerequisites" => $basePath . 'view-prerequisites.php',
