@@ -23,6 +23,8 @@ if (isset($_POST["add-semester"])) {
     $semName = $_POST["sem-name"];
     $appealStartDate = $_POST["start-date"];
     $appealEndDate = $_POST["end-date"];
+    $registrationStartDate = $_POST["start-reg"];
+    $registrationEndDate = $_POST["end-reg"];
 
     /**
      * Here we convert the users input dates
@@ -47,22 +49,37 @@ if (isset($_POST["add-semester"])) {
     $formattedStartDate = date("Y-m-d", $startDateTimeStamp);
     $formattedEndDate = date("Y-m-d", $endDateTimeStamp);
 
+
+    // now perforing the same but for registration dates
+    $registrationStartDateTimeStamp = strtotime($registrationStartDate);
+    $registrationEndDateTimeStamp = strtotime($registrationEndDate);
+
+    $formattedRegistrationStartDate = date("Y-m-d", $registrationStartDateTimeStamp);
+    $formattedRegistrationEndDate = date("Y-m-d", $registrationEndDateTimeStamp);
+
     // Validate/ check for empty values
     if (
         empty($semName)
         or empty($appealStartDate)
         or empty($appealEndDate)
+        or empty($registrationStartDate)
+        or empty($registrationEndDate)
+
     ) {
         $feedbackMsg = "<span class='failed-feedback'>Please enter all fields as required!</span>";
     } else if (!preg_match("/^20[2-9][0-9]\/20[2-9][0-9]\-[1|2|S]$/", $semName)) { // validating the semester name
         $feedbackMsg = "<span class='failed-feedback'>Enter a valid semester name!</span>";
-    } else if ($formattedStartDate < $currentDate or $formattedEndDate < $currentDate) { // if start-date or end-date are less than today
+    } else if ($formattedStartDate < $currentDate or $formattedEndDate < $currentDate or $formattedRegistrationStartDate < $currentDate or $formattedRegistrationEndDate < $currentDate) { // if start-date or end-date are less than today
         $feedbackMsg = "<span class='failed-feedback'>Dates should not be less than today!</span>";
     } else if ($appealStartDate > $appealEndDate) { // if start-date is less than or equal to end-date
-        $feedbackMsg = "<span class='failed-feedback'>Start date should not be less than end-date!</span>";
+        $feedbackMsg = "<span class='failed-feedback'>Appeal Period's Start date should not be less than end-date!</span>";
+    } else if ($registrationStartDate > $registrationEndDate) { // if start-date is less than or equal to end-date of regirstration period
+        $feedbackMsg = "<span class='failed-feedback'>Registration's Start date should not be less than end-date!</span>";
+    } else if (!($registrationStartDate < $appealStartDate and $registrationEndDate < $appealEndDate)) { // appeal period should be after the registration period
+        $feedbackMsg = "<span class='failed-feedback'>Appeal period shall not be before the registration period!</span>";
     } else {
         try {
-            if (addSemester($semName, $appealStartDate, $appealEndDate)) {
+            if (addSemester($semName, $appealStartDate, $appealEndDate, $registrationStartDate, $registrationEndDate)) {
                 $feedbackMsg = "<span class='success-feedback'>Semester is Added Successfully!</span>";
             } else {
                 $feedbackMsg = "<span class='failed-feedback'>Error Adding Semester!</span>";
@@ -119,12 +136,18 @@ if (isset($_POST["add-semester"])) {
                 </div>
 
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                    <label for="datetime">Start of Appeal Requests Date:</label><br><br>
-                    <input type="date" name="start-date" id="start-date">
+                    <label for="start-reg">Start of Registration Date:</label><br><br>
+                    <input type="date" name="start-reg" id="start-reg">
+                    <br><br><br>
+                    <label for="end-reg">End of Registration Date:</label><br><br>
+                    <input type="date" class="selecter" name="end-reg" id="end-reg">
                 </div>
 
                 <div class="attendance-inner-flex" style="margin-left: 2.5em;">
-                    <label for="capacity">End of Appeal Requests Date:</label><br><br>
+                    <label for="start-date">Start of Appeal Requests Date:</label><br><br>
+                    <input type="date" name="start-date" id="start-date">
+                    <br><br><br>
+                    <label for="end-date">End of Appeal Requests Date:</label><br><br>
                     <input type="date" class="selecter" name="end-date" id="end-date">
                 </div>
             </div>
