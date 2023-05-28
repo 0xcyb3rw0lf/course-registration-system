@@ -5,6 +5,7 @@
  * Allows student to view his transcript
  * 
  * @author Abdulmohsen Abbas
+ * @author Omar Eldanasoury
  */
 session_start();
 if (!isset($_SESSION["activeUser"]))
