@@ -228,17 +228,16 @@ elseif ($currentSem == 2)
                                 <td colspan="4">You have no registered courses!</td>
                             </tr>
                         </tbody>
+                        <table>
 
-
-                <?php
+                    <?php
                 }
             }
-                ?>
+                    ?>
         </div>
 
 
     </main>
-
 </body>
 
 </html>
