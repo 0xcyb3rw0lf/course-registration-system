@@ -1128,7 +1128,7 @@ function getProfessorName($professorId)
  * Returns the building name based on room id
  * 
  * @author Omar Eldanasoury
- * @param mixed $
+ * @param mixed $roomId
  * @return mixed building name
  */
 function getBuildingNameByRoomId($roomId)
