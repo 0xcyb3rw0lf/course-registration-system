@@ -13,7 +13,7 @@ session_start();
 if (!isset($_SESSION["activeUser"])) // if the user is not logged in he will be redirected to the sign up page
     header("location: /course-registration-system/login.php");
 
-    // only admin should access the page
+// only admin should access the page
 if (!str_contains($_SESSION["userType"], "admin"))
     die("You are not allowed to view this page, <a href='/course-registration-system/index.php'>Click Here to Return to Home Page Here!</a>");
 
