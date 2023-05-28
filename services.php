@@ -65,43 +65,49 @@ function getAdminList()
 {
     $basePath = "/course-registration-system/admin/";
     return array(
-        // TODO: Fill the paths of these pages
-        // $basePath . FILE_NAME
         "Add Users" => $basePath . "add-user.php",
         "View Users" => $basePath . "view-user.php",
         "Update Users" => $basePath . "update-user.php", // this is the same as managing the profile of users
         "Delete Users" => $basePath . "delete-user.php",
+
         "0" => "break", // breaks to separate the options in the front-end
+
         "Add Course" => $basePath . "add-course.php",
-        // "View Course" => $basePath . "",
         "Update Course" => $basePath . "update-course.php",
         "Delete Course" => $basePath . "delete-course.php",
+
         "1" => "break", // breaks to separate the options in the front-end
+
         "Add Section" => $basePath . 'add-section.php',
         "View Section" => $basePath . 'view-section.php',
         "Update Section" => $basePath . 'update-section.php',
         "Delete Section" => $basePath . 'delete-section.php',
+
         "2" => "break", // breaks to separate the options in the front-end
+
         "Add Semesters" => $basePath . "add-semester.php",
         "View Semesters" => $basePath . "view-semester.php",
         "Manage Semester Status" => $basePath . "semester-status.php",
-        "Edit Semesters" => $basePath . "",
         "Delete Semesters" => $basePath . "delete-semester.php",
+
         "3" => "break", // breaks to separate the options in the front-end
+
         "Add Buildings" => $basePath . 'add-building.php',
         "Delete Buildings" => $basePath . 'delete-building.php',
         "Add Room" => $basePath . 'add-room.php',
         "Delete Room" => $basePath . 'delete-room.php',
+
         "4" => "break", // breaks to separate the options in the front-end
+
         "Add College" => $basePath . "add-college.php",
         "Delete College" => $basePath . "delete-college.php",
         "Add Department" => $basePath . "add-department.php",
         "Delete Department" => $basePath . "delete-department.php",
+
         "5" => "break", // breaks to separate the options in the front-end
+
         "Add Program" => $basePath . "add-program.php",
         "Delete Program" => $basePath . "delete-program.php",
-        "View Summer Seats" => $basePath . "",
-        "Generate Reports" => $basePath . "",
     );
 }
 
