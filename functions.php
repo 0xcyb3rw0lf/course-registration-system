@@ -2285,7 +2285,8 @@ function isInRegistrationPeriod()
         $db = null;
     }
     $db = null;
-    return $statement->fetch(PDO::FETCH_NUM)[0] == 1; // if the database returns nothing, so the student is out of appealing period 
+    return $statement->fetch(PDO::FETCH_NUM)[0] == 1;
+     // if the database returns nothing, so the student is out of appealing period 
 }
 
 /** 
