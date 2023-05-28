@@ -525,6 +525,7 @@ div.attendance-inner-flex {
     background-color: #C5CBE3;
     padding: 1em;
     color: black;
+    z-index: 0;
 }
 
 .searchResult:hover {
@@ -534,6 +535,7 @@ div.attendance-inner-flex {
 
 .non-button {
     background-color: none;
+    z-index: 1;
 }
 
 /* End of Search Bar Style */
@@ -671,13 +673,16 @@ tr:nth-child(odd) {
 /* End of styles for feedback messages */
 
 /* Start of style for screens less than 1100px  */
-@media (max-width: 1100px) {
+@media (max-width: 1250px) {
 
     .catalogue-main {
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+    }
 
+    .add-margin {
+        margin-top: 1.5em;
     }
 
     .trip-container {
@@ -702,7 +707,7 @@ tr:nth-child(odd) {
 
 
 /* Start of tablet view properties of media query */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .trip-container {
         margin: 1em auto;
@@ -746,6 +751,11 @@ tr:nth-child(odd) {
         width: 50%;
         height: 50%;
     }
+
+    input {
+        display: block;
+        max-width: min-content;
+    }
 }
 
 /* End of styles of tablet view in media query */
@@ -786,6 +796,13 @@ tr:nth-child(odd) {
         max-width: max-content;
         margin-right: auto;
         margin-left: auto;
+    }
+
+    .attendance-inner-flex {
+        text-align: center;
+        padding-right: auto;
+        padding-left: auto;
+
     }
 }
 
