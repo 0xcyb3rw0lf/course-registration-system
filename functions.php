@@ -1330,6 +1330,33 @@ function getCollegePrograms($collegeId)
     return $programs;
 }
 
+/**
+ * Returns true if the course
+ * already exists in the db,
+ * false otherwise.
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $courseCode the course's code
+ * @return bool true if the course already exists in the db, otherwise false
+ */
+function doesCourseExist($courseCode)
+{
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT COURSE_ID FROM COURSE WHERE COURSE_CODE LIKE ?");
+        $query->execute(array($courseCode));
+        if ($result = $query->fetch(PDO::FETCH_NUM)) { // if there is a time conflict
+            $db = null; // closing the connection
+            return true;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return false;
+}
+
 
 /**
  * Gets
