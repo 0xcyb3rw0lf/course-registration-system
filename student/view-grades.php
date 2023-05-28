@@ -154,7 +154,6 @@ elseif ($sem == 2)
                 <table>
                     <thead>
                         <tr>
-                            <th class="th-color">Semester</th>
                             <th class="th-color">Course Code</th>
                             <th class="th-color">Course Name</th>
                             <th class="th-color">CH</th>
@@ -176,7 +175,6 @@ elseif ($sem == 2)
                             $allCreditSum += $courseCredit;
 
                             echo "<tr>";
-                            echo    "<td>" . $semName . "</td>";
                             echo    "<td>" . $courseCode . "</td>";
                             echo    "<td>" . $courseName . "</td>";
                             echo    "<td>" . $courseCredit . "</td>";
@@ -213,7 +211,6 @@ elseif ($sem == 2)
                 <table>
                     <thead>
                         <tr>
-                            <th class="th-color">Semester</th>
                             <th class="th-color">Course Code</th>
                             <th class="th-color">Course Name</th>
                             <th class="th-color">CH</th>
@@ -223,7 +220,6 @@ elseif ($sem == 2)
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="1"><?php echo $semName ?></td>
                             <td colspan="4">You have no registered courses!</td>
                         </tr>
                     </tbody>
