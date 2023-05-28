@@ -1829,7 +1829,7 @@ function getPreviousSemesters()
  * can Register
  * @author Abdulmohsen Abbas
  * @param mixed $userId the student id
- * @return string array of available courses for the student to register
+ * @return array array of available courses for the student to register
  * the available courses are the courses that the student have not registered
  *  before or they registered it but got grade less than C .
  */
@@ -1938,23 +1938,25 @@ function getSectionInfo($sectionId)
  * @param $userid the id of the student
  * @return bool true if the operation was true, otherwise false
  */
-function registerCourse($semid, $courseid, $secid, $userid, $capacity)
+function registerCourse($semid, $courseid, $secid, $userid)
 {
+
+
     require("connection.php");
     // first, we check if student will exceed 19 credits
     try {
-        $sql = "INSERT INTO REGISTRATION_COURSES VALUES(?, ?, ?, ?, ?, ?, ?);";
         $db->beginTransaction();
+        $sql = "INSERT INTO REGISTRATION_COURSES VALUES(?, ?, ?, ?, null, 0, 0);";
         $statement = $db->prepare($sql);
-        $statement->execute(array($semid, $courseid, $secid, $userid, null, 0, 0));
+        $statement->execute(array($semid, $courseid, $secid, $userid));
         $db->commit();
-        reduceCapacity($secId, $capacity);
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
         $db = null;
         return false;
     }
+
     return ($statement->rowCount() == 1);
 }
 /**
@@ -2045,4 +2047,302 @@ function exceededMaximumCredits($studentId, $courseId)
     return $creditsSum > 19;
 }
 
+/**
+ * Returns if the students
+ * has fullfilled the prerequisites
+ * of a course or not
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $studentId
+ * @param mixed $courseId
+ * @return bool true if he has fulfilled all prerequisites, false otherwise
+ */
+function hasFulfilledPrerequisites($studentId, $courseId)
+{
+    // first we get the prerequisites of the course
+    $preprequisites = getPrerequisites($courseId);
+    $currentSemesterId = getCurrentSemesterId();
+    // then we check previous semester 
+    for ($i = 0; $i < count($preprequisites); $i++) { // for each prerequisite
+        // we check if the course is fullfilled in the previous semesters, if not we return false
+        // we go to registration_courses and check for each course
+        try {
+            require("connection.php");
+            // getting the courses that belong to the student, in the current semester, and have no appealing requests issued yet
+            $sql = "SELECT COURSE_ID, STUDENT_ID FROM REGISTRATION_COURSES WHERE SEM_ID < ? AND COURSE_ID = ? AND STUDENT_ID = ?";
+            $statement = $db->prepare($sql);
+            $statement->execute(array($currentSemesterId, $courseId, $studentId));
 
+            if ($statement->rowCount() == 0) // if the student did not take a course from the prerequisites in the previous semesters
+                return false;
+        } catch (PDOException $e) {
+            echo $e->getMessage() . "<br>55";
+            $db = null;
+        }
+    }
+
+    return true;
+}
+
+
+/**
+ * Drops the course 
+ * 
+ * @author Omar Eldanasoury
+ */
+function dropCourse($courseId, $studentId)
+{
+    require("connection.php");
+
+    try {
+        $sql = "DELETE FROM REGISTRATION_COURSES WHERE COURSE_ID = ? and STUDENT_ID = ? AND SEM_ID = ?;";
+        $db->beginTransaction();
+        $statement = $db->prepare($sql);
+        $statement->execute(array($courseId, $studentId, getCurrentSemesterId()));
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        echo $e->getMessage() . "<br>";
+        $db = null;
+        return false;
+    }
+
+    return ($statement->rowCount() == 1);
+}
+
+/**
+ * Increases section capacity by 1
+ * 
+ * @author Omar Eldanasoury
+ */
+function increaseCapacity($sectionId, $capacity)
+{
+    $newCapacity = $capacity + 1;
+    require("connection.php");
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $sql = "UPDATE course_section SET capacity = ? WHERE section_id = ?";
+        $statement = $db->prepare($sql);
+        $statement->execute(array($newCapacity, $sectionId));
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        return false;
+    }
+    // closing connection with the database
+    $db = null;
+    return true;
+}
+
+/**
+ * Returns if there is a time conflict
+ * when registering a course by students
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $sectionId the id of the section which user is updating
+ * @param mixed $studentId the id of the section which user is updating
+ * @param mixed $sectionDays the days of the section
+ * @param mixed $sectionTime the time of the section
+ * @return bool true of false
+ */
+function hasTimeConflictStudentRegistration($studentId, $sectionDays, $sectionTime)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT COUNT(*) FROM REGISTRATION_COURSES WHERE SEM_ID = ? AND STUDENT_ID = ? LEC_DAYS LIKE ? AND LEC_TIME = ?;");
+        $query->execute(array($currentSemesterId, $studentId, $sectionDays, $sectionTime));
+        if ($count = $query->fetch(PDO::FETCH_NUM)) {
+            return true;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+    $db = null; // closing the connection
+    return false; // otherwise, there is no conflict
+}
+
+/**
+ * Returns an array of the course info
+ * 
+ * @author Omar Eldanasoury
+ * @param $courseId the course id 
+ * @return array array that have section info
+ */
+function getCourse($courseId)
+{
+    try {
+        require("connection.php");
+        $query = $db->query("SELECT * FROM course WHERE course_id = $courseId");
+        // setting and running the query
+        if ($info = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            return $info;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        $db = null;
+    }
+    return array();
+}
+
+/**
+ * Returns an array of the course info
+ * 
+ * @author Omar Eldanasoury
+ * @param $sectionId the section id 
+ * @return array array that have section info
+ */
+function getSection($sectionId)
+{
+    try {
+        require("connection.php");
+        $query = $db->query("SELECT * FROM course_section WHERE section_id = $sectionId");
+        // setting and running the query
+        if ($info = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            return $info;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        $db = null;
+    }
+    return array();
+}
+
+
+/**
+ * Adds the user to the wait request
+ * 
+ * @author Omar Eldanasoury
+ */
+function addWaitRequest($courseId, $sectionId, $studentId)
+{
+    require("connection.php");
+    $currentSemesterId = getCurrentSemesterId();
+    try {
+        $sql = "INSERT INTO WAIT_REQS VALUES(null, ?, ?, ?, ?, 0);";
+        $db->beginTransaction();
+        $statement = $db->prepare($sql);
+        $statement->execute(array($currentSemesterId, $courseId, $sectionId, $studentId));
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        echo $e->getMessage() . "<br>";
+        $db = null;
+        return false;
+    }
+
+    return ($statement->rowCount() == 1);
+}
+
+
+/**
+ * Returns true if the student
+ * has a already a wait request
+ * for the course in the current
+ * semester
+ * 
+ * @author Omar Eldanasoury
+ */
+function doesWaitReqExist($studentId, $courseId)
+{
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT REQUEST_ID FROM WAIT_REQS WHERE SEM_ID = ? AND COURSE_ID = ? AND STUDENT_ID = ?");
+        $query->execute(array(getCurrentSemesterId(), $courseId, $studentId));
+        if ($result = $query->fetch(PDO::FETCH_NUM)) { // if there is a time conflict
+            $db = null; // closing the connection
+            return true;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return false;
+}
+
+
+/**
+ * Checks if the student is out
+ * of the registration period
+ * 
+ * @author Omar Eldanasoury
+ * @return bool true if the student is out of registration period, false otherwise
+ */
+function isInRegistrationPeriod()
+{
+    try {
+        require("connection.php");
+        $sql = "SELECT COUNT(*) FROM SEMESTER WHERE NOW() >= REG_START AND NOW() <= REG_END;";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+        $db = null;
+    }
+    $db = null;
+    return $statement->fetch(PDO::FETCH_NUM)[0] == 1; // if the database returns nothing, so the student is out of appealing period 
+}
+
+/** 
+ * Returns current registered courses
+ * by students
+ * 
+ * @author Omar Eldanasoury
+ */
+function getCurrentStudentCourses($studentId)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT C.COURSE_ID, C.COURSE_CODE FROM REGISTRATION_COURSES AS RC, COURSE AS C WHERE RC.COURSE_ID = C.COURSE_ID AND RC.STUDENT_ID = $studentId AND RC.SEM_ID = $currentSemesterId");
+        while ($allCourses = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $course = array($allCourses[0] => $allCourses[1]);
+            array_push($courses, $course);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
+}
+
+/** 
+ * Returns section id of the course
+ * in the current semester that student
+ * registered
+ * 
+ * @author Omar Eldanasoury
+ */
+function getCourseSectionId($courseId, $studentId)
+{
+    $currentSemesterId = getCurrentSemesterId();
+    $studentId = intval($studentId);
+    $courseId = intval($courseId);
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT SECTION_ID FROM REGISTRATION_COURSES WHERE STUDENT_ID = $studentId AND SEM_ID = $currentSemesterId AND COURSE_ID = $courseId");
+        if ($sectionId = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            return $sectionId[0];
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return null;
+}
