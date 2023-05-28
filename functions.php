@@ -1357,40 +1357,630 @@ function doesCourseExist($courseCode)
     return false;
 }
 
+/**
+ * Returns an array that have the course_id,
+ *  section_id, and Payment Status for All 
+ * Registered courses in current semester
+ * @author Abdulmohsen Abbas
+ * @param $userId the student id 
+ * @return array that have information of each
+ * registered course for the student in current semester
+ *  stroed in arrays of type string each one of them
+ *  have (Course id, Section id, PaymentStatus) 
+ */
+function getCourseSSectionsPaymentStatusArray($userId) //done
+{
+    $studentinfoSarray = array();
+    $studentinfoLarray = array();
+    $currentSemId = getCurrentSemesterId();
+    try {
+        require("connection.php");
+        $query = $db->query("SELECT course_id, section_id, payment_status FROM registration_courses WHERE student_id = $userId AND sem_id = $currentSemId");
+        // setting and running the query
+        while ($allStudentInfo = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $courseId = $allStudentInfo[0];
+            $sectionId =  $allStudentInfo[1];
+            $paymentStatus =  $allStudentInfo[2];
+            array_push($studentinfoSarray, $courseId, $sectionId, $paymentStatus);
+            array_push($studentinfoLarray, $studentinfoSarray);
+            $studentinfoSarray = array();
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+
+        $db = null;
+    }
+    return $studentinfoLarray;
+}
 
 /**
- * Gets
+ * Returns the id of the building
+ * @author Abdulmohsen Abbas
+ * @param  $roomId the id of the room
+ * @return string The building id
  */
-// function encodeGrade($grade)
-// {
-//     //   TODO: ADD COMMENT PHP DOC AND FIX THE RANGES
-//     // GRADES ARE STORED IN THE DB AS NUMBERS
-//     // THEY ARE DISPLAYED TO PROFESSORS AS NUMBERS
-//     // AND TO STUDENTS AS LETTERS
+function getBuildingId($room_id)
+{
+    $buildingId = null;
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT building_id FROM room WHERE room_id = $room_id");
+        if ($query->rowCount() != 0 and $name = $query->fetch(PDO::FETCH_NUM)) {
+            $buildingId = $name[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $buildingId;
+}
 
-//     if ($grade >= 90 and $grade <= 100)
-//         return "A";
-//     else if ($grade >= 87 and $grade <= 89)
-//         return "A-";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "B+";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "B";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "B-";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "C+";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "C";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "C-";
-//     else if ($grade >= 90 and $grade <= 100)
-//         return "D";
-//     else if ($grade <= 59)
-//         return "F";
-// }
+/**
+ * Returns the name of the building
+ * @author Abdulmohsen Abbas
+ * @param  $buildingId the id of the building
+ * @return string The building name
+ */
+function getBuildingNameById($buildingId)
+{
+    $buildingName = null;
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT building_name FROM building WHERE building_id = $buildingId");
+        if ($query->rowCount() != 0 and $name = $query->fetch(PDO::FETCH_NUM)) {
+            $buildingName = $name[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $buildingName;
+}
 
-// // transforms the letter to a value to help calculate the gpa
-// function decodeGrade()
-// {
-// }
+/**
+ * Returns an array that have the course code,
+ *  course name, and course credit for the wanted course  
+ * @author Abdulmohsen Abbas
+ * @param $courseId the course id 
+ * @return string array that have
+ * ( course code,course name, course credit)
+ */
+function getCourseInfo($courseId)
+{
+    $courseInfo = array();
+    try {
+        require("connection.php");
+        $query = $db->query("SELECT * FROM course WHERE course_id = $courseId");
+        // setting and running the query
+        if ($info = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $courseCode = $info[1];
+            $courseName = $info[2];
+            $courseCredit = $info[3];
+            array_push($courseInfo, $courseCode, $courseName, $courseCredit);
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        $db = null;
+    }
+    return $courseInfo;
+}
+/**
+ * Returns the course credit 
+ * @author Abdulmohsen Abbas
+ * @param $courseId the course id 
+ * @return string course credit
+ */
+function getCourseCredit($courseId) //done
+{
+    $credit = 0;
+    try {
+        require("connection.php");
+        $query = $db->query("SELECT credits FROM course WHERE course_id = $courseId");
+        // setting and running the query
+        if ($credit = $query->fetch(PDO::FETCH_NUM)) {
+            return $credit[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        $db = null;
+    }
+}
+/**
+ * Returns an array that have associative arrays 
+ * with the key equal  semster id and value equal semester name   
+ * @author Abdulmohsen Abbas
+ * @return string array that have multiple arrays 
+ * with these values seperated by ',' for all available semesters  [semster_id, semster_name ]
+ */
+function getSemesters()
+{
+    $semesters = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT sem_id, sem_name FROM semester");
+        while ($allsems = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $sems = array($allsems[0], $allsems[1]);
+            array_push($semesters, $sems);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $semesters;
+}
+/**
+ * this function will take the semester Id value and the student Id and
+ *  will return the grades and course credits for the wanted semester
+ * @author Abdulmohsen Abbas
+ * @param $semesterId the semester Id
+ * @param $studentId the student Id
+ * @return string numeric array that contain associative arrays with( course credit, and course grade)
+ *  for all the courses in the wanted semester and student
+ * and here simple output for the inner array:
+ */
+function getStudentGradesCredits($semesterId, $studentId) //done  // this function will help in gpa calculation
+{   // There will be seperate function instead of this one 
+    $gw = array();
+    $gradesAndCredits = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT course_id, grade FROM REGISTRATION_COURSES WHERE sem_id = $semesterId AND student_id = $studentId");
+        while ($grwe = $query->fetch(PDO::FETCH_NUM)) {
+            $ch = getCourseCredit($grwe[0]);
+            $grade = $grwe[1];
+            $gw = [$grade => $ch];
+            array_push($gradesAndCredits, $gw);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $gradesAndCredits;
+}
+/**
+ * this function will take the grade value and will return the grade name
+ * @author Abdulmohsen Abbas
+ * @param $gradeValue the grade value out of 100 example :"77"
+ * @return string the grade name example :"B-"
+ */
+function getGradeName($gradeValue)
+{
+    if ($gradeValue >= 90) {
+        return "A";
+    } elseif ($gradeValue >= 87) {
+        return "A-";
+    } elseif ($gradeValue >= 84) {
+        return "B+";
+    } elseif ($gradeValue >= 80) {
+        return "B";
+    } elseif ($gradeValue >= 77) {
+        return "B-";
+    } elseif ($gradeValue >= 74) {
+        return "C+";
+    } elseif ($gradeValue >= 70) {
+        return "C";
+    } elseif ($gradeValue >= 67) {
+        return "C-";
+    } elseif ($gradeValue >= 64) {
+        return "D+";
+    } elseif ($gradeValue >= 60) {
+        return "D";
+    } else {
+        return "F";
+    }
+}
+/**
+ * this function will take the grade Name and will return the grade Weight
+ * @author Abdulmohsen
+ * @param $gradeName the grade Name example "A-"
+ * @return mixed grade Weight if the operation completed successfully, otherwise 
+ * will return the message "Grade not found!" 
+ */
+function getGradeWeight($gradeName)
+{
+    $grades = array(
+        "A" => 4.0,
+        "A-" => 3.67,
+        "B+" => 3.33,
+        "B" => 3.0,
+        "B-" => 2.67,
+        "C+" => 2.33,
+        "C" => 2.0,
+        "C-" => 1.67,
+        "D+" => 1.33,
+        "D" => 1.0,
+        "F" => 0.0
+    );
+    // Check if the grade name exists in the array
+    if (array_key_exists($gradeName, $grades)) {
+        return $grades[$gradeName];
+    } else {
+        return "Grade not found!";
+    }
+}
+
+/**
+ * this function will take the program id and will return the Program name
+ * @author Abdulmohsen
+ * @param $programId the program id
+ * @return string program name if the operation completed successfully, otherwise null 
+ */
+function getProgramName($programId)
+{
+    $ProgramName = null;
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT PROGRAM_NAME FROM PROGRAM_COLLEGE WHERE PROGRAM_ID = $programId");
+        if ($query->rowCount() != 0 and $name = $query->fetch(PDO::FETCH_NUM)) {
+            $ProgramName = $name[0]; // getting the name if the query was successful
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $ProgramName;
+}
+
+/**
+ * This function returns the student's info in numeric array for the desired semester
+ * @author Abdulmohsen Abbas
+ * @param string  $semesterId the semester id
+ * @param string  $userId the id of the student
+ * @param string $userType the type of the user example "student,professor,etc ..."
+ * @return string numeric array that contain the program Name, cgpa, sgpa, total Credits, semester Credits
+ *  in the wanted semester
+ * it will return the name of the grade example " (67 || 68 || 69) will return "C-"
+ */
+function getStudentRecord($userId, $semId, $userType) // There is some change that happend in the database 
+// so we will not be able to use this function (missing columns)
+{
+    $stuRecord = array();
+    if ($userType == "student") { // only for student users
+        try {
+            // establishing connection
+            require("connection.php");
+            // setting and running the query
+            $query = $db->query("SELECT * FROM student_info WHERE student_id = $userId and sem_id = $semId");
+            if ($info = $query->fetch(PDO::FETCH_NUM)) {
+                $programName = getProgramName($info[3]);
+                $cgpa = $info[2];
+                $sgpa = $info[4];
+                $totalCredit = $info[5];
+                $semesterCredit = $info[6];
+                array_push($stuRecord, $programName, $cgpa, $sgpa, $totalCredit, $semesterCredit);
+            }
+        } catch (PDOException $ex) {
+            // printing the error message if error happens
+            echo $ex->getMessage();
+        }
+        // closing connection with the database
+        $db = null;
+    }
+    return $stuRecord;
+}
+
+/**
+ * This function returns the student's grades info in numeric array for the desired semester
+ * @author Abdulmohsen Abbas
+ * @param string  $semesterId the semester id
+ * @param string  $studentId the id of the student
+ * @return string numeric array that contain numeric arrays with ( the course code,
+ *  course name, course credit, and course grade) for all the courses in the wanted semester and student
+ * and here simple output for the inner array:
+ *  { [0]=> string(7) "ITCS389" [1]=> string(22) "SOFTWARE ENGINEERING I" [2]=> string(1) "3" [3]=> string(2) "B-" }
+ */
+function getStudentGradesinfo($semesterId, $studentId)
+{
+    $arr = array();
+    $gradesInfo = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT course_id, grade FROM REGISTRATION_COURSES WHERE sem_id = $semesterId AND student_id = $studentId");
+        while ($grwe = $query->fetch(PDO::FETCH_NUM)) {
+            $coursedata = getCourseInfo($grwe[0]);
+            $ccode = $coursedata[0];
+            $cname = $coursedata[1];
+            $ch = $coursedata[2];
+            $grade = getGradeName($grwe[1]);
+            $arr = [$ccode, $cname, $ch, $grade];
+            array_push($gradesInfo, $arr);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $gradesInfo;
+}
+/**
+ * This function returns the student's grades in numeric array for the desired semester
+ * @author Abdulmohsen Abbas
+ * @param string  $semesterId the semester id
+ * @param string  $studentId the id of the student
+ * @return string numeric array that contain the grades for the registered courses in the wanted semester
+ * it will return the name of the grade example " (67 || 68 || 69) will return "C-"
+ */
+function getStudentGrades($semesterId, $studentId)
+{
+    $grades = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT grade FROM REGISTRATION_COURSES WHERE sem_id = $semesterId AND student_id = $studentId");
+        while ($gr = $query->fetch(PDO::FETCH_NUM)) {
+            $gname = getGradeName($gr[0]);
+            array_push($grades, $gname);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $grades;
+}
+
+/**
+ * This function returns the student's courses credits in numeric array for the desired semester
+ * @author Abdulmohsen Abbas
+ * @param string  $semesterId the semester id
+ * @param string  $studentId the id of the student
+ * @return string numeric array that contain the credits for the registered courses in the wanted semester
+ */
+function getStudentCredits($semesterId, $studentId)
+{
+    $Credits = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT course_id FROM REGISTRATION_COURSES WHERE sem_id = $semesterId AND student_id = $studentId");
+        while ($cr = $query->fetch(PDO::FETCH_NUM)) {
+            $ch = getCourseCredit($cr[0]);
+            array_push($Credits, $ch);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $Credits;
+}
+/**
+ * This function calculate and returns the student's gpa 
+ * @author Abdulmohsen Abbas
+ * @param array  $grades is a numeric array that contain student's grades 
+ * @param array  $credits is a numeric array that contain the credit for each grade in $grades array
+ * @return float gpa 
+ */
+function getGPA($grades, $credits)
+{
+    $totalCR = 0;
+    $gpa = 0;
+    for ($i = 0; $i < count($grades); ++$i) {
+        $gradew = getGradeWeight($grades[$i]);
+        $cr = floatval($credits[$i]);
+        $totalCR += $cr;
+        $gpa += ($gradew * $cr);
+    }
+    $gpa = $gpa / $totalCR;
+    return $gpa;
+}
+
+/**
+ * Returns an array that contains associative arrays such that each one of them contains
+ *  the semester id as a key and semester name as a value for all previous semesters
+ * @author Abdulmohsen Abbas
+ * @return string array that contain the previous semesters info(sem_id,sem_name)s
+ */
+function getPreviousSemesters()
+{
+    $PrevSemesters = array();
+    $currentSemId = getCurrentSemesterId();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT sem_id, sem_name FROM semester where sem_id != $currentSemId");
+        while ($allsems = $query->fetch(PDO::FETCH_NUM)) {
+
+            $sems = array($allsems[0], $allsems[1]);
+            array_push($PrevSemesters, $sems);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $PrevSemesters;
+}
+
+/**
+ * Returns the courses that the student
+ * can Register
+ * @author Abdulmohsen Abbas
+ * @param mixed $userId the student id
+ * @return string array of available courses for the student to register
+ * the available courses are the courses that the student have not registered
+ *  before or they registered it but got grade less than C .
+ */
+function getStudentAvailableCourses($studentId)
+{
+    $courses = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT CS.prog_id, C.course_id FROM student_info AS CS, program_course AS C WHERE CS.prog_id = C.program_id AND CS.student_id = $studentId");
+        while ($idAndCode = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of course_id if the query was successful
+            array_push($courses, $idAndCode[1]);
+        }
+        $courses = filterCourses($studentId, $courses);
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
+}
+
+/**
+ * Removes previously registered courses that the student got in them >= C 
+ * @author Abdulmohsen Abbas
+ * @param int $studentId the student id
+ * @param mixed $courses array of courses
+ * @return string Edited array of available courses for the student to register
+ * the available courses are the courses that the student have not registered
+ *  before or they registered it but got grade less than C .
+ */
+function filterCourses($studentId, $courses)
+{
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT course_id, grade FROM registration_courses WHERE student_id = $studentId");
+        while ($idAndGrade = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of grades and course_id if the query was successful
+            $gr = $idAndGrade[1];
+            if ($gr >= 70 || $gr == null) { // $gr==null this in case the grade wasn't recorded yet mean the student just registered the course
+                for ($i = count($courses) - 1; $i >= 0; $i--) {
+                    // We started from the last element to the first one so the indexes of the unchecked 
+                    // elements will not changed when we unset an element from the array
+                    if ($courses[$i] == $idAndGrade[0]) {
+                        unset($courses[$i]);
+                    }
+                }
+            }
+            $courses = array_values($courses); //  array_values will rearrange the indexes of the array 
+            // in assending order in case of missing element(s)
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $courses;
+}
+
+/**
+ * this function will return the section info in numeric array in this order [ (sec_id), (sem_id), (course_id), 
+ * (sec_num), (professor_id), (room_id), (lecture_days), (lecture_time), (capacity) ]
+ * 
+ * @author Abdulmohsen
+ * @param $sectionId the section id
+ * @return string numeric array that contains the section infocif the operation completed 
+ * successfully, otherwise bool false 
+ */
+function getSectionInfo($sectionId)
+{
+    try {
+        require("connection.php");
+        $sql = "SELECT * FROM COURSE_SECTION WHERE SECTION_ID = $sectionId";
+        $statement = $db->prepare($sql);
+        $statement->execute();
+
+        if ($section = $statement->fetch(PDO::FETCH_NUM)) {
+            return $section;
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage() . "<br>";
+
+        $db = null;
+    }
+    return null;
+}
+
+
+/**
+ * Register course in the schedule of the student 
+ * 
+ * @author Abdulmohsen
+ * @param $semId the semester id
+ * @param $courseid the course id
+ * @param $secid the section id
+ * @param $userid the id of the student
+ * @return bool true if the operation was true, otherwise false
+ */
+function RegisterSection($semid, $courseid, $secid, $userid)
+{
+    require("connection.php");
+    try {
+        $sql = "INSERT INTO REGISTRATION_COURSES VALUES(?, ?, ?, ?, ?, ?, ?);";
+        $db->beginTransaction();
+        $statement = $db->prepare($sql);
+        $statement->execute(array($semid, $courseid, $secid, $userid, null, 0, 0));
+        $db->commit();
+    } catch (PDOException $e) {
+        $db->rollBack();
+        echo $e->getMessage() . "<br>";
+        $db = null;
+        return false;
+    }
+    return ($statement->rowCount() == 1);
+}
+/**
+ * Reducing the Capacity of a section after the student take the seat
+ * this is the value of the new capacity ' Capacity= Capacity -1 '
+ * @author Abdulmohsen
+ * @param $sectionId the section id
+ * @param $capacity of the section
+ * @return bool true if the operation was true, otherwise false
+ */
+function ReduceCapacity($sectionId, $capacity)
+{
+    require("connection.php");
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $sql = "UPDATE course_section SET capacity = ? WHERE section_id = ?";
+        $statement = $db->prepare($sql);
+        $sectionId = intval($sectionId);
+        $capacity = intval($capacity);
+        $capacity--;
+        $statement->bindParam(1, $capacity);
+        $statement->bindParam(2, $sectionId);
+
+        $statement->execute();
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+        return false;
+    }
+    // closing connection with the database
+    $db = null;
+    return true;
+}
