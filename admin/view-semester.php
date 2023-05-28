@@ -77,7 +77,7 @@ if (isset($_POST["view-semester"])) {
 
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
-        <h1 class="catalogue-header" style="color: #4056A1;">View Section</h1>
+        <h1 class="catalogue-header" style="color: #4056A1;">View Semester</h1>
         <form method="post" class="form" style="margin-left: 2.75em;">
             <div class="attendance-flex catalogue-main">
                 <!-- Course Code and Section Number -->
