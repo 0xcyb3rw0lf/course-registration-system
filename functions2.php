@@ -598,6 +598,18 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
         $statement = $db->prepare($sql);
         $statement->execute(array($utp, $un, $em, password_hash($pas, PASSWORD_DEFAULT), $college, $department, $gen));
         $db->commit();
+
+
+        if (intval($utp) == 5) { // if the user is a head of department
+            // $db->beginTransaction();
+            $hodId = getUserIdByEmail($em);
+            echo $hodId . " is hod id";
+            $sql = "UPDATE DEPARTMENT SET HOD_ID = ? WHERE DEP_ID = ?;";
+            $db->beginTransaction();
+            $statement = $db->prepare($sql);
+            $statement->execute(array($hodId, $department));
+            $db->commit();
+        }
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
@@ -1077,4 +1089,29 @@ function doesEmailExists($email)
 
     $db = null; // closing the connection
     return false;
+}
+
+/**
+ * Returns user id by having their email
+ * 
+ * @author Omar Eldanasoury
+ * @param mixed $email user email
+ * @return mixed user id
+ */
+function getUserIdByEmail($email)
+{
+    require("connection.php");
+    try {
+        $query = $db->prepare("SELECT USER_ID FROM USERS WHERE EMAIL LIKE ?");
+        $query->execute(array($email));
+        if ($result = $query->fetch(PDO::FETCH_NUM)) { // if there is a time conflict
+            $db = null; // closing the connection
+            return $result[0];
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    $db = null; // closing the connection
+    return null;
 }
