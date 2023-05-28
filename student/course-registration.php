@@ -77,7 +77,9 @@ if (isset($_POST["add-course"])) {
      * 4- check for time conflicts
      * 5- if 1,2,3,4 are fulfilled, then the course is added + section capacity is decreased by 1
      */
-    if (exceededMaximumCredits($studentId, $courseId)) {
+    if (!isInRegistrationPeriod()) {
+        $feedbackMsg = "<span class='failed-feedback'>Out of registration period!</span>";
+    } else if (exceededMaximumCredits($studentId, $courseId)) {
         $feedbackMsg = "<span class='failed-feedback'>Cannot register the course, you will exceed 19 credits!</span>";
     } else if (!hasFulfilledPrerequisites($studentId, $courseId)) {
         $feedbackMsg = "<span class='failed-feedback'>You have not fulfilled all prerequisites for this course!</span>";
