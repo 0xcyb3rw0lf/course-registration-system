@@ -1723,7 +1723,7 @@ function getStudentGradesinfo($semesterId, $studentId)
  * @author Abdulmohsen Abbas
  * @param string  $semesterId the semester id
  * @param string  $studentId the id of the student
- * @return string numeric array that contain the grades for the registered courses in the wanted semester
+ * @return array numeric array that contain the grades for the registered courses in the wanted semester
  * it will return the name of the grade example " (67 || 68 || 69) will return "C-"
  */
 function getStudentGrades($semesterId, $studentId)
@@ -1799,6 +1799,7 @@ function getGPA($grades, $credits)
  * Returns an array that contains associative arrays such that each one of them contains
  *  the semester id as a key and semester name as a value for all previous semesters
  * @author Abdulmohsen Abbas
+ * @author Omar Eldanasoury
  * @return string array that contain the previous semesters info(sem_id,sem_name)s
  */
 function getPreviousSemesters()
@@ -1809,7 +1810,7 @@ function getPreviousSemesters()
         // establishing connection
         require("connection.php");
         // setting and running the query
-        $query = $db->query("SELECT sem_id, sem_name FROM semester where sem_id != $currentSemId");
+        $query = $db->query("SELECT sem_id, sem_name FROM semester where sem_id != $currentSemId AND SEM_ID < $currentSemId");
         while ($allsems = $query->fetch(PDO::FETCH_NUM)) {
 
             $sems = array($allsems[0], $allsems[1]);
