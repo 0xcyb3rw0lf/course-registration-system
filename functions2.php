@@ -288,7 +288,19 @@ function hasSemesterConflict($semN)
     $db = null; // closing the connection
     return "none"; // otherwise, there is no conflict
 }
-function addSemester($semName, $appealStartDate, $appealEndDate)
+
+/**
+ * Adds a semester to the system
+ * 
+ * @author Omar Eldanasoury
+ * @author Elyas Raed
+ * @param mixed $semName Semester Name
+ * @param mixed $appealStartDate start date of appeal period
+ * @param mixed $appealEndDate end date of appeal period
+ * @param mixed $regStartDate start date of registration period
+ * @param mixed $regEndDate end date of registration period
+ */
+function addSemester($semName, $appealStartDate, $appealEndDate, $regStartDate, $regEndDate)
 {
     // checking for semester conflict
     $semesterConflict = hasSemesterConflict($semName);
@@ -297,10 +309,10 @@ function addSemester($semName, $appealStartDate, $appealEndDate)
 
     require("connection.php");
     try {
-        $sql = "INSERT INTO SEMESTER VALUES(null, ?, 0, 0, ?, ?);";
+        $sql = "INSERT INTO SEMESTER VALUES(null, ?, 0, 0, ?, ?, ?, ?);";
         $db->beginTransaction();
         $statement = $db->prepare($sql);
-        $statement->execute(array($semName, $appealStartDate, $appealEndDate));
+        $statement->execute(array($semName, $appealStartDate, $appealEndDate, $regStartDate, $regEndDate));
         $db->commit();
     } catch (PDOException $e) {
         $db->rollBack();
