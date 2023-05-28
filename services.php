@@ -22,10 +22,11 @@ require_once("functions.php");
  */
 function getProfessorList()
 {
+    $basePath = "/course-registration-system/professor/";
     return array(
-        "Manage Grades" => "/course-registration-system/professor/manage-grades.php",
-        "Manage Appealing Requests" => "/course-registration-system/professor/appealing-requests.php",
-        "View Section" => '/course-registration-system/professor/view-section.php',
+        "Manage Grades" => $basePath . "manage-grades.php",
+        "Manage Appealing Requests" => $basePath . "appealing-requests.php",
+        "View Section" => $basePath . 'view-section.php',
     );
 }
 
@@ -39,18 +40,18 @@ function getProfessorList()
 function getStudentList()
 {
     return array(
-        // TODO: Fill the paths of these pages
-        "Course Registration" => "/course-registration-system/student/course-registration.php",
-        "View Course Schedule" => "/course-registration-system/student/",
-        "View Course Prerequisites" => '/course-registration-system/student/view-prerequisites.php',
-        "View Grades" => '/course-registration-system/student/',
-        "View Transcript" => '/course-registration-system/student/',
-        "View Program Courses" => '/course-registration-system/student/',
-        "Simulate GPA" => '/course-registration-system/student/',
-        "Request Summer Seat" => '/course-registration-system/student/',
-        "Add Appealing Request" => '/course-registration-system/student/appealing-request.php',
-        "View Appealing Requests" => '/course-registration-system/student/view-appealing-requests.php',
-        "Pay Courses Fees" => '/course-registration-system/student/pay-fees.php',
+        $basePath = "/course-registration-system/student/",
+        "Course Registration" => $basePath . "course-registration.php",
+        "View Course Schedule" => $basePath . "",
+        "View Course Prerequisites" => $basePath . 'view-prerequisites.php',
+        "View Grades" => $basePath . '',
+        "View Transcript" => $basePath . '',
+        "View Program Courses" => $basePath . '',
+        "Simulate GPA" => $basePath . '',
+        "Request Summer Seat" => $basePath . '',
+        "Add Appealing Request" => $basePath . 'appealing-request.php',
+        "View Appealing Requests" => $basePath . 'view-appealing-requests.php',
+        "Pay Courses Fees" => $basePath . 'pay-fees.php',
     );
 }
 
@@ -121,9 +122,10 @@ function getAdminList()
  */
 function getHodList()
 {
+    $basePath = "/course-registration-system/dean-hod/";
     return array(
-        "View Seat Requests" => "/course-registration-system/dean-hod/seat-requests.php",
-        "View Students" => "/course-registration-system/dean-hod/view-students.php",
+        "View Seat Requests" => $basePath . "seat-requests.php",
+        "View Students" => $basePath . "view-students.php",
     );
 }
 
@@ -138,10 +140,11 @@ function getHodList()
  */
 function getDeanList()
 {
+    $basePath = "/course-registration-system/dean-hod/";
     return array(
-        "View Seat Requests" => "/course-registration-system/dean-hod/seat-requests.php",
-        "View Students" => "/course-registration-system/dean-hod/view-students.php",
-        "View Staff" => '/course-registration-system/dean-hod/view-staff.php',
+        "View Seat Requests" => $basePath . "seat-requests.php",
+        "View Students" => $basePath . "view-students.php",
+        "View Staff" => $basePath . 'view-staff.php',
     );
 }
 
