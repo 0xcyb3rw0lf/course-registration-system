@@ -42,6 +42,7 @@ function getStudentList()
     $basePath = "/course-registration-system/student/";
     return array(
         "Course Registration" => $basePath . "course-registration.php",
+        "Drop Course" => $basePath . "drop-course.php",
         "View Course Schedule" => $basePath . "course-schedule.php",
         "View Course Prerequisites" => $basePath . 'view-prerequisites.php',
         "View Grades" => $basePath . 'view-grades.php',
