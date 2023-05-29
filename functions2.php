@@ -582,7 +582,7 @@ function hasEmailConflict($emaillist)
     $db = null; // closing the connection
     return "none"; // otherwise, there is no conflict
 }
-function addUser($utp, $un, $em, $pas, $coll, $maj, $gen, $program = null)
+function addUser($utp, $un, $em, $pas, $coll, $maj, $gen, $programId = null)
 {
     // checking for name conflict
     $nameConflict = hasNameConflict($un);
