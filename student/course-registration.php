@@ -110,6 +110,12 @@ if (isset($_POST["add-wait"])) {
     $courseId = $_SESSION["course"];
     if (doesWaitReqExist($studentId, $courseId)) {
         $feedbackMsg = "<span class='failed-feedback'>You already did a wait request for this course!</span>";
+    } else if (exceededMaximumCredits($studentId, $courseId)) {
+        $feedbackMsg = "<span class='failed-feedback'>Cannot register the course, you will exceed 19 credits!</span>";
+    } else if (!hasFulfilledPrerequisites($studentId, $courseId)) {
+        $feedbackMsg = "<span class='failed-feedback'>You have not fulfilled all prerequisites for this course!</span>";
+    } else if (!hasTimeConflictStudentRegistration($studentId, $days, $roomId, $time)) {
+        $feedbackMsg = "<span class='failed-feedback'>You have time conflict, please choose another section!</span>";
     } else {
         if (exceededMaximumCredits($studentId, $courseId)) {
             $feedbackMsg = "<span class='failed-feedback'>Cannot register the course, you will exceed 19 credits!</span>";
