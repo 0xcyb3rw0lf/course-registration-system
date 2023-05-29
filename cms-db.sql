@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 01:20 AM
+-- Generation Time: May 29, 2023 at 02:57 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -318,8 +318,8 @@ INSERT INTO `semester` (`sem_id`, `sem_name`, `sem_status`, `appeal_start`, `app
 (6, '2030/2031-1', 0, NULL, NULL, NULL, NULL),
 (7, '2023/2024-1', 0, NULL, NULL, NULL, NULL),
 (9, '2021/2022-1', 0, NULL, NULL, NULL, NULL),
-(10, '2023/2024-S', 0, '2023-05-22', '2023-05-24', NULL, NULL),
-(11, '2024/2025-1', 0, '2023-05-21', '2023-05-22', NULL, NULL);
+(10, '2023/2024-S', 0, NULL, NULL, NULL, NULL),
+(11, '2024/2025-1', 0, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -353,7 +353,8 @@ CREATE TABLE `student_info` (
 
 INSERT INTO `student_info` (`student_id`, `gpa`, `prog_id`, `credits_done`, `year`) VALUES
 (3, '3.00', 2, 0, 2020),
-(9, '3.50', 1, 0, 2021);
+(9, '3.50', 1, 0, 2021),
+(24, '0.00', 1, 0, 2023);
 
 -- --------------------------------------------------------
 
@@ -394,7 +395,8 @@ INSERT INTO `users` (`user_id`, `type_id`, `username`, `email`, `password`, `col
 (18, 5, 'is-hod', 'is-hod@uob.edu.bh', '$2y$10$knrK5jHn7Gy7owkPQkhOj.XVU0uNVpG6eC2z.5m0PC4QpB2lCGoSi', 1, 4, 'F'),
 (19, 5, 'finance-hod', 'finance-hod@uob.edu.bh', '$2y$10$V3beCOMwpvgpqIgraIcfaegtKI00458QOfraz37UVyqPxxgx1B/Ee', 5, 5, 'F'),
 (20, 5, 'bio-hod', 'bio-hod@uob.edu.bh', '$2y$10$co921EiXNWY0j80pP25STeB8IBUFiPUIprG7pyEijkTfgzRrhBmoe', 2, NULL, 'F'),
-(22, 5, 'math-hod', 'math-hod@uob.edu.bh', '$2y$10$cWFru/lpJmGhc5Vgw9Sfmu9m7aPg.qwNrtTU7AMq6dNdtaG63ADKK', 2, 7, 'M');
+(22, 5, 'math-hod', 'math-hod@uob.edu.bh', '$2y$10$cWFru/lpJmGhc5Vgw9Sfmu9m7aPg.qwNrtTU7AMq6dNdtaG63ADKK', 2, 7, 'M'),
+(24, 3, 'student4', 'student4@stu.uob.edu.bh', '$2y$10$wjogdY6YAIenvf9lyipadecRNm51obQtDrMgP8OnvnKVAfQ1TlGZS', 1, 1, 'M');
 
 -- --------------------------------------------------------
 
@@ -439,7 +441,8 @@ CREATE TABLE `wait_reqs` (
 
 INSERT INTO `wait_reqs` (`request_id`, `sem_id`, `course_id`, `section_id`, `student_id`, `request_state`) VALUES
 (1, 3, 12, 15, 3, 0),
-(2, 2, 4, 14, 3, 0);
+(2, 2, 4, 14, 3, 0),
+(7, 2, 13, 20, 24, 0);
 
 --
 -- Indexes for dumped tables
@@ -625,13 +628,13 @@ ALTER TABLE `semester`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `wait_reqs`
 --
 ALTER TABLE `wait_reqs`
-  MODIFY `request_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `request_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
