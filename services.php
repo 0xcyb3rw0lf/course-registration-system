@@ -47,7 +47,6 @@ function getStudentList()
         "View Course Prerequisites" => $basePath . 'view-prerequisites.php',
         "View Grades" => $basePath . 'view-grades.php',
         "View Transcript" => $basePath . 'view-transcript.php',
-        "View Program Courses" => $basePath . 'program-courses.php',
         "Simulate GPA" => $basePath . 'simulate-gpa.php',
         "Add Appealing Request" => $basePath . 'appealing-request.php',
         "View Appealing Requests" => $basePath . 'view-appealing-requests.php',
