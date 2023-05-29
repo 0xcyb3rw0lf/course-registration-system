@@ -29,6 +29,8 @@ if (isset($_POST["add-user"])) {
     $college = checkInput($_POST["colleg"]);
     $department = checkInput($_POST["dept"]);
 
+    $program = checkInput($_POST["program"]);
+
     // Validate/ check for empty values
     if ( // checking the required fields first
         $userType == "" // do not use empty($userType); it will count admin id 0 as empty
@@ -52,10 +54,18 @@ if (isset($_POST["add-user"])) {
         $feedbackMsg = "<span class='failed-feedback'>Dean shall not has a department!</span>";
     } else {
         try {
-            if (addUser($userType, $userName, $email, $password, $college, $department, $gender)) {
-                $feedbackMsg = "<span class='success-feedback'>User is Added Successfully!</span>";
+            if (intval($userType) == 3) { // if we are adding a student
+                if (addUser($userType, $userName, $email, $password, $college, $department, $gender, $program)) {
+                    $feedbackMsg = "<span class='success-feedback'>User is Added Successfully!</span>";
+                } else {
+                    $feedbackMsg = "<span class='failed-feedback'>Error Adding User!</span>";
+                }
             } else {
-                $feedbackMsg = "<span class='failed-feedback'>Error Adding User!</span>";
+                if (addUser($userType, $userName, $email, $password, $college, $department, $gender)) {
+                    $feedbackMsg = "<span class='success-feedback'>User is Added Successfully!</span>";
+                } else {
+                    $feedbackMsg = "<span class='failed-feedback'>Error Adding User!</span>";
+                }
             }
         } catch (Exception $exception) { // if there is a conflict in name/email entry/ already exists
             $feedbackMsg = "<span class='failed-feedback'>Name/Email Already Exists!</span>";
@@ -98,6 +108,7 @@ if (isset($_POST["add-user"])) {
     $type = getUserTypeAsText(); //get the user types list from the database
     $collegeName = getCollegeName(); //get the colleges list from the database
     $departmentName = getDepartmentName(); //get the departments list from the database
+    $programs = getPrograms();
     ?>
 
     <main class="payment-main" style="background-color: white; background-image: none; text-align: left;">
@@ -157,6 +168,18 @@ if (isset($_POST["add-user"])) {
                         <option value="">Select a Gender</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>
+                    </select>
+                    <br><br><br>
+                    <label for="program">Program:</label><br><br>
+                    <select class="selecter" name="program" id="program">
+                        <option value="">Select a Program</option>
+                        <?php
+                        if ($programs != array())
+                            for ($i = 0; $i < count($programs); $i++)
+                                foreach ($programs[$i] as $id => $name) {
+                                    echo "<option value='" . strval($id) . "'>" . $name . "</option>";
+                                }
+                        ?>
                     </select>
                 </div>
             </div>
