@@ -582,7 +582,7 @@ function hasEmailConflict($emaillist)
     $db = null; // closing the connection
     return "none"; // otherwise, there is no conflict
 }
-function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
+function addUser($utp, $un, $em, $pas, $coll, $maj, $gen, $program = null)
 {
     // checking for name conflict
     $nameConflict = hasNameConflict($un);
@@ -620,6 +620,16 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
             $statement->execute(array($hodId, $department));
             $db->commit();
         }
+
+        if (intval($utp) == 3) { // if the user is a student
+            $studentId = getUserIdByEmail($em);
+            $currentYear = date("Y");
+            $sql = "INSERT INTO STUDENT_INFO VALUES(?,0,?,0,?);";
+            $db->beginTransaction();
+            $statement = $db->prepare($sql);
+            $statement->execute(array($studentId, $programId, $currentYear));
+            $db->commit();
+        }
     } catch (PDOException $e) {
         $db->rollBack();
         echo $e->getMessage() . "<br>";
@@ -630,6 +640,33 @@ function addUser($utp, $un, $em, $pas, $coll, $maj, $gen)
 
 
     return $statement->rowCount() == 1;
+}
+
+/**
+ * Returns all programs inside the system
+ * 
+ * @author Omar Eldanaosury 
+ */
+function getPrograms()
+{
+    $programs = array();
+    try {
+        // establishing connection
+        require("connection.php");
+        // setting and running the query
+        $query = $db->query("SELECT PROGRAM_ID, PROGRAM_NAME FROM PROGRAM_COLLEGE ORDER BY PROGRAM_ID");
+        while ($allPrograms = $query->fetch(PDO::FETCH_NUM)) {
+            // getting the list of courses if the query was successful
+            $program = array($allPrograms[0] => $allPrograms[1]);
+            array_push($programs, $program);
+        }
+    } catch (PDOException $ex) {
+        // printing the error message if error happens
+        echo $ex->getMessage();
+    }
+    // closing connection with the database
+    $db = null;
+    return $programs;
 }
 /**
  * Deletes a user from the database
